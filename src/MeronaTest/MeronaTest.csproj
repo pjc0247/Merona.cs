@@ -52,6 +52,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="EnvBased\Server.cs" />
+    <Compile Include="EnvBased\ServerBasedTest.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="Utilities\Channel.cs" />
     <Compile Include="Utilities\CircularBuffer.cs" />
