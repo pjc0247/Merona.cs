@@ -33,8 +33,12 @@ namespace Merona.TestApp
         [Handler(typeof(FooPacket))]
         public async void OnFoo(FooPacket packet)
         {
+            FooPacket f = new FooPacket();
+            f.Serialize();
+
             Console.WriteLine("OnPacket " + Thread.CurrentThread.ManagedThreadId.ToString());
             packet.Dump();
+
 
             var a = Scheduler.current.Schedule(() =>
             {
