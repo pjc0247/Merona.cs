@@ -4,5 +4,6 @@ Packet Descriptor
 
 * [디렉션](direction.md)
 * [데이터 바인딩](binding.md)
+* [오토 리스폰스](auto_response.md)
 * [Model과 관계 설정](relations.md)
 * [채널](channel.md)
