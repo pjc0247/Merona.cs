@@ -59,6 +59,7 @@
     <Compile Include="Utilities\IdDispenser.cs" />
     <Compile Include="Utilities\Packet.Descriptors.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\Session.Pool.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Merona\Merona.csproj">

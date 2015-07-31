@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Merona
 {
@@ -17,6 +18,9 @@ namespace Merona
 
             public Pool(int size)
             {
+                if (size <= 0)
+                    throw new ArgumentException();
+
                 this.size = size;
                 this.pool = new ConcurrentStack<Session>();
 
@@ -42,6 +46,9 @@ namespace Merona
             }
             public void Return(Session session)
             {
+                if (pool.Count >= size)
+                    throw new InvalidOperationException();
+
                 pool.Push(session);
             }
         }
