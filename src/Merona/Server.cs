@@ -30,10 +30,7 @@ namespace Merona
         /// <summary>
         /// 현재 서버가 실행중인지 조사한다.
         /// </summary>
-        public bool isRunning
-        {
-            get { return worker == null; }
-        }
+        public bool isRunning { get; set; }
         /// <summary>
         /// 현재 스레드가 Server.current에 대해 안전한지 조사한다.
         /// </summary>
@@ -110,6 +107,8 @@ namespace Merona
             if (isRunning)
                 throw new InvalidOperationException("server already running");
 
+            isRunning = true;
+
             logger.Info("Start Server");
 
             listener.Start();
@@ -117,6 +116,17 @@ namespace Merona
 
             logger.Info("Begin AcceptTcpClient");
             listener.BeginAcceptTcpClient(new AsyncCallback(Acceptor), null);
+        }
+
+        public void Kill()
+        {
+            if (!isRunning)
+                throw new InvalidOperationException();
+
+            worker.Kill();
+            listener.Stop();
+
+            isRunning = false;
         }
 
         private void Acceptor(IAsyncResult result)

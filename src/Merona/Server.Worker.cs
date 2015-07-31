@@ -17,6 +17,8 @@ namespace Merona
             private Thread thread { get; set; }
             private Scheduler scheduler { get; set; }
 
+            private bool isQuitReserved { get; set; }
+
             public int ThreadId {
                 get{
                     return thread.ManagedThreadId;
@@ -32,9 +34,24 @@ namespace Merona
 
             public void Start()
             {
-                server.logger.Info("Start Worker");
+                server.logger.Info("Worker::Start");
 
                 thread.Start();
+            }
+            public void Kill()
+            {
+                isQuitReserved = true;
+
+                server.logger.Info("Worker::Kill");
+                server.logger.Debug("Worker::SpinWait");
+
+                /* blocking wait */
+                SpinWait.SpinUntil(() =>
+                {
+                    return !thread.IsAlive;
+                });
+
+                server.logger.Debug("Worker::EndSpinWait");
             }
             private void Loop(object arg)
             {
@@ -50,9 +67,9 @@ namespace Merona
                     Interlocked.Exchange(ref cts, new CancellationTokenSource());
                 }, null, 0, 30); /* TODO : config */
 
-                server.logger.Info("Worker Initialized tid : {0}", ThreadId);
+                server.logger.Info("Worker::BeginThread tid({0})", ThreadId);
 
-                while (true)
+                while (!isQuitReserved)
                 {
                     Tuple<Session,Packet> packet = null;
 
@@ -85,6 +102,8 @@ namespace Merona
                         }
                     }
                 }
+
+                server.logger.Info("Worker::EndThraed");
             }
         }
     }
