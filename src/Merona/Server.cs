@@ -106,9 +106,7 @@ namespace Merona
         {
             if (isRunning)
                 throw new InvalidOperationException("server already running");
-
-            isRunning = true;
-
+            
             logger.Info("Start Server");
 
             listener.Start();
@@ -116,6 +114,8 @@ namespace Merona
 
             logger.Info("Begin AcceptTcpClient");
             listener.BeginAcceptTcpClient(new AsyncCallback(Acceptor), null);
+
+            isRunning = true;
         }
 
         public void Kill()
@@ -123,10 +123,10 @@ namespace Merona
             if (!isRunning)
                 throw new InvalidOperationException();
 
+            isRunning = false;
+
             worker.Kill();
             listener.Stop();
-
-            isRunning = false;
         }
 
         private void Acceptor(IAsyncResult result)
@@ -158,7 +158,8 @@ namespace Merona
             }
             finally
             {
-                listener.BeginAcceptSocket(new AsyncCallback(Acceptor), null);
+                if(isRunning)
+                    listener.BeginAcceptSocket(new AsyncCallback(Acceptor), null);
             }
         }
     }
