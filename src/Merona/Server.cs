@@ -25,6 +25,7 @@ namespace Merona
             get { return listener.Server; }
         }
         public Logger logger { get; set; }
+        public String name { get; set; }
 
         /// <summary>
         /// 현재 서버가 실행중인지 조사한다.
@@ -55,9 +56,10 @@ namespace Merona
 
         private Worker worker { set; get; }
 
-        public Server()
+        public Server(String name = "")
         {
-            this.logger = LogManager.GetLogger("Server");
+            this.name = name;
+            this.logger = LogManager.GetLogger(name);
             this.worker = new Worker(this);
             this.services = new List<Service>();
             this.mongoClient = new MongoClient();
