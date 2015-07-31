@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Merona
 {
-	[AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Class)]
     class Join : Attribute
     {
         public Channel channel { get; set; }
