@@ -33,14 +33,14 @@ features
     class Join : Packet {
     	[S2C]
     	[Bind("player.id")]
-    	int pid;
+    	string player_id;
     }
     
     [Leave("world.map")]
     class Leave : Packet {
     	[S2C]
     	[Bind("player.id")]
-    	int pid;
+    	string player_id;
     }
     ```
 
