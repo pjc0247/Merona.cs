@@ -129,9 +129,9 @@ namespace Merona
             return s2c[type];
         }
 
-        public static void PostProcess(ref Packet packet)
+        internal void PostProcess()
         {
-            var bindFields = GetBindFields(packet.GetType());
+            var bindFields = GetBindFields(GetType());
 
             if(bindFields == null)
                 return;
@@ -140,7 +140,7 @@ namespace Merona
             {
                 var bound = DataBinder.Bind(field.Item1, Session.current);
 
-                field.Item2.SetValue(packet, bound);
+                field.Item2.SetValue(this, bound);
             }
         }
 
