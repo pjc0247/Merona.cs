@@ -67,7 +67,7 @@ namespace Merona
                         c2s[packet].Add(field);
                     }
                     var stc = (Packet.S2C)field.GetCustomAttribute(typeof(Packet.S2C));
-                    if (s2c != null)
+                    if (stc != null)
                     {
                         if (!s2c.ContainsKey(packet))
                             s2c[packet] = new List<FieldInfo>();
@@ -102,6 +102,31 @@ namespace Merona
             if (!binds.ContainsKey(type))
                 return null;
             return binds[type];
+        }
+
+        public static List<FieldInfo> GetC2SFields<T>() where T : Packet
+        {
+            if (!c2s.ContainsKey(typeof(T)))
+                return null;
+            return c2s[typeof(T)];
+        }
+        public static List<FieldInfo> GetC2SFields(Type type)
+        {
+            if (!c2s.ContainsKey(type))
+                return null;
+            return c2s[type];
+        }
+        public static List<FieldInfo> GetS2CFields<T>() where T : Packet
+        {
+            if (!c2s.ContainsKey(typeof(T)))
+                return null;
+            return s2c[typeof(T)];
+        }
+        public static List<FieldInfo> GetS2CFields(Type type)
+        {
+            if (!s2c.ContainsKey(type))
+                return null;
+            return s2c[type];
         }
 
         public static void PostProcess(ref Packet packet)
