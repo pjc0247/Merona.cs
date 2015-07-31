@@ -67,11 +67,11 @@ namespace Merona
             }
         }
 
-		[AttributeUsage(AttributeTargets.Field)]
+        [AttributeUsage(AttributeTargets.Field)]
 		protected class S2C : Attribute
         {
         }
-		[AttributeUsage(AttributeTargets.Field)]
+        [AttributeUsage(AttributeTargets.Field)]
         protected class C2S : Attribute
         {
         }
