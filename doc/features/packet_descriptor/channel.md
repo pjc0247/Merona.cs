@@ -6,7 +6,7 @@
 [Join("world.map")]
 class JoinMap : Packet {
   [S2C]
-  [Bind("#{player.id})]
+  [Bind("#{player.id}")]
   public string player_id;
 };
 
@@ -14,7 +14,7 @@ class JoinMap : Packet {
 [Leave("world.map")]
 class LeaveMap : Packet {
   [S2C]
-  [Bind("#{player.id})]
+  [Bind("#{player.id}")]
   public string player_id;
 };
 ```
