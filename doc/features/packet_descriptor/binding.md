@@ -15,7 +15,7 @@ class MySession : Session {
 [AutoResponse]
 class QueryMyNickname : Packet {
   [S2C]
-  [Binding("#{player.nickname}")]
+  [Bind("#{player.nickname}")]
   public string nickname;
 };
 ```
