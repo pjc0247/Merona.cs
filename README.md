@@ -13,7 +13,7 @@ features
       public int x, y;
     }
     ```
-    패킷 디렉션 지정 
+    디렉션
     ```c#
     class Login : Packet {
         [C2S]
