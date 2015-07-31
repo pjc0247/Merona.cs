@@ -14,11 +14,15 @@ namespace Merona
 
         private static Dictionary<Type, List<Tuple<String, FieldInfo>>> keys;
         private static Dictionary<Type, List<Tuple<String, FieldInfo>>> binds;
+        private static Dictionary<Type, List<FieldInfo>> c2s;
+        private static Dictionary<Type, List<FieldInfo>> s2c;
 
         static Packet()
         {
             keys = new Dictionary<Type, List<Tuple<String, FieldInfo>>>();
             binds = new Dictionary<Type, List<Tuple<String, FieldInfo>>>();
+            c2s = new Dictionary<Type, List<FieldInfo>>();
+            s2c = new Dictionary<Type, List<FieldInfo>>();
 
             var packets = Assembly.GetEntryAssembly().GetTypes()
                 .Where(type => type.IsSubclassOf(typeof(Packet)));
@@ -27,6 +31,8 @@ namespace Merona
             {
                 foreach (var field in packet.GetFields())
                 {
+                    /* TODO : 정리 */
+
                     var memberOf = (Packet.MemberOf)field.GetCustomAttribute(typeof(Packet.MemberOf));
                     if (memberOf != null)
                     {
@@ -50,6 +56,23 @@ namespace Merona
                             binds[packet] = new List<Tuple<String, FieldInfo>>();
 
                         binds[packet].Add(new Tuple<String, FieldInfo>(bind.format, field));
+                    }
+
+                    var cts = (Packet.C2S)field.GetCustomAttribute(typeof(Packet.C2S));
+                    if (cts != null)
+                    {
+                        if (!c2s.ContainsKey(packet))
+                            c2s[packet] = new List<FieldInfo>();
+
+                        c2s[packet].Add(field);
+                    }
+                    var stc = (Packet.S2C)field.GetCustomAttribute(typeof(Packet.S2C));
+                    if (s2c != null)
+                    {
+                        if (!s2c.ContainsKey(packet))
+                            s2c[packet] = new List<FieldInfo>();
+
+                        s2c[packet].Add(field);
                     }
                 }
             }
