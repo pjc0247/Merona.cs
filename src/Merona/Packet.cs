@@ -143,14 +143,5 @@ namespace Merona
                 field.Item2.SetValue(this, bound);
             }
         }
-
-        public void Dump()
-        {
-            Console.WriteLine(GetType().Name);
-            foreach(var field in GetType().GetFields())
-            {
-                Console.WriteLine("  {0} : {1}", field.Name, field.GetValue(this));
-            }
-        }
     }
 }
