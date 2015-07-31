@@ -13,18 +13,24 @@ features
       public int x, y;
     }
     ```
+    패킷 디렉션 지정 
+    ```c#
+    class Login : Packet {
+        [C2S]
+        public string id;
+        [C2S]
+        public string password;
+        
+        [S2C]
+        public bool result;
+    }
+    ```
     데이터 오토바인딩
     ```c#
-    [Channel("#{channel}")]
-    class Move : Packet {
-      public int direction;
-      
+    class QueryMyName : Packet {
       [S2C]
-      [Bind("player.id")]
-      public string player_id;
-      [S2C]
-      [Bind("player.speed")]
-      public int speed;
+      [Bind("player.name")]
+      public string name;  
     }
     ```
     채널
@@ -41,6 +47,19 @@ features
     	[S2C]
     	[Bind("player.id")]
     	string player_id;
+    }
+    ```
+    ```c#
+    [Channel("#{channel}")]
+    class Move : Packet {
+      public int direction;
+      
+      [S2C]
+      [Bind("player.id")]
+      public string player_id;
+      [S2C]
+      [Bind("player.speed")]
+      public int speed;
     }
     ```
 
