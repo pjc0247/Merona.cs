@@ -10,6 +10,8 @@ using System.Net.Sockets;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
+using NLog;
+
 namespace Merona
 {
     public sealed partial class Server
@@ -22,6 +24,8 @@ namespace Merona
         {
             get { return listener.Server; }
         }
+        public Logger logger { get; set; }
+
         /// <summary>
         /// 현재 서버가 실행중인지 조사한다.
         /// </summary>
@@ -53,6 +57,7 @@ namespace Merona
 
         public Server()
         {
+            this.logger = LogManager.GetLogger("Server");
             this.worker = new Worker(this);
             this.services = new List<Service>();
             this.mongoClient = new MongoClient();

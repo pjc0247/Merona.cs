@@ -16,6 +16,10 @@ namespace Merona
     {
         static void Main(string[] args)
         {
+            // TODO : config
+            NLog.Config.SimpleConfigurator.ConfigureForConsoleLogging(NLog.LogLevel.Debug);
+            
+
             var r = DataBinder.Bind("#{bar.foo} sadf dee #{rre}", new Session());
             Console.WriteLine(r);
 
