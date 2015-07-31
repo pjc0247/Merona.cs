@@ -17,6 +17,7 @@ namespace Merona
             private Thread thread { get; set; }
             private Scheduler scheduler { get; set; }
 
+            private bool isWorkerInitialized { get; set; }
             private bool isQuitReserved { get; set; }
 
             public int ThreadId {
@@ -37,13 +38,23 @@ namespace Merona
                 server.logger.Info("Worker::Start");
 
                 thread.Start();
+
+                server.logger.Debug("Worker::Start::SpinWait isWorkerInitialized");
+
+                /* blocking wait */
+                SpinWait.SpinUntil(() =>
+                {
+                    return isWorkerInitialized;
+                });
+
+                server.logger.Debug("Worker::Start::EndSpinWait isWorkerInitialized");
             }
             public void Kill()
             {
                 isQuitReserved = true;
 
                 server.logger.Info("Worker::Kill");
-                server.logger.Debug("Worker::SpinWait");
+                server.logger.Debug("Worker::Kill::SpinWait thread.isAlive");
 
                 /* blocking wait */
                 SpinWait.SpinUntil(() =>
@@ -68,6 +79,8 @@ namespace Merona
                 }, null, 0, 30); /* TODO : config */
 
                 server.logger.Info("Worker::BeginThread tid({0})", ThreadId);
+
+                isWorkerInitialized = true;
 
                 while (!isQuitReserved)
                 {
@@ -102,6 +115,8 @@ namespace Merona
                         }
                     }
                 }
+
+                isWorkerInitialized = false;
 
                 server.logger.Info("Worker::EndThraed");
             }
