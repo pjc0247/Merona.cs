@@ -84,6 +84,8 @@ namespace Merona
             if (isRunning)
                 throw new InvalidOperationException("");
 
+            logger.Info("Attach {0}", typeof(T).Name);
+
             services.Add(service);
             service.server = this;
         }
@@ -108,9 +110,12 @@ namespace Merona
             if (isRunning)
                 throw new InvalidOperationException("server already running");
 
+            logger.Info("Start Server");
+
             listener.Start();
             worker.Start();
 
+            logger.Info("Begin AcceptTcpClient");
             listener.BeginAcceptTcpClient(new AsyncCallback(Acceptor), null);
         }
 
@@ -130,16 +135,16 @@ namespace Merona
                 }
                 else
                 {
-                    Console.WriteLine("pool underflow");
+                    logger.Error("sessionPool underflow");
                 }
             }
             catch (SocketException e)
             {
-                Console.WriteLine(e);
+                logger.Error("Acceptor", e);
             }
             catch (ObjectDisposedException e)
             {
-                Console.WriteLine(e);
+                logger.Error("Acceptor", e);
             }
             finally
             {

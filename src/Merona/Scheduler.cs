@@ -50,6 +50,8 @@ namespace Merona
             if (!Server.isSafeThread)
                 throw new InvalidOperationException();
 
+            Server.current.logger.Debug("Schedule interval({0}), after({1}), count({2})", interval, after, count);
+
             var cts = new CancellationTokenSource();
             var timer = new Timer();
             timer.interval = interval;
@@ -65,6 +67,8 @@ namespace Merona
         public void Unschedule(CancellationTokenSource cts)
         {
             /* 구조상 다른 스레드에서 불러도 상관은 없음 */
+            Server.current.logger.Debug("Unschedule");
+
             cts.Cancel();
         }
 
@@ -97,6 +101,9 @@ namespace Merona
                     timer.start = Environment.TickCount;
                 }
             }
+
+            if (expiredTimers.Count > 0)
+                Server.current.logger.Debug("{0} timers expired", expiredTimers.Count);
 
             timers = timers.Except(expiredTimers).ToList();
             expiredTimers.Clear();

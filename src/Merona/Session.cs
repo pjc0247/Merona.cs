@@ -45,6 +45,15 @@ namespace Merona
         private byte[] receiveBuffer { get; set; }
         private CircularBuffer<byte> buffer { get; set; }
 
+        internal protected virtual void OnConnect()
+        {
+            Server.current.logger.Info("Session OnConnect");
+        }
+        internal protected virtual void OnDisconnect()
+        {
+            Server.current.logger.Info("Session OnDisconnect");
+        }
+
         public void Reset(TcpClient client)
         {
             this.client = client;

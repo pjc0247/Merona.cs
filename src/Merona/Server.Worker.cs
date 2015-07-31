@@ -32,6 +32,8 @@ namespace Merona
 
             public void Start()
             {
+                server.logger.Info("Start Worker");
+
                 thread.Start();
             }
             private void Loop(object arg)
@@ -47,6 +49,8 @@ namespace Merona
                     cts.Cancel();
                     Interlocked.Exchange(ref cts, new CancellationTokenSource());
                 }, null, 0, 30); /* TODO : config */
+
+                server.logger.Info("Worker Initialized tid : {0}", ThreadId);
 
                 while (true)
                 {
@@ -77,7 +81,7 @@ namespace Merona
                         Session client = null;
                         if (server.pendingClients.TryTake(out client))
                         {
-                            Console.WriteLine("accpeted");
+                            client.OnConnect();
                         }
                     }
                 }
