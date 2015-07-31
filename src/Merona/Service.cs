@@ -75,8 +75,6 @@ namespace Merona
             var invokeArg = new object[] { packet };
             var routed = false;
 
-            Packet.PostProcess(ref packet);
-
             /* 채널 라우팅 */
             if (packet.channel != null)
             {
