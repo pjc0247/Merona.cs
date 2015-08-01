@@ -4,106 +4,81 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Dynamic;
+using System.Linq;
 
 namespace Merona
 {
     public sealed partial class Channel
     {
-        public class DynamicPathMaker : DynamicObject
-        {
-            private List<string> tokens { get; set; }
+        public Path path { get; private set; }
+        private List<WeakReference<Session>> sessions { get; set; }
 
-            public DynamicPathMaker()
-            {
-                tokens = new List<string>();
-            }
-
-            public Channel fin
-            {
-                get
-                {
-                    var path = String.Join(".", tokens);
-                    return new Channel(path);
-                }
-            }
-
-            public override bool TryGetMember(GetMemberBinder binder, out object result)
-            {
-                string name = binder.Name;
-
-                if (name == "fin")
-                    result = fin;
-                else if (name == "all")
-                {
-                    tokens.Add("*");
-                    result = this;
-                }
-                else
-                {
-                    tokens.Add(binder.Name);
-                    result = this;
-                }
-
-                return true;
-            }
-        }
-
-        public static Channel makePath(string path)
-        {
-            return new Channel(path);
-        }
-        public static dynamic makeDynamicPath
-        {
-            get
-            {
-                return new DynamicPathMaker();
-            }
-        }
-        private static int[] ToRawPath(string path)
-        {
-            var tokens = path.Split('.');
-            var raw = new int[tokens.Length];
-
-            for (var i = 0; i < tokens.Length; i++)
-            {
-                raw[i] = tokens[i].GetHashCode();
-            }
-
-            return raw;
-        }
-        internal static readonly int asterisk = "*".GetHashCode();
-        internal static readonly int doubleAsterisk = "**".GetHashCode();
-
-        public string path { get; private set; }
-        internal int[] raw { get; private set; }
-
-        public Channel(string path)
+        public Channel(Path path)
         {
             this.path = path;
-            this.raw = ToRawPath(path);
+            this.sessions = new List<WeakReference<Session>>();
+        }
+        public Channel(String path)
+        {
+            this.path = new Path(path);
+            this.sessions = new List<WeakReference<Session>>();
         }
 
         public bool IsMatch(String inPath)
         {
-            return IsMatch(Channel.makePath(inPath));
+            return path.IsMatch(inPath);
         }
         public bool IsMatch(Channel other)
         {
-            /* TODO : doubleAsterick */
-            if (raw.Length != other.raw.Length)
-                return false;
+            return path.IsMatch(other.path);
+        }
 
-            for (var i = 0; i < other.raw.Length; i++)
+        public void Join(Session session)
+        {
+            sessions.Add(new WeakReference<Session>(session));
+        }
+        public void Leave(Session session)
+        {
+            for(var i = 0; i < sessions.Count; i++)
             {
-                if (raw[i] == asterisk ||
-                    other.raw[i] == asterisk)
-                    continue;
+                Session dst;
 
-                if (raw[i] != other.raw[i])
-                    return false;
+                if(sessions[i].TryGetTarget(out dst))
+                {
+                    if(dst == session)
+                    {
+                        sessions.RemoveAt(i);
+                        return;
+                    }
+                }
             }
 
-            return true;
+            Server.current.logger.Warn("Channel::Leave - session not found");
+        }
+        public List<Session> Query()
+        {
+            List<Session> results = new List<Session>();
+
+            foreach(var weakSession in sessions)
+            {
+                Session dst;
+
+                if(weakSession.TryGetTarget(out dst))
+                    results.Add(dst);
+            }
+
+            return results;
+        }
+
+        
+        /// <summary>
+        /// 빈 세션을 수집하여 정리한다.
+        /// </summary>
+        internal void Collect()
+        {
+            // TODO 
+
+            Server.current.logger.Debug("Channel::Collect");
         }
     }
 }

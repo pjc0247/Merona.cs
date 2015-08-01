@@ -27,9 +27,9 @@ namespace Merona
 
                 public void Add(Channel channel)
                 {
-                    int key = channel.raw[depth];
+                    int key = channel.path.raw[depth];
 
-                    if (channel.raw.Length - 1 == depth)
+                    if (channel.path.raw.Length - 1 == depth)
                     {
                         items[key] = channel;
                     }
@@ -43,9 +43,9 @@ namespace Merona
                 }
                 public void Remove(Channel channel)
                 {
-                    int key = channel.raw[depth];
+                    int key = channel.path.raw[depth];
 
-                    if (channel.raw.Length - 1 == depth)
+                    if (channel.path.raw.Length - 1 == depth)
                     {
                         items.Remove(key);
                     }
@@ -61,19 +61,19 @@ namespace Merona
 
                 public void Find(Channel channel, ref List<Channel> results)
                 {
-                    int key = channel.raw[depth];
+                    int key = channel.path.raw[depth];
 
-                    if (channel.raw.Length - 1 == depth)
+                    if (channel.path.raw.Length - 1 == depth)
                     {
                         if (items.ContainsKey(key))
                             results.Add(items[key]);
-                        else if (key == Channel.asterisk)
+                        else if (key == Channel.Path.asterisk)
                         {
                             foreach (var item in items)
                                 results.Add(item.Value);
                         }
                     }
-                    else if (key == Channel.asterisk)
+                    else if (key == Channel.Path.asterisk)
                     {
                         foreach (var child in children)
                         {
