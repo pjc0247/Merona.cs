@@ -8,6 +8,8 @@ namespace Merona
 {
     public sealed partial class Channel
     {
+        /* KEY   : Channel.Path
+         * VALUE : Channel */
         internal class TreeDictionary
         {
             private Node root { get; set; }
@@ -100,6 +102,12 @@ namespace Merona
             {
                 root.Remove(path);
             }
+
+            /// <summary>
+            /// 지정된 경로에 일치하는 모든 채널들을 검색한다.
+            /// </summary>
+            /// <param name="path">탐색할 경로 (와일드카드 사용 가능)</param>
+            /// <returns>일치하는 채널들</returns>
             public List<Channel> Query(Channel.Path path)
             {
                 var results = new List<Channel>();
