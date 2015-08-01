@@ -17,21 +17,43 @@ namespace Merona
                 pool = new TreeDictionary();
             }
 
-            public void Join(Channel channel)
+            public void Join(Channel.Path path, Session session)
             {
+                if (!path.isFixed)
+                    throw new ArgumentException("path isFixed(false)");
 
+                var targets = pool.Query(path);
+                if(targets.Count > 0)
+                {
+                    foreach (var target in targets)
+                        target.Join(session);
+                }
+                else
+                {
+                    pool.Add(path).Join(session);
+                }
             }
-            public void Leave(Channel channel)
+            public void Leave(Channel.Path path, Session session)
             {
+                if (!path.isFixed)
+                    throw new ArgumentException("path isFixed(false)");
 
+                var targets = pool.Query(path);
+                if (targets.Count > 0)
+                {
+                    foreach (var target in targets)
+                        target.Leave(session);
+                }
             }
-
-            // test-in-1 : world.map
-            // test-in-2 : world.map.* 
-            public List<Session> Query(Channel channel)
+            
+            public List<Session> Query(Channel.Path path)
             {
-                return null;
-                //return pool.Query(channel);
+                List<Session> results = new List<Session>();
+
+                foreach (var channel in pool.Query(path))
+                    results.AddRange(channel.Query());
+
+                return results;
             }
         }
 
