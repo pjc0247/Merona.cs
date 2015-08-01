@@ -28,6 +28,11 @@ namespace Merona
         }
     }
 
+    [AttributeUsage(AttributeTargets.Class)]
+    class AutoResponse : Attribute
+    {
+    }
+
 	public partial class Packet
     {
         [AttributeUsage(AttributeTargets.Field)]
