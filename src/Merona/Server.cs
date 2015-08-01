@@ -24,9 +24,9 @@ namespace Merona
         {
             get { return listener.Server; }
         }
-        public Logger logger { get; set; }
+        public Logger logger { get; private set; }
         public Channel.Pool channelPool { get; private set; }
-        public String name { get; set; }
+        public String name { get; private set; }
 
         /// <summary>
         /// 현재 서버가 실행중인지 조사한다.
