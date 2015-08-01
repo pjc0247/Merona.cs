@@ -25,6 +25,7 @@ namespace Merona
             get { return listener.Server; }
         }
         public Logger logger { get; set; }
+        public Channel.Pool channelPool { get; private set; }
         public String name { get; set; }
 
         /// <summary>
@@ -63,6 +64,7 @@ namespace Merona
             this.database = mongoClient.GetDatabase("test"); /* TODO : config */
             this.listener = new TcpListener(9916); /* TODO : config */
             this.sessionPool = new Session.Pool(1000); /* TODO : config */
+            this.channelPool = new Channel.Pool();
 
             this.pendingPackets = new BlockingCollection<Tuple<Session,Packet>>();
             this.pendingClients = new BlockingCollection<Session>();
