@@ -55,7 +55,9 @@
     <Compile Include="EnvBased\Server.cs" />
     <Compile Include="EnvBased\ServerBasedTest.cs" />
     <Compile Include="TestBase.cs" />
+    <Compile Include="Utilities\Channel.cs" />
     <Compile Include="Utilities\Channel.Path.cs" />
+    <Compile Include="Utilities\Channel.TreeDictionary.cs" />
     <Compile Include="Utilities\CircularBuffer.cs" />
     <Compile Include="Utilities\DataBinder.cs" />
     <Compile Include="Utilities\IdDispenser.cs" />
