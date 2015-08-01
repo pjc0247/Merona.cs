@@ -15,11 +15,5 @@ namespace MeronaTest.EnvBased
             Assert.IsTrue(
                 server.isRunning);
         }
-
-        [TestMethod]
-        public void TS()
-        {
-
-        }
     }
 }
