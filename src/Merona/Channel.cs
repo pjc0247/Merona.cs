@@ -7,7 +7,7 @@ using System.Dynamic;
 
 namespace Merona
 {
-    public sealed class Channel
+    public sealed partial class Channel
     {
         public class DynamicPathMaker : DynamicObject
         {
@@ -71,11 +71,11 @@ namespace Merona
 
             return raw;
         }
-        private static readonly int asterisk = "*".GetHashCode();
-        private static readonly int doubleAsterisk = "**".GetHashCode();
+        internal static readonly int asterisk = "*".GetHashCode();
+        internal static readonly int doubleAsterisk = "**".GetHashCode();
 
         public string path { get; private set; }
-        private int[] raw { get; set; }
+        internal int[] raw { get; private set; }
 
         public Channel(string path)
         {
