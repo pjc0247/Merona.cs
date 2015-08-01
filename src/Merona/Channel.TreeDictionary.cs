@@ -25,33 +25,33 @@ namespace Merona
                     this.depth = depth;
                 }
 
-                public void Add(Channel channel)
+                public Channel Add(Channel.Path path)
                 {
-                    int key = channel.path.raw[depth];
+                    int key = path.raw[depth];
 
-                    if (channel.path.raw.Length - 1 == depth)
+                    if (path.raw.Length - 1 == depth)
                     {
-                        items[key] = channel;
+                        return items[key] = new Channel(path);
                     }
                     else
                     {
                         if (!children.ContainsKey(key))
                             children[key] = new Node(depth + 1);
 
-                        children[key].Add(channel);
+                        return children[key].Add(path);
                     }
                 }
-                public void Remove(Channel channel)
+                public void Remove(Channel.Path path)
                 {
-                    int key = channel.path.raw[depth];
+                    int key = path.raw[depth];
 
-                    if (channel.path.raw.Length - 1 == depth)
+                    if (path.raw.Length - 1 == depth)
                     {
                         items.Remove(key);
                     }
                     else if (children.ContainsKey(key))
                     {
-                        children[key].Remove(channel);
+                        children[key].Remove(path);
                     }
                     else
                     {
@@ -59,11 +59,11 @@ namespace Merona
                     }
                 }
 
-                public void Find(Channel channel, ref List<Channel> results)
+                public void Find(Channel.Path path, ref List<Channel> results)
                 {
-                    int key = channel.path.raw[depth];
+                    int key = path.raw[depth];
 
-                    if (channel.path.raw.Length - 1 == depth)
+                    if (path.raw.Length - 1 == depth)
                     {
                         if (items.ContainsKey(key))
                             results.Add(items[key]);
@@ -77,12 +77,12 @@ namespace Merona
                     {
                         foreach (var child in children)
                         {
-                            child.Value.Find(channel, ref results);
+                            child.Value.Find(path, ref results);
                         }
                     }
                     else if (children.ContainsKey(key))
                     {
-                        children[key].Find(channel, ref results);
+                        children[key].Find(path, ref results);
                     }
                 }
             }
@@ -92,19 +92,19 @@ namespace Merona
                 root = new Node(0);
             }
 
-            public void Add(Channel channel)
+            public Channel Add(Channel.Path path)
             {
-                root.Add(channel);
+                return root.Add(path);
             }
-            public void Remove(Channel channel)
+            public void Remove(Channel.Path path)
             {
-                root.Remove(channel);
+                root.Remove(path);
             }
-            public List<Channel> Query(Channel channel)
+            public List<Channel> Query(Channel.Path path)
             {
                 var results = new List<Channel>();
 
-                root.Find(channel, ref results);
+                root.Find(path, ref results);
 
                 return results;
             }

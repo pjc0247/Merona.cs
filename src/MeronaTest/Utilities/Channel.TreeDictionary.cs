@@ -13,16 +13,16 @@ namespace MeronaTest.Utilities
         {
             var td = new Channel.TreeDictionary();
 
-            td.Add(new Channel("world.map.my_home"));
-            td.Add(new Channel("world.map.dungeon"));
-            td.Add(new Channel("world.map.field"));
+            td.Add(new Channel.Path("world.map.my_home"));
+            td.Add(new Channel.Path("world.map.dungeon"));
+            td.Add(new Channel.Path("world.map.field"));
 
             Assert.AreEqual(
                 1,
-                td.Query(new Channel("world.map.my_home")).Count);
+                td.Query(new Channel.Path("world.map.my_home")).Count);
             Assert.AreEqual(
                 0,
-                td.Query(new Channel("world.map.heaven")).Count);
+                td.Query(new Channel.Path("world.map.heaven")).Count);
         }
 
         [TestMethod]
@@ -30,13 +30,13 @@ namespace MeronaTest.Utilities
         {
             var td = new Channel.TreeDictionary();
 
-            td.Add(new Channel("world.map.my_home"));
-            td.Add(new Channel("world.map.dungeon"));
-            td.Add(new Channel("world.map.field"));
+            td.Add(new Channel.Path("world.map.my_home"));
+            td.Add(new Channel.Path("world.map.dungeon"));
+            td.Add(new Channel.Path("world.map.field"));
 
             Assert.AreEqual(
                 3,
-                td.Query(new Channel("world.map.*")).Count);
+                td.Query(new Channel.Path("world.map.*")).Count);
         }
     }
 }
