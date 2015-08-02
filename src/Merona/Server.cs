@@ -68,8 +68,6 @@ namespace Merona
         private List<Service> services { get; set; }
         private MongoClient mongoClient { get; set; }
         private TcpListener listener { get; set; }
-        internal BlockingCollection<Tuple<Session,Packet>> pendingPackets { get; private set; }
-        internal BlockingCollection<Session> pendingClients { get; private set; }
         internal BlockingCollection<Event> pendingEvents { get; private set; }
 
         private Worker worker { set; get; }
@@ -87,9 +85,7 @@ namespace Merona
             this.listener = new TcpListener(9916); /* TODO : config */
             this.sessionPool = new Session.Pool(1000); /* TODO : config */
             this.channelPool = new Channel.Pool();
-
-            this.pendingPackets = new BlockingCollection<Tuple<Session,Packet>>();
-            this.pendingClients = new BlockingCollection<Session>();
+            
             this.pendingEvents = new BlockingCollection<Event>();
 
             this.listener.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
@@ -111,19 +107,12 @@ namespace Merona
             services.Add(service);
             service.server = this;
         }
-
-        /* for test */
+        
         /// <summary>
-        /// 미처리 패킷 목록에 패킷을 담는다.
-        /// 이 패킷들은 주기적으로 Worker에 의해서 Consume된다.
+        /// 미처리 이벤트 목록에 이벤트를 담는다.
+        /// 이 이벤트들은 주기적으로 Worker에 의해서 Consume된다.
         /// </summary>
-        /// <param name="session">패킷을 수신한 세션</param>
-        /// <param name="packet">수신한 패킷</param>
-        internal void Enqueue(Session session, Packet packet)
-        {
-            pendingPackets.Add(new Tuple<Session,Packet>(session,packet));
-        }
-
+        /// <param name="ev">이벤트</param>
         internal void Enqueue(Event ev)
         {
             pendingEvents.Add(ev);
@@ -171,7 +160,7 @@ namespace Merona
                     /* Worker가 두개 이상일 경우 OnAccept보다 일반 패킷이 먼저 처리될 가능성이 있음 */
                     session.Reset(client);
                     
-                    pendingClients.Add(session);
+                    pendingEvents.Add(new AcceptEvent(session));
                 }
                 else
                 {

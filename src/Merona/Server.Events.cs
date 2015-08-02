@@ -23,17 +23,17 @@ namespace Merona
 
 		internal class AcceptEvent : Event
         {
-			public AcceptEvent(Type type, Session session)
+			public AcceptEvent(Session session)
             {
-                this.type = type;
+                this.type = Type.Accept;
                 this.session = session;
             }
         }
 		internal class DisconnectEvent : Event
         {
-            public DisconnectEvent(Type type, Session session)
+            public DisconnectEvent(Session session)
             {
-                this.type = type;
+                this.type = Type.Disconnect;
                 this.session = session;
             }
         }
@@ -41,9 +41,9 @@ namespace Merona
         {
 			public Packet packet { get; set; }
 
-            public RecvPacketEvent(Type type, Session session, Packet packet)
+            public RecvPacketEvent(Session session, Packet packet)
             {
-                this.type = type;
+                this.type = Type.RecvPacket;
                 this.session = session;
                 this.packet = packet;
             }

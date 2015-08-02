@@ -36,10 +36,7 @@ namespace Merona
             s.Start();
 
             f.pid = "asdf";
-
-            s.Enqueue(new Session(), f);
-            s.Enqueue(new Session(), f);
-
+            
             while (true)
             {
                 

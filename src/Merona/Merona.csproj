@@ -86,6 +86,7 @@
     <Compile Include="Packet.Marshal.cs" />
     <Compile Include="Packet.Dump.cs" />
     <Compile Include="Packet.Descriptors.PreloadCache.cs" />
+    <Compile Include="Server.Events.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -141,8 +141,8 @@ namespace Merona
                         
                         var packetType = Packet.GetTypeById(packetId);
                         var deserialized = Packet.Deserialize(packet, packetType);
-                        
-                        server.Enqueue(this, deserialized);
+
+                        server.Enqueue(new Server.RecvPacketEvent(this, deserialized));
                     }
                     else
                         break;

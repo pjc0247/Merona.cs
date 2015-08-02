@@ -84,18 +84,18 @@ namespace Merona
 
                 while (!isQuitReserved)
                 {
-                    Tuple<Session,Packet> packet = null;
-
-                    /* packet */
+                    Event ev = null;
+                    
                     try
                     {
-                        packet = server.pendingPackets.Take(cts.Token);
-                        
-                        foreach (var service in server.services)
-                        {
-                            Session.current = packet.Item1;
-                            var routed = service.Route(packet.Item2);
-                        }
+                        ev = server.pendingEvents.Take(cts.Token);
+
+                        if (ev.type == Event.Type.Accept)
+                            OnAccept((AcceptEvent)ev);
+                        else if (ev.type == Event.Type.Disconnect)
+                            OnDisconnect((DisconnectEvent)ev);
+                        else if (ev.type == Event.Type.RecvPacket)
+                            OnRecvPacket((RecvPacketEvent)ev);
                     }
                     catch (OperationCanceledException e)
                     {
@@ -104,21 +104,28 @@ namespace Merona
 
                     /* scheduler */
                     scheduler.Update();
-
-                    /* accept */
-                    while (server.pendingClients.Count > 0)
-                    {
-                        Session client = null;
-                        if (server.pendingClients.TryTake(out client))
-                        {
-                            client.OnConnect();
-                        }
-                    }
                 }
 
                 isWorkerInitialized = false;
 
                 server.logger.Info("Worker::EndThraed");
+            }
+
+            private void OnAccept(AcceptEvent e)
+            {
+                e.session.OnConnect();
+            }
+            private void OnDisconnect(DisconnectEvent e)
+            {
+                e.session.OnDisconnect();
+            }
+            private void OnRecvPacket(RecvPacketEvent e)
+            {
+                foreach (var service in server.services)
+                {
+                    Session.current = e.session;
+                    var routed = service.Route(e.packet);
+                }
             }
         }
     }
