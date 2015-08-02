@@ -111,7 +111,7 @@ namespace Merona
             }
             catch (InternalBufferOverflowException e)
             {
-                Console.WriteLine("ringbuffer overflow");
+                server.logger.Warn("ringbuffer overflow");
             }
             finally
             {
