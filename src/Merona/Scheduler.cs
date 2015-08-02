@@ -103,10 +103,12 @@ namespace Merona
             }
 
             if (expiredTimers.Count > 0)
+            {
                 Server.current.logger.Debug("{0} timers expired", expiredTimers.Count);
 
-            timers = timers.Except(expiredTimers).ToList();
-            expiredTimers.Clear();
+                timers = timers.Except(expiredTimers).ToList();
+                expiredTimers.Clear();
+            }
 
             lastTick = Environment.TickCount;
         }
