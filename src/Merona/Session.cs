@@ -21,6 +21,7 @@ namespace Merona
 
         public Server server { get; set; }
         public String test { get; set; }
+        public bool isAlive { get; set; }
 
         public Session()
         {
@@ -72,22 +73,56 @@ namespace Merona
         public void Reset(TcpClient client)
         {
             this.client = client;
+            this.isAlive = true;
 
             BeginReceive();
         }
 
+        public int Send(Packet packet)
+        {
+            var buffer = packet.Serialize();
+
+            client.Client.BeginSend(buffer, 0, buffer.Length, SocketFlags.None,
+                new AsyncCallback(Sent), 0);
+
+            return 0;
+        }
+        private void Sent(IAsyncResult result)
+        {
+            try
+            {
+                int sent = client.Client.EndSend(result);
+            }
+            catch(Exception e)
+            {
+                server.logger.Warn("Session::Sent", e);
+            }
+        }
+
         protected void BeginReceive()
         {
-            this.client.Client.BeginReceive(
-                receiveBuffer, 0, receiveBuffer.Length,
-                SocketFlags.None,
-                new AsyncCallback(Receive), null);
+            try {
+                this.client.Client.BeginReceive(
+                    receiveBuffer, 0, receiveBuffer.Length,
+                    SocketFlags.None,
+                    new AsyncCallback(Receive), null);
+            }
+            catch(SocketException e)
+            {
+                server.logger.Warn("Session::BeginReceive", e);
+
+                isAlive = false;
+            }
         }
         private void Receive(IAsyncResult result)
         {
             try
             {
                 var received = client.Client.EndReceive(result);
+
+                if(received <= 0)
+                    throw new ObjectDisposedException("socket closed");
+
                 var bytes = new byte[Packet.headerSize];
 
                 buffer.Put(receiveBuffer, 0, received);
@@ -112,14 +147,20 @@ namespace Merona
                     else
                         break;
                 }
+
+                BeginReceive();
             }
             catch (InternalBufferOverflowException e)
             {
                 server.logger.Warn("ringbuffer overflow");
+
+                isAlive = false;
             }
-            finally
+            catch (ObjectDisposedException e)
             {
-                BeginReceive();
+                server.logger.Warn("Server::Receive", e);
+
+                isAlive = false;
             }
         }
 
