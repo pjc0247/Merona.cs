@@ -9,7 +9,7 @@ namespace Merona
 {
     public partial class Packet
     {
-		public static T Deserialize<T>(byte[] buffer) where T : Packet, new()
+        public static T Deserialize<T>(byte[] buffer) where T : Packet, new()
         {
             unsafe
             {
@@ -21,7 +21,7 @@ namespace Merona
                 }
             }
         }
-		public byte[] Serialize()
+        public byte[] Serialize()
         {
             unsafe
             {
