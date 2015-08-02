@@ -117,7 +117,7 @@ namespace Merona
         /// </summary>
         /// <param name="session">패킷을 수신한 세션</param>
         /// <param name="packet">수신한 패킷</param>
-        public void Enqueue(Session session, Packet packet)
+        internal void Enqueue(Session session, Packet packet)
         {
             pendingPackets.Add(new Tuple<Session,Packet>(session,packet));
         }
