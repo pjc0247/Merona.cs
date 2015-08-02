@@ -30,5 +30,27 @@ namespace MeronaTest.Utilities
             for (int i = 0; i < 32; i++)
                 buffer.Put(i);
         }
+
+        [TestMethod]
+        public void Peek()
+        {
+            var buffer = new CircularBuffer<int>(16);
+
+            for(var i=0;i<8;i++)
+                buffer.Put(i);
+
+            var peek1 = new int[8];
+            var peek2 = new int[8];
+
+            buffer.Peek(peek1, 0, 8);
+            buffer.Peek(peek2, 0, 8);
+
+            for(var i = 0; i < 8; i++)
+            {
+                Assert.AreEqual(
+                    peek1[i],
+                    peek2[i]);
+            }
+        }
     }
 }
