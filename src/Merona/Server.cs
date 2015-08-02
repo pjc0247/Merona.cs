@@ -155,17 +155,7 @@ namespace Merona
                 var client = listener.EndAcceptTcpClient(result);
                 var session = sessionPool.Acquire();
 
-                if (session != null)
-                {
-                    /* Worker가 두개 이상일 경우 OnAccept보다 일반 패킷이 먼저 처리될 가능성이 있음 */
-                    session.Reset(client);
-                    
-                    pendingEvents.Add(new AcceptEvent(session));
-                }
-                else
-                {
-                    logger.Error("sessionPool underflow");
-                }
+                pendingEvents.Add(new AcceptEvent(client));
             }
             catch (SocketException e)
             {

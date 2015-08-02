@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Sockets;
 
 namespace Merona
 {
@@ -18,19 +19,22 @@ namespace Merona
             }
 
             public Type type { get; set; }
-			public Session session { get; set; }
         }
 
 		internal class AcceptEvent : Event
         {
-			public AcceptEvent(Session session)
+			public TcpClient client { get; set; }
+
+			public AcceptEvent(TcpClient client)
             {
                 this.type = Type.Accept;
-                this.session = session;
+                this.client = client;
             }
         }
 		internal class DisconnectEvent : Event
         {
+            public Session session { get; set; }
+
             public DisconnectEvent(Session session)
             {
                 this.type = Type.Disconnect;
@@ -40,6 +44,7 @@ namespace Merona
 		internal class RecvPacketEvent : Event
         {
 			public Packet packet { get; set; }
+            public Session session { get; set; }
 
             public RecvPacketEvent(Session session, Packet packet)
             {

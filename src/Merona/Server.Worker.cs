@@ -113,11 +113,22 @@ namespace Merona
 
             private void OnAccept(AcceptEvent e)
             {
-                e.session.OnConnect();
+                Session session;
+
+                session = server.sessionPool.Acquire();
+                if(session != null)
+                {
+                    session.Reset(e.client);
+                    session.OnConnect();
+                }
+                else
+                    server.logger.Warn("Worker::OnAccept - sessionPool underflow");
             }
             private void OnDisconnect(DisconnectEvent e)
             {
                 e.session.OnDisconnect();
+
+                server.sessionPool.Return(e.session);
             }
             private void OnRecvPacket(RecvPacketEvent e)
             {
