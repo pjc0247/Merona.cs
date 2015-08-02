@@ -161,12 +161,14 @@ namespace System.Collections.Generic
         {
             int realCount = Math.Min(count, size);
             int dstIndex = offset;
+            int oldHead = head;
             for (int i = 0; i < realCount; i++, head++, dstIndex++)
             {
                 if (head == capacity)
                     head = 0;
                 dst[dstIndex] = buffer[head];
             }
+            head = oldHead;
             return realCount;
         }
 
