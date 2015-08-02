@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace Merona
 {
@@ -14,21 +15,20 @@ namespace Merona
         }
 		public byte[] Serialize()
         {
-            Console.WriteLine("Serialize" + this.GetType().Name);
+            Console.WriteLine("serialize");
+            Console.WriteLine(Marshal.SizeOf(this));
 
-            var targetFields = GetType().GetFields().ToList();
-            var exceptFields = Packet.GetC2SFields(this.GetType());
-			if(exceptFields != null)
+            unsafe
             {
-                targetFields = targetFields.Except(exceptFields).ToList();
-            }
+                byte[] byteArray = new byte[Marshal.SizeOf(this)];
 
-			foreach(var field in targetFields)
-            {
-                Console.WriteLine(field.Name);
-            }
+                fixed (byte* ptr = byteArray)
+                {
+                    Marshal.StructureToPtr(this, (IntPtr)ptr, true);
+                }
 
-            return new byte[1];
+                return byteArray;
+            }
         }
     }
 }

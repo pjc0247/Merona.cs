@@ -5,11 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace Merona
 {
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public partial class Packet
     {
+        [MarshalAs(UnmanagedType.I4)]
+        public int id;
         public String channel = null;
 
         static Packet()

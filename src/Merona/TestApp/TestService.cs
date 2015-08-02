@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 
 namespace Merona.TestApp
 {
@@ -13,6 +14,8 @@ namespace Merona.TestApp
     {
         public string name;
     }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     class FooPacket : Packet
     {
         [KeyOf(typeof(Player))]
