@@ -80,10 +80,18 @@ namespace Merona
 
         public int Send(Packet packet)
         {
-            var buffer = packet.Serialize();
+            if (!isAlive)
+                return 0;
 
-            client.Client.BeginSend(buffer, 0, buffer.Length, SocketFlags.None,
-                new AsyncCallback(Sent), 0);
+            try {
+                var buffer = packet.Serialize();
+
+                client.Client.BeginSend(buffer, 0, buffer.Length, SocketFlags.None,
+                    new AsyncCallback(Sent), 0);
+            }
+            catch(SocketException e) {
+                server.logger.Warn("Session::Send", e);
+            }
 
             return 0;
         }
@@ -156,7 +164,7 @@ namespace Merona
 
                 isAlive = false;
             }
-            catch (ObjectDisposedException e)
+            catch (SocketException e)
             {
                 server.logger.Warn("Server::Receive", e);
 
