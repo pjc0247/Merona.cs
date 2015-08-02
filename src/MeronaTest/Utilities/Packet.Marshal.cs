@@ -71,5 +71,40 @@ namespace MeronaTest.Utilities
                 44,
                 packet.bar);
         }
+
+
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        class MyPacket2 : Packet
+        {
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+            public String name;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+            public String nickname;
+            [MarshalAs(UnmanagedType.I4)]
+            public int level;
+        }
+
+        [TestMethod]
+        public void SerializeAndDeserialize()
+        {
+            var packet = new MyPacket2();
+
+            packet.name = "hello_world";
+            packet.nickname = "hello_nickname";
+            packet.level = 1441;
+
+            var serialized = packet.Serialize();
+            var deserialized = Packet.Deserialize<MyPacket2>(serialized);
+
+            Assert.AreEqual(
+                packet.level,
+                deserialized.level);
+            Assert.AreEqual(
+                packet.name,
+                deserialized.name);
+            Assert.AreEqual(
+                packet.nickname,
+                deserialized.nickname);
+        }
     }
 }
