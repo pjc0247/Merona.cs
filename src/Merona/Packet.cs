@@ -12,9 +12,12 @@ namespace Merona
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public partial class Packet
     {
+        public static readonly int headerSize = Marshal.SizeOf<Packet>();
+
         [MarshalAs(UnmanagedType.I4)]
         public int id;
         public String channel = null;
+
 
         static Packet()
         {
