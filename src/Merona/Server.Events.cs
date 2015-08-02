@@ -15,7 +15,8 @@ namespace Merona
             {
                 Accept,
                 Disconnect,
-                RecvPacket
+                RecvPacket,
+				CallFunc
             }
 
             public Type type { get; set; }
@@ -51,6 +52,16 @@ namespace Merona
                 this.type = Type.RecvPacket;
                 this.session = session;
                 this.packet = packet;
+            }
+        }
+		internal class CallFuncEvent : Event
+        {
+			public Action callback { get; set; }
+
+			public CallFuncEvent(Action callback)
+            {
+                this.type = Type.CallFunc;
+                this.callback = callback;
             }
         }
     }

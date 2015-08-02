@@ -138,6 +138,10 @@ namespace Merona
                     var routed = service.Route(e.packet);
                 }
             }
+            private void OnCallFunc(CallFuncEvent e)
+            {
+                e.callback();
+            }
         }
     }
 }
