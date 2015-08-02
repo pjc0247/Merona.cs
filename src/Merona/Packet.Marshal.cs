@@ -11,7 +11,6 @@ namespace Merona
     {
 		public static T Deserialize<T>(byte[] buffer) where T : Packet, new()
         {
-
             unsafe
             {
                 byte[] byteArray = new byte[Marshal.SizeOf<T>()];
@@ -24,9 +23,6 @@ namespace Merona
         }
 		public byte[] Serialize()
         {
-            Console.WriteLine("serialize");
-            Console.WriteLine(Marshal.SizeOf(this));
-
             unsafe
             {
                 byte[] byteArray = new byte[Marshal.SizeOf(this)];
