@@ -16,6 +16,10 @@ namespace Merona
 {
     public sealed partial class Server
     {
+        /// <summary>
+        /// 현재 Worker를 가지고 있는 서버의 인스턴스
+        /// 이 값은 Worekr 스레드에서만 유효하다
+        /// </summary>
         [ThreadStatic]
         public static Server current = null;
 

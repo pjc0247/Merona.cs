@@ -12,6 +12,10 @@ namespace Merona
 {
     public partial class Session
     {
+        /// <summary>
+        /// 현재 바인딩 된 세션의 인스턴스
+        /// 이 값은 Worker 스레드에서만 유효하다.
+        /// </summary>
         [ThreadStatic]
         public static Session current = null;
 
@@ -30,7 +34,7 @@ namespace Merona
         {
             test = "ASDF";
             bar = new Bar();
-
+            
             this.server = server;
             this.buffer = new CircularBuffer<byte>(1024); /* TODO : config */
             this.receiveBuffer = new byte[128]; /* TODO : config */
