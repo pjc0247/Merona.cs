@@ -31,11 +31,11 @@ namespace Merona
 #if MERONA_PACKET_MARSHAL_UNSAFE
             unsafe
             {
-                byte[] byteArray = new byte[Marshal.SizeOf<T>()];
+                byte[] byteArray = new byte[Marshal.SizeOf(type)];
 
                 fixed (byte* ptr = &buffer[0])
                 {
-                    return Marshal.PtrToStructure<T>((IntPtr)ptr);
+                    return (Packet)Marshal.PtrToStructure((IntPtr)ptr, type);
                 }
             }
 #else
