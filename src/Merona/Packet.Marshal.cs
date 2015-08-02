@@ -11,7 +11,16 @@ namespace Merona
     {
 		public static T Deserialize<T>(byte[] buffer) where T : Packet, new()
         {
-            return new T();
+
+            unsafe
+            {
+                byte[] byteArray = new byte[Marshal.SizeOf<T>()];
+
+                fixed (byte* ptr = &buffer[0])
+                {
+                    return Marshal.PtrToStructure<T>((IntPtr)ptr);
+                }
+            }
         }
 		public byte[] Serialize()
         {

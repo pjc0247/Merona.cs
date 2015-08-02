@@ -54,5 +54,22 @@ namespace MeronaTest.Utilities
                     bytes[i]);
             }
         }
+
+        [TestMethod]
+        public void Deserialize()
+        {
+            byte[] source = new byte[] {
+                    0,0,0,0, 0,0,0,0, 14,0,0,0, 44,0,0,0
+                };
+
+            var packet = Packet.Deserialize<MyPacket>(source);
+
+            Assert.AreEqual(
+                14,
+                packet.foo);
+            Assert.AreEqual(
+                44,
+                packet.bar);
+        }
     }
 }
