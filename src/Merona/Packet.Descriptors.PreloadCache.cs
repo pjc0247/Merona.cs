@@ -36,16 +36,16 @@ namespace Merona
 
             foreach (var packet in packets)
             {
+                var id = (PacketId)packet.GetCustomAttribute(typeof(PacketId));
+                if (id != null)
+                {
+                    types[id.id] = packet;
+                }
+
                 foreach (var field in packet.GetFields())
                 {
                     /* TODO : 정리 */
-
-                    var id = (PacketId)field.GetCustomAttribute(typeof(PacketId));
-                    if(id != null)
-                    {
-                        types[id.id] = packet;
-                    }
-
+                    
                     var memberOf = (Packet.MemberOf)field.GetCustomAttribute(typeof(Packet.MemberOf));
                     if (memberOf != null)
                     {
