@@ -15,7 +15,6 @@ namespace Merona
         {
             private Server server { get; set; }
             private Thread thread { get; set; }
-            private Scheduler scheduler { get; set; }
 
             private bool isWorkerInitialized { get; set; }
             private bool isQuitReserved { get; set; }
@@ -29,7 +28,6 @@ namespace Merona
             public Worker(Server server)
             {
                 this.server = server;
-                this.scheduler = new Scheduler();
                 this.thread = new Thread(Loop);
             }
 
@@ -68,7 +66,7 @@ namespace Merona
             {
                 /* initialize thread-locals */
                 Server.current = server;
-                Scheduler.current = scheduler;
+                Scheduler.current = server.scheduler;
                 Session.current = new Session(); //for test
 
                 var cts = new CancellationTokenSource();
@@ -96,14 +94,13 @@ namespace Merona
                             OnDisconnect((DisconnectEvent)ev);
                         else if (ev.type == Event.Type.RecvPacket)
                             OnRecvPacket((RecvPacketEvent)ev);
+                        else if (ev.type == Event.Type.CallFunc)
+                            OnCallFunc((CallFuncEvent)ev);
                     }
                     catch (OperationCanceledException e)
                     {
                         /* Take() operation canceled */
                     }
-
-                    /* scheduler */
-                    scheduler.Update();
                 }
 
                 isWorkerInitialized = false;

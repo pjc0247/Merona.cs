@@ -31,7 +31,7 @@ namespace Merona
         public Logger logger { get; private set; }
         public Channel.Pool channelPool { get; private set; }
         public String name { get; private set; }
-
+        public Scheduler scheduler { get; private set; }
         
         private long _isRunning = 0;
         /// <summary>
@@ -79,6 +79,7 @@ namespace Merona
             this.name = name;
             this.logger = LogManager.GetLogger(name);
             this.worker = new Worker(this);
+            this.scheduler = new Scheduler(this);
             this.services = new List<Service>();
             this.mongoClient = new MongoClient();
             this.database = mongoClient.GetDatabase("test"); /* TODO : config */

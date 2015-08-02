@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -22,15 +23,22 @@ namespace Merona
         [ThreadStatic]
         public static Scheduler current = null;
 
+        private Server server { get; set; }
         private List<Timer> timers { get; set; }
-        private List<Timer> expiredTimers { get; set; }
+        private ConcurrentQueue<Timer> pendingTimers { get; set; }
         private long lastTick { get; set; }
 
-        public Scheduler()
+        private Thread thread { get; set; }
+
+        public Scheduler(Server server)
         {
+            this.server = server;
             timers = new List<Timer>();
-            expiredTimers = new List<Timer>();
             lastTick = Environment.TickCount;
+            pendingTimers = new ConcurrentQueue<Timer>();
+
+            thread = new Thread(Worker);
+            thread.Start();
         }
 
         /// <summary>
@@ -59,7 +67,7 @@ namespace Merona
             timer.count = count;
             timer.start = Environment.TickCount + after;
             timer.token = cts.Token;
-            timers.Add(timer);
+            pendingTimers.Enqueue(timer);
 
             return cts;
         }
@@ -72,44 +80,74 @@ namespace Merona
             cts.Cancel();
         }
 
-        internal void Update()
+        private void Worker()
         {
-            if (!Server.isSafeThread)
-                throw new InvalidOperationException();
+            server.logger.Info("Scheduler::BeginWorker");
 
-            foreach (var timer in timers)
+            /* TODO : 종료 조건 */
+            while (true)
             {
+                var st = Environment.TickCount;
+
+                Update();
+
+                var elapsed = Environment.TickCount - st;
+
+                if (elapsed <= 10)
+                    Thread.Sleep(10 - elapsed);
+            }
+
+            server.logger.Info("Scheduler::EndWorker");
+        }
+
+        private void RemoveTimerAt(int i)
+        {
+            timers[i] = timers[timers.Count - 1];
+            timers.RemoveAt(timers.Count - 1);
+        }
+        private void Update()
+        {
+            while (pendingTimers.Count > 0)
+            {
+                Timer timer;
+                pendingTimers.TryDequeue(out timer);
+
+                timers.Add(timer);
+            }
+            
+            for(var i=0;i<timers.Count;i++)
+            {
+                var timer = timers[i];
+
                 var elapsed = Environment.TickCount - timer.start;
                 if (elapsed >= timer.interval)
                 {
                     if (timer.token.IsCancellationRequested)
                     {
-                        expiredTimers.Add(timer);
+                        RemoveTimerAt(i);
+                        i--;
+
                         continue;
                     }
 
                     /* invoke callback */
-                    timer.callback();
+                    server.Enqueue(
+                        new Server.CallFuncEvent(timer.callback));
 
                     if (timer.count > 0 &&
                         --timer.count == 0)
                     {
-                        expiredTimers.Add(timer);
+                        /* swap remove */
+                        RemoveTimerAt(i);
+                        i--;
+
                         continue;
                     }
 
                     timer.start = Environment.TickCount;
                 }
             }
-
-            if (expiredTimers.Count > 0)
-            {
-                Server.current.logger.Debug("{0} timers expired", expiredTimers.Count);
-
-                timers = timers.Except(expiredTimers).ToList();
-                expiredTimers.Clear();
-            }
-
+            
             lastTick = Environment.TickCount;
         }
     }
