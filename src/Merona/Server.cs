@@ -56,6 +56,8 @@ namespace Merona
 
         public Server(String name = "")
         {
+            Server.current = this;
+
             this.name = name;
             this.logger = LogManager.GetLogger(name);
             this.worker = new Worker(this);
