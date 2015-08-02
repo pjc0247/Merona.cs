@@ -70,6 +70,7 @@ namespace Merona
         private TcpListener listener { get; set; }
         internal BlockingCollection<Tuple<Session,Packet>> pendingPackets { get; private set; }
         internal BlockingCollection<Session> pendingClients { get; private set; }
+        internal BlockingCollection<Event> pendingEvents { get; private set; }
 
         private Worker worker { set; get; }
 
@@ -89,6 +90,7 @@ namespace Merona
 
             this.pendingPackets = new BlockingCollection<Tuple<Session,Packet>>();
             this.pendingClients = new BlockingCollection<Session>();
+            this.pendingEvents = new BlockingCollection<Event>();
 
             this.listener.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
         }
@@ -120,6 +122,11 @@ namespace Merona
         internal void Enqueue(Session session, Packet packet)
         {
             pendingPackets.Add(new Tuple<Session,Packet>(session,packet));
+        }
+
+        internal void Enqueue(Event ev)
+        {
+            pendingEvents.Add(ev);
         }
 
         /// <summary>
