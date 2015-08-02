@@ -105,7 +105,7 @@ namespace Merona
                 this.client.Client.BeginReceive(
                     receiveBuffer, 0, receiveBuffer.Length,
                     SocketFlags.None,
-                    new AsyncCallback(Receive), null);
+                    new AsyncCallback(Received), null);
             }
             catch(SocketException e)
             {
@@ -114,7 +114,7 @@ namespace Merona
                 isAlive = false;
             }
         }
-        private void Receive(IAsyncResult result)
+        private void Received(IAsyncResult result)
         {
             try
             {
