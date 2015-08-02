@@ -17,7 +17,7 @@ namespace Merona
         [MarshalAs(UnmanagedType.I4)]
         public int size;
         [MarshalAs(UnmanagedType.I4)]
-        public int id;
+        public int packetId;
 
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
         public String channel = null;
