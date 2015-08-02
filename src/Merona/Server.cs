@@ -32,10 +32,25 @@ namespace Merona
         public Channel.Pool channelPool { get; private set; }
         public String name { get; private set; }
 
+        
+        private long _isRunning = 0;
         /// <summary>
         /// 현재 서버가 실행중인지 조사한다.
         /// </summary>
-        public bool isRunning { get; set; }
+        public bool isRunning {
+            get
+            {
+                if (Interlocked.Read(ref _isRunning) == 1)
+                    return true;
+                else
+                    return false;
+            }
+            set
+            {
+                long _value = value ? 1 : 0;
+                Interlocked.Exchange(ref _isRunning, _value);
+            }
+        }
         /// <summary>
         /// 현재 스레드가 Server.current에 대해 안전한지 조사한다.
         /// </summary>
