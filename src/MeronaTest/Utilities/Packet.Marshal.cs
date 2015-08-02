@@ -58,10 +58,14 @@ namespace MeronaTest.Utilities
         [TestMethod]
         public void Deserialize()
         {
-            byte[] source = new byte[] {
-                    0,0,0,0, 0,0,0,0, 14,0,0,0, 44,0,0,0
-                };
+            byte[] header = new byte[Packet.headerSize];
+            byte[] data = new byte[] {
+                    14,0,0,0, 44,0,0,0 };
+            byte[] source = new byte[header.Length + data.Length];
 
+            header.CopyTo(source, 0);
+            data.CopyTo(source, header.Length);
+            
             var packet = Packet.Deserialize<MyPacket>(source);
 
             Assert.AreEqual(
