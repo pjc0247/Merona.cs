@@ -144,7 +144,7 @@ namespace Merona
             return s2c[type];
         }
 
-        public static Type GetPacketById(int id)
+        public static Type GetTypeById(int id)
         {
             return types[id];
         }
