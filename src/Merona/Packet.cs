@@ -13,9 +13,13 @@ namespace Merona
     public partial class Packet
     {
         public static readonly int headerSize = Marshal.SizeOf<Packet>();
-
+        
         [MarshalAs(UnmanagedType.I4)]
-        public int id;
+        public int size;
+        [MarshalAs(UnmanagedType.I4)]
+        public int type;
+
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
         public String channel = null;
 
 
