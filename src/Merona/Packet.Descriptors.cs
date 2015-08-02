@@ -7,6 +7,16 @@ using System.Threading.Tasks;
 namespace Merona
 {
     [AttributeUsage(AttributeTargets.Class)]
+    class PacketId : Attribute
+    {
+        public int id { get; set; }
+        public PacketId(int id)
+        {
+            this.id = id;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
     class Join : Attribute
     {
         public Channel channel { get; set; }
