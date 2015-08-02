@@ -9,6 +9,12 @@ namespace Merona
 {
     public partial class Packet
     {
+        /// <summary>
+        /// 바이트 배열로부터 패킷을 역직렬화한다.
+        /// </summary>
+        /// <typeparam name="T">패킷의 타입</typeparam>
+        /// <param name="buffer">역직렬화할 바이트 배열</param>
+        /// <returns>패킷</returns>
         public static T Deserialize<T>(byte[] buffer) where T : Packet, new()
         {
             unsafe
@@ -21,6 +27,11 @@ namespace Merona
                 }
             }
         }
+
+        /// <summary>
+        /// 패킷을 바이트 배열로 직렬화한다.
+        /// </summary>
+        /// <returns>직렬화된 바이트 배열</returns>
         public byte[] Serialize()
         {
             unsafe
