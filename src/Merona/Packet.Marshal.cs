@@ -17,6 +17,7 @@ namespace Merona
         /// <returns>패킷</returns>
         public static T Deserialize<T>(byte[] buffer) where T : Packet, new()
         {
+#if MERONA_PACKET_MARSHAL_UNSAFE
             unsafe
             {
                 byte[] byteArray = new byte[Marshal.SizeOf<T>()];
@@ -26,6 +27,9 @@ namespace Merona
                     return Marshal.PtrToStructure<T>((IntPtr)ptr);
                 }
             }
+#else
+            throw new NotImplementedException();
+#endif
         }
 
         /// <summary>
@@ -34,6 +38,7 @@ namespace Merona
         /// <returns>직렬화된 바이트 배열</returns>
         public byte[] Serialize()
         {
+#if MERONA_PACKET_MARSHAL_UNSAFE
             unsafe
             {
                 byte[] byteArray = new byte[Marshal.SizeOf(this)];
@@ -45,6 +50,9 @@ namespace Merona
 
                 return byteArray;
             }
+#else
+            throw new NotImplementedException();
+#endif
         }
     }
 }
