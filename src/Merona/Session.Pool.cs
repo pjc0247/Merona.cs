@@ -26,7 +26,7 @@ namespace Merona
 
                 for (int i = 0; i < size; i++)
                 {
-                    this.pool.Push(new Session());
+                    this.pool.Push(new Session(Server.current));
                 }
             }
 

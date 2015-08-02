@@ -15,6 +15,7 @@ namespace Merona.TestApp
         public string name;
     }
 
+    [PacketId(0)]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     class FooPacket : Packet
     {
@@ -27,12 +28,21 @@ namespace Merona.TestApp
         [Bind("#{bar.foo}")]
         public string bind;
     }
+    [PacketId(1)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     class BarPacket : Packet
     {
+        public int data;
     }
 
     class TestService : Service
     {
+        [Handler(typeof(BarPacket))]
+        public async void OnBar(BarPacket packet)
+        {
+            Console.WriteLine("OnBar ");
+            Console.WriteLine(packet.data);
+        }
         [Handler(typeof(FooPacket))]
         public async void OnFoo(FooPacket packet)
         {
