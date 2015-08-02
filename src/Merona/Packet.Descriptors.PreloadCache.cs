@@ -16,6 +16,8 @@ namespace Merona
         private static Dictionary<Type, List<FieldInfo>> c2s;
         private static Dictionary<Type, List<FieldInfo>> s2c;
 
+        private static Dictionary<int, Type> types;
+
 		private static void InitializePreloadCaches()
         {
             var logger = NLog.LogManager.GetCurrentClassLogger();
@@ -27,6 +29,8 @@ namespace Merona
             c2s = new Dictionary<Type, List<FieldInfo>>();
             s2c = new Dictionary<Type, List<FieldInfo>>();
 
+            types = new Dictionary<int, Type>();
+
             var packets = Assembly.GetEntryAssembly().GetTypes()
                 .Where(type => type.IsSubclassOf(typeof(Packet)));
 
@@ -35,6 +39,12 @@ namespace Merona
                 foreach (var field in packet.GetFields())
                 {
                     /* TODO : 정리 */
+
+                    var id = (PacketId)field.GetCustomAttribute(typeof(PacketId));
+                    if(id != null)
+                    {
+                        types[id.id] = packet;
+                    }
 
                     var memberOf = (Packet.MemberOf)field.GetCustomAttribute(typeof(Packet.MemberOf));
                     if (memberOf != null)
@@ -132,6 +142,11 @@ namespace Merona
             if (!s2c.ContainsKey(type))
                 return null;
             return s2c[type];
+        }
+
+        public static Type GetPacketById(int id)
+        {
+            return types[id];
         }
     }
 }
