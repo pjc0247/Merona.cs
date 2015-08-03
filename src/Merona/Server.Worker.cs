@@ -106,6 +106,9 @@ namespace Merona
                 foreach (var service in server.services)
                 {
                     Session.current = e.session;
+
+                    e.packet.PreProcess(e.session);
+                    
                     var routed = service.Route(e.packet);
 
                     var autoResponse = Packet.GetAutoResponsePacket(e.packet.GetType());

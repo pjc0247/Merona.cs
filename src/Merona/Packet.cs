@@ -31,7 +31,13 @@ namespace Merona
 
         internal void PreProcess(Session session)
         {
+            var join = Packet.GetJoinPath(GetType());
+            if (join != null)
+                Server.current.channelPool.Join(join, session);
 
+            var leave = Packet.GetJoinPath(GetType());
+            if (leave != null)
+                Server.current.channelPool.Leave(leave, session);   
         }
         internal void PostProcess(Session session)
         {
