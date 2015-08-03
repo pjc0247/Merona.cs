@@ -61,6 +61,21 @@ namespace Merona
                     }
                 }
 
+                public void FindOne(Channel.Path path,ref List<Channel> results)
+                {
+                    int key = path.raw[depth];
+
+                    if (path.raw.Length - 1 == depth)
+                    {
+                        if (items.ContainsKey(key))
+                        {
+                            results.Add(items[key]);
+                            return;
+                        }
+                    }
+                    else if (children.ContainsKey(key))
+                        children[key].FindOne(path, ref results);
+                }
                 public void Find(Channel.Path path, ref List<Channel> results)
                 {
                     int key = path.raw[depth];
@@ -112,7 +127,10 @@ namespace Merona
             {
                 var results = new List<Channel>();
 
-                root.Find(path, ref results);
+                if (path.isFixed)
+                    root.FindOne(path, ref results);
+                else
+                    root.Find(path, ref results);
 
                 return results;
             }
