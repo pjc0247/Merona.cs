@@ -43,6 +43,9 @@ namespace Merona
                     Interlocked.Exchange(ref cts, new CancellationTokenSource());
                 }, null, 0, 30); /* TODO : config */
 
+                foreach (var service in server.services)
+                    service.Setup();
+
                 server.logger.Info("Worker::Setup tid({0})", ThreadId);
 
                 isWorkerInitialized = true;
@@ -50,6 +53,9 @@ namespace Merona
             protected override void Cleanup()
             {
                 isWorkerInitialized = false;
+
+                foreach (var service in server.services)
+                    service.Cleanup();
 
                 server.logger.Info("Worker::Cleanup");
             }
