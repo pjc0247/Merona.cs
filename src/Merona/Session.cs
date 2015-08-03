@@ -84,6 +84,7 @@ namespace Merona
                 return 0;
 
             try {
+                packet.PostProcess();
                 var buffer = packet.Serialize();
 
                 client.Client.BeginSend(buffer, 0, buffer.Length, SocketFlags.None,

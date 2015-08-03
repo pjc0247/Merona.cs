@@ -112,7 +112,6 @@ namespace Merona
                     if (autoResponse != null)
                     {
                         var packet = (Packet)Activator.CreateInstance(autoResponse);
-                        packet.PostProcess();
 
                         e.session.Send(packet);
                     }
