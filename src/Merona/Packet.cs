@@ -28,7 +28,12 @@ namespace Merona
             InitializePreloadCaches();
         }
 
-        internal void PostProcess()
+
+        internal void PreProcess(Session session)
+        {
+
+        }
+        internal void PostProcess(Session session)
         {
             var bindFields = GetBindFields(GetType());
 
@@ -37,7 +42,7 @@ namespace Merona
 
             foreach (var field in bindFields)
             {
-                var bound = DataBinder.Bind(field.Item1, Session.current);
+                var bound = DataBinder.Bind(field.Item1, session);
 
                 field.Item2.SetValue(this, bound);
             }
