@@ -16,6 +16,8 @@ namespace Merona
         private static Dictionary<Type, List<FieldInfo>> c2s;
         private static Dictionary<Type, List<FieldInfo>> s2c;
         private static Dictionary<Type, Type> autoResponses;
+        private static Dictionary<Type, Channel.Path> joins;
+        private static Dictionary<Type, Channel.Path> leaves;
 
         private static Dictionary<int, Type> types;
 
@@ -48,6 +50,14 @@ namespace Merona
                 var autoResponse = (AutoResponse)packet.GetCustomAttribute<AutoResponse>();
                 if (autoResponse != null)
                     autoResponses[packet] = autoResponse.type;
+
+                var join = (Join)packet.GetCustomAttribute<Join>();
+                if (join != null)
+                    joins[packet] = join.path;
+
+                var leave = (Leave)packet.GetCustomAttribute<Leave>();
+                if (leave != null)
+                    leaves[packet] = leave.path;
 
                 foreach (var field in packet.GetFields())
                 {
@@ -163,6 +173,31 @@ namespace Merona
             if (!autoResponses.ContainsKey(type))
                 return null;
             return autoResponses[type];
+        }
+
+        public static Channel.Path GetJoinPath<T>()
+        {
+            if (!joins.ContainsKey(typeof(T)))
+                return null;
+            return joins[typeof(T)];
+        }
+        public static Channel.Path GetJoinPath(Type type)
+        {
+            if (!joins.ContainsKey(type))
+                return null;
+            return joins[type];
+        }
+        public static Channel.Path GetLeavePath<T>()
+        {
+            if (!leaves.ContainsKey(typeof(T)))
+                return null;
+            return leaves[typeof(T)];
+        }
+        public static Channel.Path GetLeavePath(Type type)
+        {
+            if (!leaves.ContainsKey(type))
+                return null;
+            return leaves[type];
         }
 
         public static Type GetTypeById(int id)
