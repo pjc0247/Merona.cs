@@ -28,7 +28,10 @@ namespace Merona
             InitializePreloadCaches();
         }
 
-
+        /// <summary>
+        /// 패킷이 각 서비스들에게 라우팅 되기 전 처리해야 할 작업들을 수행한다.
+        /// </summary>
+        /// <param name="session">세션</param>
         internal void PreProcess(Session session)
         {
             var join = Packet.GetJoinPath(GetType());
@@ -39,6 +42,10 @@ namespace Merona
             if (leave != null)
                 Server.current.channelPool.Leave(leave, session);   
         }
+        /// <summary>
+        /// 패킷이 클라이언트에게 Send 되기 전 처리해야 할 작업들을 수행한다.
+        /// </summary>
+        /// <param name="session">세션</param>
         internal void PostProcess(Session session)
         {
             var bindFields = GetBindFields(GetType());
