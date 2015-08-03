@@ -38,13 +38,13 @@ namespace Merona.TestApp
     class TestService : Service
     {
         [Handler(typeof(BarPacket))]
-        public async void OnBar(BarPacket packet)
+        public async void OnBar(Session session, BarPacket packet)
         {
             Console.WriteLine("OnBar ");
             Console.WriteLine(packet.data);
         }
         [Handler(typeof(FooPacket))]
-        public async void OnFoo(FooPacket packet)
+        public async void OnFoo(Session session, FooPacket packet)
         {
             FooPacket f = new FooPacket();
             f.Serialize();
@@ -64,7 +64,7 @@ namespace Merona.TestApp
         }
 
         [Handler("world.chat")]
-        public async void OnChat(FooPacket packet)
+        public async void OnChat(Session session, FooPacket packet)
         {
             Console.WriteLine("onChat");
         }

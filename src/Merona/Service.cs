@@ -72,7 +72,7 @@ namespace Merona
         /// <returns></returns>
         internal bool Route(Packet packet)
         {
-            var invokeArg = new object[] { packet };
+            var invokeArg = new object[] { Session.current, packet };
             var routed = false;
 
             /* 채널 라우팅 */
