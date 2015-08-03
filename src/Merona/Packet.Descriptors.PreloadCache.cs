@@ -35,6 +35,9 @@ namespace Merona
             c2s = new Dictionary<Type, List<FieldInfo>>();
             s2c = new Dictionary<Type, List<FieldInfo>>();
 
+            joins = new Dictionary<Type, Channel.Path>();
+            leaves = new Dictionary<Type, Channel.Path>();
+
             types = new Dictionary<int, Type>();
             autoResponses = new Dictionary<Type, Type>();
 
