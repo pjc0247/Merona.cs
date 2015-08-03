@@ -20,10 +20,18 @@ namespace Merona
 
         public String endian { get; set; }
 
+        public static Config defaults
+        {
+            get
+            {
+                return new Config();
+            }
+        }
+
         /// <summary>
         /// 기본 설정
         /// </summary>
-        public Config()
+        private Config()
         {
             this.name = "ServerName";
             this.schedulerMaxInterval = 30;
