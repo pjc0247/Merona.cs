@@ -20,11 +20,17 @@ namespace Merona
 
         public void Start()
         {
+            if (thread.IsAlive)
+                throw new InvalidOperationException();
+
             isQuitRequested = false;
             thread.Start();
         }
         public void Kill()
         {
+            if (!thread.IsAlive)
+                throw new InvalidOperationException();
+
             isQuitRequested = true;
 
             thread.Interrupt();
@@ -54,8 +60,17 @@ namespace Merona
             Cleanup();
         }
 
+        /// <summary>
+        /// Worker에서 반복적으로 불리는 콜백
+        /// </summary>
         protected abstract void WorkerRoutine();
+        /// <summary>
+        /// Worker 스레드의 초기화되는 시점에 불리는 콜백
+        /// </summary>
         protected abstract void Setup();
+        /// <summary>
+        /// Worker 스레드가 종료되는 시점에 불리는 콜백
+        /// </summary>
         protected abstract void Cleanup();
     }
 }

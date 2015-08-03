@@ -69,7 +69,7 @@ namespace Merona
         /// 만약 등록된 핸들러가 없을 경우 false를 반환한다.
         /// </summary>
         /// <param name="packet">패킷</param>
-        /// <returns></returns>
+        /// <returns>현재 서비스에서 라우팅 되었는지 여부</returns>
         internal bool Route(Packet packet)
         {
             var invokeArg = new object[] { Session.current, packet };
