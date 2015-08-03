@@ -107,6 +107,16 @@ namespace Merona
                 {
                     Session.current = e.session;
                     var routed = service.Route(e.packet);
+
+                    var autoResponse = Packet.GetAutoResponsePacket(e.packet.GetType());
+                    if (autoResponse != null)
+                    {
+                        var packet = (Packet)Activator.CreateInstance(autoResponse);
+                        packet.PostProcess();
+
+                        e.session.Send(packet);
+                    }
+                        
                 }
             }
             private void OnCallFunc(CallFuncEvent e)

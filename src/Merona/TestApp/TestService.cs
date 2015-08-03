@@ -16,6 +16,7 @@ namespace Merona.TestApp
     }
 
     [PacketId(0)]
+    [AutoResponse(typeof(BarPacket))]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     class FooPacket : Packet
     {
@@ -32,7 +33,9 @@ namespace Merona.TestApp
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     class BarPacket : Packet
     {
-        public int data;
+        [Bind("bind")]
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst=32)]
+        public String resp;
     }
 
     class TestService : Service
@@ -41,7 +44,7 @@ namespace Merona.TestApp
         public async void OnBar(Session session, BarPacket packet)
         {
             Console.WriteLine("OnBar ");
-            Console.WriteLine(packet.data);
+            //Console.WriteLine(packet.data);
         }
         [Handler(typeof(FooPacket))]
         public async void OnFoo(Session session, FooPacket packet)
