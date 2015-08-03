@@ -79,6 +79,7 @@
     <Compile Include="Session.cs" />
     <Compile Include="Session.Pool.cs" />
     <Compile Include="TestApp\TestService.cs" />
+    <Compile Include="WorkerBasedClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
