@@ -30,8 +30,8 @@ namespace Merona
         }
         public Logger logger { get; private set; }
         public Channel.Pool channelPool { get; private set; }
-        public String name { get; private set; }
         public Scheduler scheduler { get; private set; }
+        public Config config { get; private set; }
         
         private long _isRunning = 0;
         /// <summary>
@@ -72,12 +72,12 @@ namespace Merona
 
         private Worker worker { set; get; }
 
-        public Server(String name = "")
+        public Server(Config config = null)
         {
             Server.current = this;
 
-            this.name = name;
-            this.logger = LogManager.GetLogger(name);
+            this.config = config;
+            this.logger = LogManager.GetLogger(config.name);
             this.worker = new Worker(this);
             this.scheduler = new Scheduler(this);
             this.services = new List<Service>();

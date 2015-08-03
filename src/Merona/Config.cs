@@ -9,6 +9,8 @@ namespace Merona
 {
     public class Config
     {
+        public String name { get; set; }
+
         public int schedulerMaxInterval { get; set; }
         public int sessionRingBufferSize { get; set; }
         public int sessionRecvBufferSize { get; set; }
@@ -23,6 +25,7 @@ namespace Merona
         /// </summary>
         public Config()
         {
+            this.name = "ServerName";
             this.schedulerMaxInterval = 30;
             this.sessionRecvBufferSize = 128;
             this.sessionRingBufferSize = 1024;
