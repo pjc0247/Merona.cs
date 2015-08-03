@@ -14,7 +14,7 @@ namespace MeronaTest.EnvBased
         [TestInitialize]
         public void Initialize()
         {
-            server = new Server("TestServer");
+            server = new Server(Config.defaults);
 
             server.Start();
 
