@@ -14,6 +14,10 @@ namespace Merona
     {
         private Int32 current;
 
+        /// <summary>
+        /// 중복되지 않는 아이디를 발급받는다.
+        /// [Thread-Safe]
+        /// </summary>
         public Int32 next
         {
             get
@@ -35,6 +39,10 @@ namespace Merona
     {
         private Int64 current;
 
+        /// <summary>
+        /// 중복되지 않는 아이디를 발급받는다.
+        /// [Thread-Safe]
+        /// </summary>
         public Int64 next
         {
             get

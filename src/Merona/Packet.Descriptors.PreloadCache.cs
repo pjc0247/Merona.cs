@@ -18,6 +18,9 @@ namespace Merona
 
         private static Dictionary<int, Type> types;
 
+        /// <summary>
+        /// 모든 패킷들에 대한 속성을 읽어서 캐시를 만든다.
+        /// </summary>
 		private static void InitializePreloadCaches()
         {
             var logger = NLog.LogManager.GetCurrentClassLogger();

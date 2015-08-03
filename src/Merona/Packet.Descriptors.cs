@@ -82,10 +82,16 @@ namespace Merona
             }
         }
 
+        /// <summary>
+        /// 패킷의 필드가 서버->클라이언트에 사용됨을 나타내는 속성
+        /// </summary>
         [AttributeUsage(AttributeTargets.Field)]
 		protected class S2C : Attribute
         {
         }
+        /// <summary>
+        /// 패킷의 필드가 클라이언트->서버에 사용됨을 나타내는 속성
+        /// </summary>
         [AttributeUsage(AttributeTargets.Field)]
         protected class C2S : Attribute
         {

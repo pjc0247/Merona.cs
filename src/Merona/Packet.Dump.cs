@@ -43,6 +43,11 @@ namespace Merona
                 Console.WriteLine("  {0} : {1}", field.Name, field.GetValue(this));
             }
         }
+
+        /// <summary>
+        /// 패킷의 모든 Key/Value를 읽어서 출력한다. (디버그용)
+        /// </summary>
+        /// <param name="detailed">true일 경우 상세 정보 출력</param>
         public void Dump(bool detailed = false)
         {
             if (detailed) DumpComplex();

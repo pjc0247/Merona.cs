@@ -44,6 +44,7 @@ namespace Merona
         /// <summary>
         /// 지정된 시간 이후 콜백을 실행시킨다.
         /// 콜백은 SafeThread에서 실행이 보장된다.
+        /// [Thread-Safe]
         /// </summary>
         /// <param name="callback">콜백</param>
         /// <param name="after">미룰 시간 (생략시 다음 서버 프레임에 실행됨)</param>
@@ -53,6 +54,16 @@ namespace Merona
             return Schedule(callback, 0, after, 1);
         }
         
+        /// <summary>
+        /// 지정한 시간 이후에 일정 주기마다 콜백을 실행시킨다.
+        /// 콜백은 SafeThread에서 실행이 보장된다.
+        /// [Thread-Safe]
+        /// </summary>
+        /// <param name="callback">콜백</param>
+        /// <param name="interval">실행 주기</param>
+        /// <param name="after">미룰 시간</param>
+        /// <param name="count">반복할 횟수</param>
+        /// <returns>취소 토큰</returns>
         public CancellationTokenSource Schedule(Action callback, long interval, long after = 0, long count = 0)
         {
             //if (!Server.isSafeThread)
@@ -72,6 +83,11 @@ namespace Merona
             return cts;
         }
 
+        /// <summary>
+        /// 취소 토큰을 이용하여 스케쥴 된 태스크를 종료시킨다.
+        /// [Thread-Safe]
+        /// </summary>
+        /// <param name="cts"></param>
         public void Unschedule(CancellationTokenSource cts)
         {
             /* 구조상 다른 스레드에서 불러도 상관은 없음 */

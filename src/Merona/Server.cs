@@ -95,6 +95,7 @@ namespace Merona
         /// <summary>
         /// 서버에 서비스를 추가한다.
         /// 이 동작은 서버가 실행중이 아닐 때만 수행할 수 있다.
+        /// [Non-Thread-Safe]
         /// </summary>
         /// <param name="service">추가할 서비스</param>
         public void AttachService<T>(T service) where T : Service
@@ -112,6 +113,7 @@ namespace Merona
         /// <summary>
         /// 미처리 이벤트 목록에 이벤트를 담는다.
         /// 이 이벤트들은 주기적으로 Worker에 의해서 Consume된다.
+        /// [Thread-Safe]
         /// </summary>
         /// <param name="ev">이벤트</param>
         internal void Enqueue(Event ev)
@@ -138,6 +140,10 @@ namespace Merona
             isRunning = true;
         }
 
+        /// <summary>
+        /// 서버를 종료한다.
+        /// [Thread-Safe]
+        /// </summary>
         public void Kill()
         {
             if (!isRunning)
