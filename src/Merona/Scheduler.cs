@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Merona
 {
-    public sealed class Scheduler
+    public sealed class Scheduler : WorkerBasedClass
     {
         class Timer
         {
@@ -28,17 +28,12 @@ namespace Merona
         private ConcurrentQueue<Timer> pendingTimers { get; set; }
         private long lastTick { get; set; }
 
-        private Thread thread { get; set; }
-
         public Scheduler(Server server)
         {
             this.server = server;
             timers = new List<Timer>();
             lastTick = Environment.TickCount;
             pendingTimers = new ConcurrentQueue<Timer>();
-
-            thread = new Thread(Worker);
-            thread.Start();
         }
 
         /// <summary>
@@ -96,24 +91,24 @@ namespace Merona
             cts.Cancel();
         }
 
-        private void Worker()
+        protected override void Setup()
         {
             server.logger.Info("Scheduler::BeginWorker");
+        }
+        protected override void Cleanup()
+        {
+            server.logger.Info("Scheduler::EndWorker");            
+        }
+        protected override void WorkerRoutine()
+        {
+            var st = Environment.TickCount;
 
-            /* TODO : 종료 조건 */
-            while (true)
-            {
-                var st = Environment.TickCount;
+            Update();
 
-                Update();
+            var elapsed = Environment.TickCount - st;
 
-                var elapsed = Environment.TickCount - st;
-
-                if (elapsed <= 10)
-                    Thread.Sleep(10 - elapsed);
-            }
-
-            server.logger.Info("Scheduler::EndWorker");
+            if (elapsed <= 10)
+                Thread.Sleep(10 - elapsed);
         }
 
         private void RemoveTimerAt(int i)
