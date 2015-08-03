@@ -82,9 +82,9 @@ namespace Merona
             this.scheduler = new Scheduler(this);
             this.services = new List<Service>();
             this.mongoClient = new MongoClient();
-            this.database = mongoClient.GetDatabase("test"); /* TODO : config */
-            this.listener = new TcpListener(9916); /* TODO : config */
-            this.sessionPool = new Session.Pool(1000); /* TODO : config */
+            this.database = mongoClient.GetDatabase(config.dbDatabaseName);
+            this.listener = new TcpListener(config.port);
+            this.sessionPool = new Session.Pool(config.sessionPoolSize);
             this.channelPool = new Channel.Pool();
             
             this.pendingEvents = new BlockingCollection<Event>();

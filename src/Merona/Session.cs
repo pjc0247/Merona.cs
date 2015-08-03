@@ -37,8 +37,8 @@ namespace Merona
             bar = new Bar();
             
             this.server = server;
-            this.buffer = new CircularBuffer<byte>(1024); /* TODO : config */
-            this.receiveBuffer = new byte[128]; /* TODO : config */
+            this.buffer = new CircularBuffer<byte>(server.config.sessionRingBufferSize);
+            this.receiveBuffer = new byte[server.config.sessionRecvBufferSize];
         }
 
         public class Bar
