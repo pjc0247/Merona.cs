@@ -55,8 +55,8 @@ namespace Merona
         
         public CancellationTokenSource Schedule(Action callback, long interval, long after = 0, long count = 0)
         {
-            if (!Server.isSafeThread)
-                throw new InvalidOperationException();
+            //if (!Server.isSafeThread)
+            //    throw new InvalidOperationException();
 
             Server.current.logger.Debug("Schedule interval({0}), after({1}), count({2})", interval, after, count);
 
