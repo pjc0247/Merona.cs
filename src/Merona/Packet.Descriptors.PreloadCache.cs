@@ -15,6 +15,7 @@ namespace Merona
         private static Dictionary<Type, List<Tuple<String, FieldInfo>>> binds;
         private static Dictionary<Type, List<FieldInfo>> c2s;
         private static Dictionary<Type, List<FieldInfo>> s2c;
+        private static Dictionary<Type, Type> autoResponses;
 
         private static Dictionary<int, Type> types;
 
@@ -33,6 +34,7 @@ namespace Merona
             s2c = new Dictionary<Type, List<FieldInfo>>();
 
             types = new Dictionary<int, Type>();
+            autoResponses = new Dictionary<Type, Type>();
 
             var packets = Assembly.GetEntryAssembly().GetTypes()
                 .Where(type => type.IsSubclassOf(typeof(Packet)));
@@ -41,9 +43,11 @@ namespace Merona
             {
                 var id = (PacketId)packet.GetCustomAttribute(typeof(PacketId));
                 if (id != null)
-                {
                     types[id.id] = packet;
-                }
+
+                var autoResponse = (AutoResponse)packet.GetCustomAttribute<AutoResponse>();
+                if (autoResponse != null)
+                    autoResponses[packet] = autoResponse.type;
 
                 foreach (var field in packet.GetFields())
                 {
@@ -145,6 +149,20 @@ namespace Merona
             if (!s2c.ContainsKey(type))
                 return null;
             return s2c[type];
+        }
+        
+
+        public static Type GetAutoResponsePacket<T>()
+        {
+            if (!autoResponses.ContainsKey(typeof(T)))
+                return null;
+            return autoResponses[typeof(T)];
+        }
+        public static Type GetAutoResponsePacket(Type type)
+        {
+            if (!autoResponses.ContainsKey(type))
+                return null;
+            return autoResponses[type];
         }
 
         public static Type GetTypeById(int id)

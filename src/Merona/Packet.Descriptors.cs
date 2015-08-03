@@ -41,6 +41,12 @@ namespace Merona
     [AttributeUsage(AttributeTargets.Class)]
     class AutoResponse : Attribute
     {
+        public Type type { get; set; }
+
+        public AutoResponse(Type type)
+        {
+            this.type = type;
+        }
     }
 
 	public partial class Packet
