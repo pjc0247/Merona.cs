@@ -19,22 +19,22 @@ namespace Merona
     [AttributeUsage(AttributeTargets.Class)]
     class Join : Attribute
     {
-        public Channel channel { get; set; }
+        public Channel.Path path { get; set; }
 
-        public Join(String channel)
+        public Join(String path)
         {
-            this.channel = new Channel(channel);
+            this.path = new Channel.Path(path);
         }
     }
 
     [AttributeUsage(AttributeTargets.Class)]
     class Leave : Attribute
     {
-        public Channel channel { get; set; }
+        public Channel.Path path { get; set; }
 
-        public Leave(String channel)
+        public Leave(String path)
         {
-            this.channel = new Channel(channel);
+            this.path = new Channel.Path(path);
         }
     }
 
