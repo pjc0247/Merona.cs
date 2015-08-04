@@ -5,16 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
-using Merona;
+using Merona.Client;
 
-namespace ChattingServer
+namespace ChattingClient
 {
     class Packets
     {
         public class Join
         {
             [PacketId(1)]
-            [Merona.Join("chat.room")]
             [StructLayout(LayoutKind.Sequential, Pack = 1)]
             public class C2S : Packet
             {
@@ -31,7 +30,6 @@ namespace ChattingServer
         public class Leave
         {
             [PacketId(2)]
-            [Merona.Leave("chat.room")]
             [StructLayout(LayoutKind.Sequential, Pack = 1)]
             public class C2S : Packet
             {
@@ -45,7 +43,6 @@ namespace ChattingServer
         public class ChatMessage
         {
             [PacketId(3)]
-            [AutoResponse(typeof(ChatMessage.S2C), "chat.room")]
             [StructLayout(LayoutKind.Sequential, Pack = 1)]
             public class C2S : Packet
             {
@@ -63,7 +60,6 @@ namespace ChattingServer
             [StructLayout(LayoutKind.Sequential, Pack = 1)]
             public class S2C : Packet
             {
-                [Bind("#{nickname}")]
                 [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
                 public String nickname;
 

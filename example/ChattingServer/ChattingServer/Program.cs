@@ -13,8 +13,11 @@ namespace ChattingServer
     {
         static void Main(string[] args)
         {
-            var server = new Server(Config.defaults);
+            var config = Config.defaults;
+            config.sessionType = typeof(MySession);
 
+            var server = new Server(config);
+            server.AttachService<ChatService>(new ChatService());
             server.Start();
 
             while (true)

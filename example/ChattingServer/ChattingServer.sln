@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChattingServer", "ChattingS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merona", "..\..\src\Merona\Merona.csproj", "{F48013D3-A4DA-43E1-A568-3E788C9941FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChattingClient", "..\ChattingClient\ChattingClient.csproj", "{8751B395-F5A1-4FAB-949F-7228FC033A13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merona.Client", "..\..\src\Merona.Client\Merona.Client.csproj", "{43088D60-A5B3-407C-B57C-5CE89A60A45A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{F48013D3-A4DA-43E1-A568-3E788C9941FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F48013D3-A4DA-43E1-A568-3E788C9941FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F48013D3-A4DA-43E1-A568-3E788C9941FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8751B395-F5A1-4FAB-949F-7228FC033A13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8751B395-F5A1-4FAB-949F-7228FC033A13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8751B395-F5A1-4FAB-949F-7228FC033A13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8751B395-F5A1-4FAB-949F-7228FC033A13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43088D60-A5B3-407C-B57C-5CE89A60A45A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43088D60-A5B3-407C-B57C-5CE89A60A45A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43088D60-A5B3-407C-B57C-5CE89A60A45A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43088D60-A5B3-407C-B57C-5CE89A60A45A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
