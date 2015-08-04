@@ -1,6 +1,14 @@
 Channel.Path
 ====
-채널을 가리키는 경로입니다. 
+채널을 가리키는 경로입니다. <br>
+경로에는 와일드 카드 문자(*, **)가 포함될 수 있습니다.
+
+```c#
+var path1 = new Channel.Path("hello.world.map");
+var path2 = new Channel.Path("hello.world.*");
+
+path1.IsMatch(path2); // true
+```
 
 isFixed
 ----
