@@ -15,6 +15,8 @@ namespace Merona
         public int port { get; set; }
 
         public int schedulerMaxInterval { get; set; }
+
+        public Type sessionType { get; set; }
         public int sessionRingBufferSize { get; set; }
         public int sessionRecvBufferSize { get; set; }
         public int sessionPoolSize { get; set; }
@@ -47,6 +49,7 @@ namespace Merona
             this.dbHostName = "localhost";
             this.dbDatabaseName = "test";
             this.endian = "little"; // 기본값 big?
+            this.sessionType = typeof(Session);
         }
         /// <summary>
         /// 파일로부터 설정값 생성
