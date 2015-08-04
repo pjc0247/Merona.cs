@@ -1,5 +1,34 @@
 데이터 바인딩
 ====
+
+패킷의 값과 세션의 값을 양방향 바인딩 할 수 있습니다.
+
+인바인딩
+----
+C2S패킷 필드의 값을 세션의 프로퍼티에 바인딩합니다.
+
+```c#
+class ChangeNickname {
+  [C2S]
+  [Bind("nickname")]
+  public String nickname;
+}
+```
+
+아웃바인딩
+----
+세션의 프로퍼티를 S2C패킷의 필드에 바인딩합니다.
+
+```c#
+class QueryMyNickname {
+  [S2C]
+  [Bind("#{nickname}")]
+  public String nickname;
+}
+```
+
+old
+----
 로직이 필요 없는 단순 대입 역할만이 필요한 필드는 데이터 바인딩을 이용하여 코드 없이 값을 채울 수 있습니다.<br>
 (데이터 바인딩은 S2C 패킷에만 유효합니다.)
 
