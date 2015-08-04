@@ -42,7 +42,13 @@ namespace Merona
     public class AutoResponse : Attribute
     {
         public Type type { get; set; }
+        public Channel.Path path { get; set; }
 
+        public AutoResponse(Type type, String path)
+        {
+            this.type = type;
+            this.path = new Channel.Path(path);
+        }
         public AutoResponse(Type type)
         {
             this.type = type;
