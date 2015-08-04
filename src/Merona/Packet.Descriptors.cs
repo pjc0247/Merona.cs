@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Merona
 {
     [AttributeUsage(AttributeTargets.Class)]
-    class PacketId : Attribute
+    public class PacketId : Attribute
     {
         public int id { get; set; }
         public PacketId(int id)
@@ -17,7 +17,7 @@ namespace Merona
     }
 
     [AttributeUsage(AttributeTargets.Class)]
-    class Join : Attribute
+    public class Join : Attribute
     {
         public Channel.Path path { get; set; }
 
@@ -28,7 +28,7 @@ namespace Merona
     }
 
     [AttributeUsage(AttributeTargets.Class)]
-    class Leave : Attribute
+    public class Leave : Attribute
     {
         public Channel.Path path { get; set; }
 
@@ -39,7 +39,7 @@ namespace Merona
     }
 
     [AttributeUsage(AttributeTargets.Class)]
-    class AutoResponse : Attribute
+    public class AutoResponse : Attribute
     {
         public Type type { get; set; }
 
