@@ -15,7 +15,7 @@ namespace Merona
         private static Dictionary<Type, List<Tuple<String, FieldInfo>>> binds;
         private static Dictionary<Type, List<FieldInfo>> c2s;
         private static Dictionary<Type, List<FieldInfo>> s2c;
-        private static Dictionary<Type, Type> autoResponses;
+        private static Dictionary<Type, AutoResponse> autoResponses;
         private static Dictionary<Type, Channel.Path> joins;
         private static Dictionary<Type, Channel.Path> leaves;
 
@@ -39,7 +39,7 @@ namespace Merona
             leaves = new Dictionary<Type, Channel.Path>();
 
             types = new Dictionary<int, Type>();
-            autoResponses = new Dictionary<Type, Type>();
+            autoResponses = new Dictionary<Type, AutoResponse>();
 
             var packets = Assembly.GetEntryAssembly().GetTypes()
                 .Where(type => type.IsSubclassOf(typeof(Packet)));
@@ -52,7 +52,7 @@ namespace Merona
 
                 var autoResponse = (AutoResponse)packet.GetCustomAttribute<AutoResponse>();
                 if (autoResponse != null)
-                    autoResponses[packet] = autoResponse.type;
+                    autoResponses[packet] = autoResponse;
 
                 var join = (Join)packet.GetCustomAttribute<Join>();
                 if (join != null)
@@ -163,15 +163,15 @@ namespace Merona
                 return null;
             return s2c[type];
         }
-        
 
-        public static Type GetAutoResponsePacket<T>()
+
+        public static AutoResponse GetAutoResponse<T>()
         {
             if (!autoResponses.ContainsKey(typeof(T)))
                 return null;
             return autoResponses[typeof(T)];
         }
-        public static Type GetAutoResponsePacket(Type type)
+        public static AutoResponse GetAutoResponse(Type type)
         {
             if (!autoResponses.ContainsKey(type))
                 return null;

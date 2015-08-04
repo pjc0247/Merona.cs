@@ -111,12 +111,19 @@ namespace Merona
                     
                     var routed = service.Route(e.packet);
 
-                    var autoResponse = Packet.GetAutoResponsePacket(e.packet.GetType());
+                    var autoResponse = Packet.GetAutoResponse(e.packet.GetType());
                     if (autoResponse != null)
                     {
-                        var packet = (Packet)Activator.CreateInstance(autoResponse);
+                        var packet = (Packet)Activator.CreateInstance(autoResponse.type);
 
-                        e.session.Send(packet);
+                        if(autoResponse.path == null)
+                            e.session.Send(packet);
+                        else
+                        {
+                            var sessions = server.channelPool.Query(autoResponse.path);
+                            foreach (var session in sessions)
+                                session.Send(packet);
+                        }
                     }
                         
                 }
