@@ -11,7 +11,7 @@ namespace Merona.Client
     public partial class Packet
     {
         public int id;
-        public int packetType;
+        public int packetId;
 
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
         public String channel;
