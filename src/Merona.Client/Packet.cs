@@ -10,7 +10,7 @@ namespace Merona.Client
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public partial class Packet
     {
-        public int id;
+        public int size;
         public int packetId;
 
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
