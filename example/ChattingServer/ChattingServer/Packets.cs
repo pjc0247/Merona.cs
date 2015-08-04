@@ -9,6 +9,8 @@ using Merona;
 
 namespace ChattingServer
 {
+    /* 이 파일은 Merona.Pgen에 의해 자동 생성됩니다 */
+    /* 지금은 수동 */
     class Packets
     {
         public class Join
