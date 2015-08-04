@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace Merona
 {
@@ -26,7 +27,9 @@ namespace Merona
 
                 for (int i = 0; i < size; i++)
                 {
-                    this.pool.Push(new Session(Server.current));
+                    var session = 
+                        Activator.CreateInstance(Server.current.config.sessionType, new object[] { Server.current });
+                    this.pool.Push(session);
                 }
             }
 
