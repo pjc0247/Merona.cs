@@ -29,7 +29,7 @@ namespace Merona
                 {
                     var session = 
                         Activator.CreateInstance(Server.current.config.sessionType, new object[] { Server.current });
-                    this.pool.Push(session);
+                    this.pool.Push((Session)session);
                 }
             }
 
