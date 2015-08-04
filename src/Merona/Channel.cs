@@ -85,6 +85,11 @@ namespace Merona
 
             return results;
         }
+        public void Broadcast(Packet packet)
+        {
+            foreach (var session in Query())
+                session.Send(packet);
+        }
 
         
         /// <summary>
