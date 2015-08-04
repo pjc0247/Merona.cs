@@ -102,14 +102,14 @@ namespace Merona
         /// 상속하여 서비스의 초기화 루틴을 구현한다.
         /// 이 메소드는 안전한 스레드에서 실행된다.
         /// </summary>
-        protected virtual void Setup()
+        internal protected virtual void Setup()
         {
         }
         /// <summary>
         /// 상속하여 서비스의 종료 루틴을 구현한다.
         /// 이 메소드는 안전한 스레드에서 실행된다.
         /// </summary>
-        protected virtual void Cleanup()
+        internal protected virtual void Cleanup()
         {
         }
     }
