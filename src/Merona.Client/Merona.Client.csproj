@@ -49,6 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Packet.cs" />
+    <Compile Include="Packet.Descriptors.cs" />
+    <Compile Include="Packet.Descriptors.PreloadCache.cs" />
     <Compile Include="Packet.Marshal.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
