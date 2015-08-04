@@ -11,21 +11,43 @@ namespace ChattingServer
 {
     class Packets
     {
-        class ChatMessage
+        public class Join
         {
-            [Join("chat.room")]
+            [Merona.Join("chat.room")]
             [StructLayout(LayoutKind.Sequential, Pack = 1)]
-            class C2S
+            public class C2S : Packet
+            {
+                [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+                public String nickname;
+            }
+        }
+        public class Leave
+        {
+            [Merona.Leave("chat.room")]
+            [StructLayout(LayoutKind.Sequential, Pack = 1)]
+            public class C2S : Packet
+            {
+            }
+        }
+        public class ChatMessage
+        {
+            [AutoResponse(typeof(S2C), "chat.room")]
+            [StructLayout(LayoutKind.Sequential, Pack = 1)]
+            public class C2S : Packet
             {
                 [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
                 public String message;
             }
-            [AutoResponse]
-            [Join("chat.room")]
-            [StructLayout(LayoutKind.Sequential, Pack = 1)]
-            class S2C
-            {
 
+            [StructLayout(LayoutKind.Sequential, Pack = 1)]
+            public class S2C : Packet
+            {
+                [Bind("#{nickname}")]
+                [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+                public String nickname;
+
+                [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
+                public String message;
             }
         }
     }
