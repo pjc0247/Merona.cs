@@ -21,13 +21,16 @@ namespace Merona
 
         public Server server { get; set; }
         public String test { get; set; }
-        public bool isAlive { get; set; }
+
+        public bool isAlive { get; private set; }
+        public HashSet<Channel> channels { get; private set; }
 
         public Session()
         {
             test = "ASDF";
             bar = new Bar();
 
+            this.channels = new HashSet<Channel>();
             this.buffer = new CircularBuffer<byte>(1024); /* TODO : config */
             this.receiveBuffer = new byte[128]; /* TODO : config */
         }
@@ -37,6 +40,7 @@ namespace Merona
             bar = new Bar();
             
             this.server = server;
+            this.channels = new HashSet<Channel>();
             this.buffer = new CircularBuffer<byte>(server.config.sessionRingBufferSize);
             this.receiveBuffer = new byte[server.config.sessionRecvBufferSize];
         }
@@ -74,6 +78,9 @@ namespace Merona
         {
             this.client = client;
             this.isAlive = true;
+
+            foreach (var channel in channels)
+                channel.Leave(this);
 
             BeginReceive();
         }

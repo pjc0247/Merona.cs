@@ -35,6 +35,7 @@ namespace Merona
         /// <param name="session">세션</param>
         public void Join(Session session)
         {
+            session.channels.Add(this);
             sessions.Add(session);
         }
         /// <summary>
@@ -44,7 +45,9 @@ namespace Merona
         /// <param name="session">세션</param>
         public void Leave(Session session)
         {
-            if(!sessions.Remove(session))
+            if (sessions.Remove(session))
+                session.channels.Remove(this);
+            else
                 Server.current.logger.Warn("Channel::Leave - session not found");
         }
 
