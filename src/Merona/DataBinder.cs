@@ -13,24 +13,36 @@ namespace Merona
     /// </example>
     public sealed class DataBinder
     {
-        private static String ResolvePropertyPath(String path, object source)
+        public enum SourceAttributeType
+        {
+            Property,
+            Field
+        }
+
+        private static String ResolveObjectPath(String path, object source, SourceAttributeType type)
         {
             var tokens = path.Split('.');
             var current = source;
 
             foreach (var token in tokens)
             {
-                var prop = current.GetType().GetProperty(token);
+                dynamic attr;
 
-                if (prop == null)
+                if (type == SourceAttributeType.Field)
+                    attr = current.GetType().GetField(token);
+                else
+                    attr = current.GetType().GetProperty(token);
+
+                if (attr == null)
                     return null;
 
-                current = prop.GetValue(current);
+                current = attr.GetValue(current);
             }
 
             return current.ToString();
         }
-        public static String Bind(String format, object source)
+
+        public static String Bind(String format, object source, SourceAttributeType type)
         {
             var result = "";
             var sourceType = source.GetType();
@@ -45,7 +57,7 @@ namespace Merona
                     if (format[i] == '}')
                     {
                         var key = format.Substring(innerBracket + 2, i - innerBracket - 2);
-                        var value = ResolvePropertyPath(key, source);
+                        var value = ResolveObjectPath(key, source, type);
 
                         if (value != null)
                         {
@@ -70,12 +82,23 @@ namespace Merona
 
             return result;
         }
+
+        // source -> Session
+        // dest -> Packet
         public static void OutBind(String format, object source, FieldInfo destField, object dest)
         {
-            var result = Bind(format, source);
+            var result = Bind(format, source, SourceAttributeType.Property);
 
             destField.SetValue(dest, result);
         }
 
+        // source -> Packet
+        // dest -> Session
+        public static void InBind(String path, object source, PropertyInfo destProperty, object dest)
+        {
+            var result = ResolveObjectPath(path, source, SourceAttributeType.Field);
+
+            destProperty.SetValue(dest, result);
+        }
     }
 }
