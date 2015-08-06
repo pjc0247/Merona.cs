@@ -27,6 +27,16 @@ namespace MeronaTest.Utilities
         }
 
         [TestMethod]
+        public void HeaderSize()
+        {
+            var packet = new MyPacket();
+
+            Assert.AreEqual(
+                Packet.headerSize + sizeof(int) * 2,
+                Marshal.SizeOf<MyPacket>());
+        }
+
+        [TestMethod]
         public void Serialize()
         {
             var packet = new MyPacket();
