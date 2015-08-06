@@ -1,9 +1,7 @@
 ﻿// https://circularbuffer.codeplex.com/
 
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using System.IO;
+using System.Threading;
 
 namespace System.Collections.Generic
 {
