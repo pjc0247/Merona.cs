@@ -36,5 +36,19 @@ namespace MeronaTest.Utilities
                 packet.nickname,
                 session.nickname);
         }
+
+        [TestMethod]
+        public void OutBind()
+        {
+            var session = new MySession();
+            var packet = new QueryNickname();
+
+            session.nickname = "hello";
+            packet.PostProcess(session);
+
+            Assert.AreEqual(
+                packet.nickname,
+                session.nickname);
+        }
     }
 }
