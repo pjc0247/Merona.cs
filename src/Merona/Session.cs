@@ -19,51 +19,28 @@ namespace Merona
         [ThreadStatic]
         public static Session current = null;
 
-        public Server server { get; set; }
-        public String test { get; set; }
-
+        public Server server { get; private set; }
         public bool isAlive { get; private set; }
+        public TcpClient client { get; private set; }
+
         public HashSet<Channel> channels { get; private set; }
+
+        private byte[] receiveBuffer { get; set; }
+        private CircularBuffer<byte> buffer { get; set; }
 
         public Session()
         {
-            test = "ASDF";
-            bar = new Bar();
-
             this.channels = new HashSet<Channel>();
             this.buffer = new CircularBuffer<byte>(1024); /* TODO : config */
             this.receiveBuffer = new byte[128]; /* TODO : config */
         }
         public Session(Server server)
         {
-            test = "ASDF";
-            bar = new Bar();
-            
             this.server = server;
             this.channels = new HashSet<Channel>();
             this.buffer = new CircularBuffer<byte>(server.config.sessionRingBufferSize);
             this.receiveBuffer = new byte[server.config.sessionRecvBufferSize];
         }
-
-        public class Bar
-        {
-            public String foo { get; set; }
-            public Bar()
-            {
-                foo = "foo";
-            }
-        }
-        public Bar bar { get; set; }
-
-        public String Bind(String format)
-        {
-            return "";
-        }
-
-        public TcpClient client { get; private set; }
-
-        private byte[] receiveBuffer { get; set; }
-        private CircularBuffer<byte> buffer { get; set; }
 
         internal protected virtual void OnConnect()
         {
