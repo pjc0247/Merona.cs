@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Merona
 {
-    internal abstract class WorkerBasedClass
+    public abstract class WorkerBasedClass
     {
         protected Thread thread { get; set; }
         private bool isQuitRequested { get; set; }
