@@ -20,8 +20,8 @@ namespace Merona
             NLog.Config.SimpleConfigurator.ConfigureForConsoleLogging(NLog.LogLevel.Debug);
             
 
-            var r = DataBinder.Bind("#{bar.foo} sadf dee #{rre}", new Session());
-            Console.WriteLine(r);
+           // var r = DataBinder.Bind("#{bar.foo} sadf dee #{rre}", new Session());
+           // Console.WriteLine(r);
 
             var aa = new List<int>() { 1, 2, 3, 4 };
             var bb = new List<int>() { 1, 2, 3, 4 };

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace Merona
 {
@@ -29,7 +30,7 @@ namespace Merona
 
             return current.ToString();
         }
-        public static String Bind(String format, object source)
+        public static void OutBind(String format, object source, FieldInfo destField, object dest)
         {
             var result = "";
             var sourceType = source.GetType();
@@ -65,7 +66,8 @@ namespace Merona
                 }
             }
 
-            return result;
+            destField.SetValue(dest, result);
+            //return result;
         }
 
     }
