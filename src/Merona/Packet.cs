@@ -37,7 +37,8 @@ namespace Merona
 
             foreach (var field in bindFields)
             {
-                DataBinder.InBind(field.Item1, this, session);
+                var value = field.Item2.GetValue(this);
+                DataBinder.InBind(field.Item1, value, session);
             }
         }
         private void OutBind(Session session)
