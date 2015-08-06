@@ -84,7 +84,7 @@ namespace Merona
         }
 
         // source -> Session
-        // dest -> Packet
+        // dest -> Packet's field
         public static void OutBind(String format, object source, FieldInfo destField, object dest)
         {
             var result = Bind(format, source, SourceAttributeType.Property);
@@ -92,13 +92,13 @@ namespace Merona
             destField.SetValue(dest, result);
         }
 
-        // source -> Packet
+        // source -> Packet's field
         // dest -> Session
-        public static void InBind(String path, object source, PropertyInfo destProperty, object dest)
+        public static void InBind(String path, object source, object dest)
         {
-            var result = ResolveObjectPath(path, source, SourceAttributeType.Field);
+            var prop = (PropertyInfo)ResolveObjectPath(path, dest, SourceAttributeType.Property);
 
-            destProperty.SetValue(dest, result);
+            prop.SetValue(dest, source);
         }
     }
 }
