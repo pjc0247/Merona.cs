@@ -6,17 +6,17 @@ namespace Merona
     public sealed partial class Channel
     {
         public Path path { get; private set; }
-        private List<WeakReference<Session>> sessions { get; set; }
+        private HashSet<Session> sessions { get; set; }
 
         public Channel(Path path)
         {
             this.path = path;
-            this.sessions = new List<WeakReference<Session>>();
+            this.sessions = new HashSet<Session>();
         }
         public Channel(String path)
         {
             this.path = new Path(path);
-            this.sessions = new List<WeakReference<Session>>();
+            this.sessions = new HashSet<Session>();
         }
 
         public bool IsMatch(String inPath)
@@ -35,7 +35,7 @@ namespace Merona
         /// <param name="session">세션</param>
         public void Join(Session session)
         {
-            sessions.Add(new WeakReference<Session>(session));
+            sessions.Add(session);
         }
         /// <summary>
         /// 세션을 현재 채널에서 탈퇴시칸다.
@@ -44,21 +44,8 @@ namespace Merona
         /// <param name="session">세션</param>
         public void Leave(Session session)
         {
-            for(var i = 0; i < sessions.Count; i++)
-            {
-                Session dst;
-
-                if(sessions[i].TryGetTarget(out dst))
-                {
-                    if(dst == session)
-                    {
-                        sessions.RemoveAt(i);
-                        return;
-                    }
-                }
-            }
-
-            Server.current.logger.Warn("Channel::Leave - session not found");
+            if(!sessions.Remove(session))
+                Server.current.logger.Warn("Channel::Leave - session not found");
         }
 
         /// <summary>
@@ -70,13 +57,8 @@ namespace Merona
         {
             List<Session> results = new List<Session>();
 
-            foreach(var weakSession in sessions)
-            {
-                Session dst;
-
-                if(weakSession.TryGetTarget(out dst))
-                    results.Add(dst);
-            }
+            foreach (var session in sessions)
+                results.Add(session);
 
             return results;
         }
