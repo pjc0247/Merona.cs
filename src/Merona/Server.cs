@@ -76,6 +76,9 @@ namespace Merona
         {
             Server.current = this;
 
+            if (config == null)
+                config = Config.defaults;
+
             this.config = config;
             this.logger = LogManager.GetLogger(config.name);
             this.worker = new Worker(this);
