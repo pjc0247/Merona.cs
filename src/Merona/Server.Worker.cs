@@ -41,7 +41,7 @@ namespace Merona
                 {
                     cts.Cancel();
                     Interlocked.Exchange(ref cts, new CancellationTokenSource());
-                }, null, 0, 30); /* TODO : config */
+                }, null, 0, server.config.schedulerMaxInterval); /* TODO : config */
 
                 foreach (var service in server.services)
                     service.Setup();
