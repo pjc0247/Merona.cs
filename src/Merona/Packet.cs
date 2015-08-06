@@ -37,8 +37,6 @@ namespace Merona
         private void InBind(Session session)
         {
             var bindFields = GetBindFields(GetType());
-            if (bindFields == null)
-                return;
 
             foreach (var field in bindFields)
             {
@@ -54,8 +52,6 @@ namespace Merona
         private void OutBind(Session session)
         {
             var bindFields = GetBindFields(GetType());
-            if (bindFields == null)
-                return;
 
             foreach (var field in bindFields)
             {

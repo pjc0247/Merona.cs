@@ -116,51 +116,51 @@ namespace Merona
         public static List<Tuple<String, FieldInfo>> GetKeyFields<T>() where T : Packet
         {
             if (!keys.ContainsKey(typeof(T)))
-                return null;
+                return new List<Tuple<String, FieldInfo>>();
             return keys[typeof(T)];
         }
         public static List<Tuple<String, FieldInfo>> GetKeyFields(Type type)
         {
             if (!keys.ContainsKey(type))
-                return null;
+                return new List<Tuple<String, FieldInfo>>();
             return keys[type];
         }
 
         public static List<Tuple<String, FieldInfo>> GetBindFields<T>() where T : Packet
         {
             if (!binds.ContainsKey(typeof(T)))
-                return null;
+                return new List<Tuple<String, FieldInfo>>();
             return binds[typeof(T)];
         }
         public static List<Tuple<String, FieldInfo>> GetBindFields(Type type)
         {
             if (!binds.ContainsKey(type))
-                return null;
+                return new List<Tuple<String, FieldInfo>>();
             return binds[type];
         }
 
         public static List<FieldInfo> GetC2SFields<T>() where T : Packet
         {
             if (!c2s.ContainsKey(typeof(T)))
-                return null;
+                return new List<FieldInfo>();
             return c2s[typeof(T)];
         }
         public static List<FieldInfo> GetC2SFields(Type type)
         {
             if (!c2s.ContainsKey(type))
-                return null;
+                return new List<FieldInfo>();
             return c2s[type];
         }
         public static List<FieldInfo> GetS2CFields<T>() where T : Packet
         {
             if (!c2s.ContainsKey(typeof(T)))
-                return null;
+                return new List<FieldInfo>();
             return s2c[typeof(T)];
         }
         public static List<FieldInfo> GetS2CFields(Type type)
         {
             if (!s2c.ContainsKey(type))
-                return null;
+                return new List<FieldInfo>();
             return s2c[type];
         }
 
