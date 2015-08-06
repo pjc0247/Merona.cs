@@ -28,13 +28,13 @@ namespace Merona
         private byte[] receiveBuffer { get; set; }
         private CircularBuffer<byte> buffer { get; set; }
 
-        public Session()
+        internal Session()
         {
             this.channels = new HashSet<Channel>();
             this.buffer = new CircularBuffer<byte>(1024); /* TODO : config */
             this.receiveBuffer = new byte[128]; /* TODO : config */
         }
-        public Session(Server server)
+        internal Session(Server server)
         {
             this.server = server;
             this.channels = new HashSet<Channel>();
@@ -51,7 +51,7 @@ namespace Merona
             Server.current.logger.Info("Session OnDisconnect");
         }
 
-        public void Reset(TcpClient client)
+        internal void Reset(TcpClient client)
         {
             this.client = client;
             this.isAlive = true;
