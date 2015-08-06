@@ -64,6 +64,7 @@
     <Compile Include="Utilities\CircularBuffer.cs" />
     <Compile Include="Utilities\DataBinder.cs" />
     <Compile Include="Utilities\IdDispenser.cs" />
+    <Compile Include="Utilities\Packet.Binding.cs" />
     <Compile Include="Utilities\Packet.Descriptors.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Packet.Marshal.cs" />
