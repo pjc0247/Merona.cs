@@ -28,13 +28,13 @@ namespace Merona
         private byte[] receiveBuffer { get; set; }
         private CircularBuffer<byte> buffer { get; set; }
 
-        internal Session()
+        public Session()
         {
             this.channels = new HashSet<Channel>();
             this.buffer = new CircularBuffer<byte>(1024); /* TODO : config */
             this.receiveBuffer = new byte[128]; /* TODO : config */
         }
-        internal Session(Server server)
+        public Session(Server server)
         {
             this.server = server;
             this.channels = new HashSet<Channel>();
