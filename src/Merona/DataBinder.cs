@@ -30,7 +30,7 @@ namespace Merona
 
             return current.ToString();
         }
-        public static void OutBind(String format, object source, FieldInfo destField, object dest)
+        public static String Bind(String format, object source)
         {
             var result = "";
             var sourceType = source.GetType();
@@ -38,9 +38,10 @@ namespace Merona
 
             format += " "; //padding
 
-            for (var i = 0; i < format.Length-1; i++)
+            for (var i = 0; i < format.Length - 1; i++)
             {
-                if(innerBracket != -1){
+                if (innerBracket != -1)
+                {
                     if (format[i] == '}')
                     {
                         var key = format.Substring(innerBracket + 2, i - innerBracket - 2);
@@ -58,7 +59,8 @@ namespace Merona
                         innerBracket = -1;
                     }
                 }
-                else{
+                else
+                {
                     if (format[i] == '#' && format[i + 1] == '{')
                         innerBracket = i;
                     else
@@ -66,8 +68,13 @@ namespace Merona
                 }
             }
 
+            return result;
+        }
+        public static void OutBind(String format, object source, FieldInfo destField, object dest)
+        {
+            var result = Bind(format, source);
+
             destField.SetValue(dest, result);
-            //return result;
         }
 
     }
