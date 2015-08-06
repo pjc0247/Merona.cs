@@ -19,15 +19,14 @@ namespace Merona
             Field
         }
 
-        private static String ResolveObjectPath(String path, object source, SourceAttributeType type)
+        private static MemberInfo ResolveObjectPath(String path, object source, SourceAttributeType type)
         {
             var tokens = path.Split('.');
             var current = source;
+            dynamic attr = null;
 
             foreach (var token in tokens)
             {
-                dynamic attr;
-
                 if (type == SourceAttributeType.Field)
                     attr = current.GetType().GetField(token);
                 else
@@ -39,7 +38,7 @@ namespace Merona
                 current = attr.GetValue(current);
             }
 
-            return current.ToString();
+            return attr;
         }
 
         public static String Bind(String format, object source, SourceAttributeType type)
@@ -57,10 +56,11 @@ namespace Merona
                     if (format[i] == '}')
                     {
                         var key = format.Substring(innerBracket + 2, i - innerBracket - 2);
-                        var value = ResolveObjectPath(key, source, type);
+                        dynamic valueSource = ResolveObjectPath(key, source, type);
 
-                        if (value != null)
+                        if (valueSource != null)
                         {
+                            var value = valueSource.GetValue(source);
                             result += value;
                         }
                         else

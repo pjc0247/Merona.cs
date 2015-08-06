@@ -28,6 +28,29 @@ namespace Merona
             InitializePreloadCaches();
         }
 
+
+        private void InBind()
+        {
+            var bindFields = GetBindFields(GetType());
+            if (bindFields == null)
+                return;
+
+            foreach (var field in bindFields)
+            {
+              //  DataBinder.InBind(field.Item1, this, Session.current);
+            }
+        }
+        private void OutBind()
+        {
+            var bindFields = GetBindFields(GetType());
+            if (bindFields == null)
+                return;
+
+            foreach (var field in bindFields)
+            {
+                DataBinder.OutBind(field.Item1, Session.current, field.Item2, this);
+            }
+        }
         /// <summary>
         /// 패킷이 각 서비스들에게 라우팅 되기 전 처리해야 할 작업들을 수행한다.
         /// </summary>
@@ -40,7 +63,9 @@ namespace Merona
 
             var leave = Packet.GetJoinPath(GetType());
             if (leave != null)
-                Server.current.channelPool.Leave(leave, session);   
+                Server.current.channelPool.Leave(leave, session);
+
+            InBind();
         }
         /// <summary>
         /// 패킷이 클라이언트에게 Send 되기 전 처리해야 할 작업들을 수행한다.
@@ -48,15 +73,7 @@ namespace Merona
         /// <param name="session">세션</param>
         internal void PostProcess(Session session)
         {
-            var bindFields = GetBindFields(GetType());
-
-            if(bindFields == null)
-                return;
-
-            foreach (var field in bindFields)
-            {
-                DataBinder.OutBind(field.Item1, session, field.Item2, this);
-            }
+            OutBind();
         }
     }
 }
