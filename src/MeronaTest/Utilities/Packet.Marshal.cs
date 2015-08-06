@@ -88,6 +88,7 @@ namespace MeronaTest.Utilities
             public int level;
         }
 
+        /* MARK : Mono/Unity 환경에서는 실패할 수도 있는 테스트 */
         [TestMethod]
         public void SerializeAndDeserialize()
         {
