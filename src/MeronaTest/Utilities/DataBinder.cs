@@ -9,16 +9,21 @@ namespace MeronaTest.Utilities
     [TestClass]
     public class DataBinderTest
     {
-        class HelloWorld
+        class HelloWorldWithProperty
         {
             public String hello { get; set; }
             public String world { get; set; }
         }
+        class HelloWorldWithField
+        {
+            public String hello;
+            public String world;
+        }
 
         [TestMethod]
-        public void BindSimple()
+        public void BindSimpleWithProperty()
         {
-            var source = new HelloWorld();
+            var source = new HelloWorldWithProperty();
 
             source.hello = "hello";
             source.world = "world";
@@ -28,6 +33,21 @@ namespace MeronaTest.Utilities
                 DataBinder.Bind(
                     "#{hello} #{world}", source,
                     DataBinder.SourceAttributeType.Property));
+        }
+
+        [TestMethod]
+        public void BindSimpleWithField()
+        {
+            var source = new HelloWorldWithField();
+
+            source.hello = "hello";
+            source.world = "world";
+
+            Assert.AreEqual(
+                "hello world",
+                DataBinder.Bind(
+                    "#{hello} #{world}", source,
+                    DataBinder.SourceAttributeType.Field));
         }
         
         [TestMethod]
