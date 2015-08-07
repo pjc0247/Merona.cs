@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,19 +27,25 @@ namespace Merona
         public HashSet<Channel> channels { get; private set; }
 
         private byte[] receiveBuffer { get; set; }
-        private CircularBuffer<byte> buffer { get; set; }
+        internal CircularBuffer<byte> receiveRingBuffer { get; set; }
+        internal CircularBuffer<byte> sendRingBuffer { get; set; }
+        internal CircularBuffer<Packet> pendingPackets { get; set; }
 
         public Session()
         {
             this.channels = new HashSet<Channel>();
-            this.buffer = new CircularBuffer<byte>(1024); /* TODO : config */
+            this.receiveRingBuffer = new CircularBuffer<byte>(1024); /* TODO : config */
+            this.sendRingBuffer = new CircularBuffer<byte>(1024); /* TODO : config */
+            this.pendingPackets = new CircularBuffer<Packet>(1024);
             this.receiveBuffer = new byte[128]; /* TODO : config */
         }
         public Session(Server server)
         {
             this.server = server;
             this.channels = new HashSet<Channel>();
-            this.buffer = new CircularBuffer<byte>(server.config.sessionRingBufferSize);
+            this.receiveRingBuffer = new CircularBuffer<byte>(server.config.sessionRingBufferSize);
+            this.sendRingBuffer = new CircularBuffer<byte>(server.config.sessionRingBufferSize);
+            this.pendingPackets = new CircularBuffer<Packet>(server.config.sessionRingBufferSize);
             this.receiveBuffer = new byte[server.config.sessionRecvBufferSize];
         }
 
@@ -67,24 +74,24 @@ namespace Merona
             if (!isAlive)
                 return 0;
 
-            try {
-                packet.PostProcess(this);
-                var buffer = packet.Serialize();
-
-                client.Client.BeginSend(buffer, 0, buffer.Length, SocketFlags.None,
-                    new AsyncCallback(Sent), 0);
-            }
-            catch(SocketException e) {
-                server.logger.Warn("Session::Send", e);
-            }
+            pendingPackets.Put(packet);
+            server.ioWorker.Pulse(this);
 
             return 0;
         }
-        private void Sent(IAsyncResult result)
+        internal void Sent(IAsyncResult result)
         {
             try
             {
                 int sent = client.Client.EndSend(result);
+
+                sendRingBuffer.Skip(sent);
+
+                // 보냈는데도, 링버퍼에 데이터가 남아있으면 -> 전송 실패
+                // 재전송 요청
+                // TODO : 카운팅
+                if(sendRingBuffer.Size > 0)
+                    server.ioWorker.Pulse(this);
             }
             catch(Exception e)
             {
@@ -107,7 +114,7 @@ namespace Merona
                 isAlive = false;
             }
         }
-        private void Received(IAsyncResult result)
+        internal void Received(IAsyncResult result)
         {
             try
             {
@@ -118,19 +125,19 @@ namespace Merona
 
                 var bytes = new byte[Packet.headerSize];
 
-                buffer.Put(receiveBuffer, 0, received);
+                receiveRingBuffer.Put(receiveBuffer, 0, received);
 
-                while(buffer.Size >= Packet.headerSize)
+                while(receiveRingBuffer.Size >= Packet.headerSize)
                 { 
-                    buffer.Peek(bytes, 0, bytes.Length);
+                    receiveRingBuffer.Peek(bytes, 0, bytes.Length);
                     int size = BitConverter.ToInt32(bytes, 0);
                     int packetId = BitConverter.ToInt32(bytes, 4);
 
-                    if(buffer.Size >= size)
+                    if(receiveRingBuffer.Size >= size)
                     {
                         var packet = new byte[size];
 
-                        buffer.Get(packet, 0, packet.Length);
+                        receiveRingBuffer.Get(packet, 0, packet.Length);
                         
                         var packetType = Packet.GetTypeById(packetId);
                         var deserialized = Packet.Deserialize(packet, packetType);

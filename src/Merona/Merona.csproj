@@ -76,6 +76,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scheduler.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="Server.CustomMarshal.cs" />
+    <Compile Include="Server.IoWorker.cs" />
     <Compile Include="Server.PacketPipeline.cs" />
     <Compile Include="Server.Worker.cs" />
     <Compile Include="Service.cs" />

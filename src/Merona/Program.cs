@@ -44,15 +44,21 @@ namespace Merona
             s.AddPreProcessor(delegate (Session session, Packet packet)             {
                 var bar = (BarPacket)packet;
 
-                Console.WriteLine("prep");
+                Console.WriteLine("prep1");
 
                 bar.resp = "wwQQ";
             }, 1);
-            
+            s.AddPreProcessor(delegate(Session session, Packet packet)
+            {
+                var bar = (BarPacket)packet;
+
+                Console.WriteLine("prep2");
+
+                bar.resp = "wwQQ";
+            }, 0);
+
             while (true)
             {
-                
-
                 System.Threading.Thread.Sleep(100);
             }
         }

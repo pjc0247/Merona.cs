@@ -70,8 +70,8 @@ namespace Merona
         private TcpListener listener { get; set; }
         internal BlockingCollection<Event> pendingEvents { get; private set; }
 
-        private Worker worker { set; get; }
-        private IoWorker ioWorker { get; set; }
+        internal Worker worker { set; private get; }
+        internal IoWorker ioWorker { get; private set; }
 
         public Server(Config config = null)
         {

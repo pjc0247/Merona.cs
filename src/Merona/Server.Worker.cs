@@ -11,7 +11,7 @@ namespace Merona
 {
     public sealed partial class Server
     {
-        private class Worker : WorkerBasedClass
+        internal class Worker : WorkerBasedClass
         {
             private Server server { get; set; }
 
