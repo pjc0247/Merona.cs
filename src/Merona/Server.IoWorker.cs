@@ -20,6 +20,7 @@ namespace Merona
             {
                 this.server = server;
                 this.obj = new object();
+                this.pendingSessions = new ConcurrentDictionary<Session, byte>();
             }
 
             protected override void Setup()
@@ -58,7 +59,7 @@ namespace Merona
                     session.Key.sendRingBuffer.Peek(bufferToSend, 0, count);
                     session.Key.client.Client.BeginSend(
                         bufferToSend, 0, count, SocketFlags.None,
-                        new AsyncCallback(session.Key.Sent), 0);
+                        new AsyncCallback(session.Key.Sent), count);
                 }
             }
 

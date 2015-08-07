@@ -5,6 +5,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
@@ -90,10 +91,12 @@ namespace Merona
             {
                 int sent = client.Client.EndSend(result);
 
-                // 보냈는데도, 링버퍼에 데이터가 남아있으면 -> 전송 실패
+                Interlocked.Add(ref skip, sent);
+
+                // 요청양보다 실제 전송된 양이 작으면
                 // 재전송 요청
                 // TODO : 카운팅
-                if(sendRingBuffer.Size > 0)
+                if(sendRingBuffer.Size > (int)result.AsyncState)
                     server.ioWorker.Pulse(this);
             }
             catch(Exception e)
