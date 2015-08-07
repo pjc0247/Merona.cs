@@ -97,7 +97,7 @@ namespace Merona
         /// </summary>
         /// <param name="time">대기할 시간 (밀리초)</param>
         /// <returns>지정된 시간 후 완료되는 Task</returns>
-        public Task Yield(int time)
+        public Task Yield(long time)
         {
             var timer = new AwaitTimer();
             timer.interval = time;
