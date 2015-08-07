@@ -8,13 +8,26 @@ namespace Merona
 	{
 		public delegate void PacketProcessor(Session session, Packet packet);
 
+        private class Order : IComparer<Tuple<int, PacketProcessor>>
+        {
+            public int Compare(Tuple<int, PacketProcessor> x, Tuple<int, PacketProcessor> y)
+            {
+                if (x.Item1 > y.Item1)
+                    return 1;
+                else if (x.Item1 == y.Item1)
+                    return 0;
+                else
+                    return -1;
+            }
+        }
+
         internal SortedSet<Tuple<int, PacketProcessor>> preProcessors { get; set; }
         internal SortedSet<Tuple<int, PacketProcessor>> postProcessors { get; set; }
 
         private void InitializePipeline()
         {
-            preProcessors = new SortedSet<Tuple<int, PacketProcessor>>();
-            postProcessors = new SortedSet<Tuple<int, PacketProcessor>>();
+            preProcessors = new SortedSet<Tuple<int, PacketProcessor>>(new Order());
+            postProcessors = new SortedSet<Tuple<int, PacketProcessor>>(new Order());
         }
         
         public void AddPreProcessor(PacketProcessor processor, int priority)
