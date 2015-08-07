@@ -20,7 +20,7 @@ namespace Merona
         [ThreadStatic]
         public static Session current = null;
 
-        public Server server { get; private set; }
+        public Server server { get; protected set; }
         public bool isAlive { get; private set; }
         public TcpClient client { get; private set; }
 
