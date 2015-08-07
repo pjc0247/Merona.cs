@@ -6,3 +6,9 @@ Merona.cs
 <br><br>
 
 [doc](doc)
+
+
+packet pipelining
+----
+__IN__ : Session -> IO -> Unmarshaling -> PostProcess -> Service -> Router<br>
+__OUT__ : Session -> PostProcess -> IO
