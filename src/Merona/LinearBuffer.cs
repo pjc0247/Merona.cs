@@ -41,7 +41,7 @@ namespace Merona
             if (rearPtr >= capacity)
                 throw new InternalBufferOverflowException();
         }
-        public void Peek(T[] data, int size)
+        public void Peek(byte[] data, int size)
         {
 
         }

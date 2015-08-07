@@ -68,6 +68,7 @@
     <Compile Include="DataBinder.cs" />
     <Compile Include="Endians.cs" />
     <Compile Include="IdDispenser.cs" />
+    <Compile Include="LinearBuffer.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Packet.cs" />
     <Compile Include="Program.cs" />
