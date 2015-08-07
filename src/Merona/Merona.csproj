@@ -66,6 +66,7 @@
     <Compile Include="CircularBuffer.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="DataBinder.cs" />
+    <Compile Include="DumpCallStack.cs" />
     <Compile Include="Endians.cs" />
     <Compile Include="IdDispenser.cs" />
     <Compile Include="LinearBuffer.cs" />
