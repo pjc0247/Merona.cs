@@ -77,6 +77,8 @@ namespace Merona
             if (!isAlive)
                 return 0;
 
+            packet.PostProcess(this);
+
             pendingPackets.Put(packet);
             server.ioWorker.Pulse(this);
 

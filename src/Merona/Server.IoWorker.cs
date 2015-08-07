@@ -47,7 +47,6 @@ namespace Merona
 
                     foreach (var packet in session.Key.pendingPackets)
                     {
-                        packet.PostProcess(session.Key);
                         var buffer = packet.Serialize();
 
                         session.Key.sendRingBuffer.Put(buffer);
