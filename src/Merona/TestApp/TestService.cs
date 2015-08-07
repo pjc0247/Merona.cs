@@ -45,7 +45,7 @@ namespace Merona.TestApp
         {
             Console.WriteLine("OnBar ");
 
-            await Scheduler.current.Wait(2000);
+            await Scheduler.current.Yield(2000);
             Console.WriteLine("NExt");
             //Console.WriteLine(packet.data);
         }

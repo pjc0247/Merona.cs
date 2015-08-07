@@ -92,7 +92,7 @@ namespace Merona
             return Schedule(callback, 0, after, 1);
         }
 
-        public Task Wait(int time)
+        public Task Yield(int time)
         {
             var timer = new AwaitTimer();
             timer.interval = time;
