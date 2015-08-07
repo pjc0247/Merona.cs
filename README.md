@@ -11,4 +11,4 @@ Merona.cs
 packet pipelining
 ----
 __IN__ : Session -> IO -> Unmarshaling -> PostProcess -> Service -> Router<br>
-__OUT__ : Session -> PostProcess -> IO
+__OUT__ : Session -> PostProcess -> Marshaling -> IO
