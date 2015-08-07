@@ -46,7 +46,7 @@ namespace Merona
             if (join != null)
                 Server.current.channelPool.Join(join, session);
 
-            var leave = Packet.GetJoinPath(GetType());
+            var leave = Packet.GetLeavePath(GetType());
             if (leave != null)
                 Server.current.channelPool.Leave(leave, session);
 
