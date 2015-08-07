@@ -36,34 +36,35 @@ namespace Merona
                     Monitor.Wait(obj);
                 }
 
-                foreach (var session in pendingSessions)
+                foreach (var _session in pendingSessions)
                 {
+                    var session = _session.Key;
                     byte trash;
                     // TryRemove가 실패한 경우는, 이미 누가 이 세션을 처리중에 있는것이니 넘김
-                    if (!pendingSessions.TryRemove(session.Key, out trash))
+                    if (!pendingSessions.TryRemove(session, out trash))
                         continue;
 
-                    var skip = Interlocked.Exchange(ref session.Key.skip, 0);
-                    session.Key.sendRingBuffer.Skip((int)skip);
+                    var skip = Interlocked.Exchange(ref session.skip, 0);
+                    session.sendRingBuffer.Skip((int)skip);
 
                     while (true)
                     {
                         var serialized =
-                            session.Key.marshaler.Serialize(session.Key.pendingPackets);
+                            session.marshaler.Serialize(session.pendingPackets);
 
                         if (serialized == null)
                             break;
 
-                        session.Key.sendRingBuffer.Put(serialized);
+                        session.sendRingBuffer.Put(serialized);
                     }
                     
-                    var count = session.Key.sendRingBuffer.Size;
+                    var count = session.sendRingBuffer.Size;
                     var bufferToSend = new byte[count];
 
-                    session.Key.sendRingBuffer.Peek(bufferToSend, 0, count);
-                    session.Key.client.Client.BeginSend(
+                    session.sendRingBuffer.Peek(bufferToSend, 0, count);
+                    session.client.Client.BeginSend(
                         bufferToSend, 0, count, SocketFlags.None,
-                        new AsyncCallback(session.Key.Sent), count);
+                        new AsyncCallback(session.Sent), count);
                 }
             }
 
