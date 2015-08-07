@@ -33,7 +33,7 @@ namespace Merona.TestApp
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     class BarPacket : Packet
     {
-        [Bind("bind")]
+        //[Bind("bind")]
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst=32)]
         public String resp;
     }
@@ -44,6 +44,9 @@ namespace Merona.TestApp
         public async void OnBar(Session session, BarPacket packet)
         {
             Console.WriteLine("OnBar ");
+
+            await Scheduler.current.Wait(2000);
+            Console.WriteLine("NExt");
             //Console.WriteLine(packet.data);
         }
         [Handler(typeof(FooPacket))]

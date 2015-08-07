@@ -2,19 +2,65 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Merona
 {
     public sealed class Scheduler : WorkerBasedClass
     {
-        class Timer
+        abstract class Timer
         {
             public long start { get; set; }
             public long interval { get; set; }
             public long count { get; set; }
+            
+            public abstract void Invoke(Server server);
+            public abstract bool isCancelled { get; }
+        }
+        class CallbackTimer : Timer
+        {
             public Action callback { get; set; }
-
             public CancellationToken token { get; set; }
+
+            public CallbackTimer(Action callback, CancellationToken token)
+            {
+                this.callback = callback;
+                this.token = token;
+            }
+
+            public override void Invoke(Server server)
+            {
+                server.Enqueue(
+                    new Server.CallFuncEvent(callback));
+            }
+            public override bool isCancelled
+            {
+                get
+                {
+                    return token.IsCancellationRequested;
+                }
+            }
+        }
+        class AwaitTimer : Timer
+        {
+            public Task task { get; set; }
+
+            public AwaitTimer()
+            {
+                this.task = new Task(() => { });
+            }
+
+            public override void Invoke(Server server)
+            {
+                task.Start();
+            }
+            public override bool isCancelled
+            {
+                get
+                {
+                    return false;
+                }
+            }
         }
 
         [ThreadStatic]
@@ -45,7 +91,18 @@ namespace Merona
         {
             return Schedule(callback, 0, after, 1);
         }
-        
+
+        public Task Wait(int time)
+        {
+            var timer = new AwaitTimer();
+            timer.interval = time;
+            timer.count = 1;
+            timer.start = Environment.TickCount;
+            pendingTimers.Enqueue(timer);
+
+            return timer.task;
+        }
+
         /// <summary>
         /// 지정한 시간 이후에 일정 주기마다 콜백을 실행시킨다.
         /// 콜백은 SafeThread에서 실행이 보장된다.
@@ -64,12 +121,10 @@ namespace Merona
             Server.current.logger.Debug("Schedule interval({0}), after({1}), count({2})", interval, after, count);
 
             var cts = new CancellationTokenSource();
-            var timer = new Timer();
+            var timer = new CallbackTimer(callback, cts.Token);
             timer.interval = interval;
-            timer.callback = callback;
             timer.count = count;
             timer.start = Environment.TickCount + after;
-            timer.token = cts.Token;
             pendingTimers.Enqueue(timer);
 
             return cts;
@@ -130,7 +185,7 @@ namespace Merona
                 var elapsed = Environment.TickCount - timer.start;
                 if (elapsed >= timer.interval)
                 {
-                    if (timer.token.IsCancellationRequested)
+                    if (timer.isCancelled)
                     {
                         RemoveTimerAt(i);
                         i--;
@@ -139,8 +194,7 @@ namespace Merona
                     }
 
                     /* invoke callback */
-                    server.Enqueue(
-                        new Server.CallFuncEvent(timer.callback));
+                    timer.Invoke(server);
 
                     if (timer.count > 0 &&
                         --timer.count == 0)

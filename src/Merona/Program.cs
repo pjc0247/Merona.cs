@@ -36,6 +36,10 @@ namespace Merona
             s.Start();
 
             f.pid = "asdf";
+
+            var bp = new BarPacket();
+            bp.resp = "QWER";
+            s.Enqueue(new Server.RecvPacketEvent(new Session(), bp));
             
             while (true)
             {
