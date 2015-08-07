@@ -42,6 +42,9 @@ namespace Merona
                     if (!pendingSessions.TryRemove(session.Key, out trash))
                         continue;
 
+                    var skip = Interlocked.Exchange(ref session.Key.skip, 0);
+                    session.Key.sendRingBuffer.Skip((int)skip);
+
                     foreach (var packet in session.Key.pendingPackets)
                     {
                         packet.PostProcess(session.Key);

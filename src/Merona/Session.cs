@@ -30,6 +30,7 @@ namespace Merona
         internal CircularBuffer<byte> receiveRingBuffer { get; set; }
         internal CircularBuffer<byte> sendRingBuffer { get; set; }
         internal CircularBuffer<Packet> pendingPackets { get; set; }
+        internal long skip;
 
         public Session()
         {
@@ -38,6 +39,7 @@ namespace Merona
             this.sendRingBuffer = new CircularBuffer<byte>(1024); /* TODO : config */
             this.pendingPackets = new CircularBuffer<Packet>(1024);
             this.receiveBuffer = new byte[128]; /* TODO : config */
+            this.skip = 0;
         }
         public Session(Server server)
         {
@@ -47,6 +49,7 @@ namespace Merona
             this.sendRingBuffer = new CircularBuffer<byte>(server.config.sessionRingBufferSize);
             this.pendingPackets = new CircularBuffer<Packet>(server.config.sessionRingBufferSize);
             this.receiveBuffer = new byte[server.config.sessionRecvBufferSize];
+            this.skip = 0;
         }
 
         internal protected virtual void OnConnect()
@@ -84,8 +87,6 @@ namespace Merona
             try
             {
                 int sent = client.Client.EndSend(result);
-
-                sendRingBuffer.Skip(sent);
 
                 // 보냈는데도, 링버퍼에 데이터가 남아있으면 -> 전송 실패
                 // 재전송 요청
