@@ -70,6 +70,8 @@ namespace Merona
         {
             this.client = client;
             this.isAlive = true;
+            this.marshaler =
+                (Server.IMarshalContext)Activator.CreateInstance(server.config.marshalerType);
 
             foreach (var channel in channels)
                 channel.Leave(this);
