@@ -71,6 +71,7 @@ namespace Merona
         internal BlockingCollection<Event> pendingEvents { get; private set; }
 
         private Worker worker { set; get; }
+        private IoWorker ioWorker { get; set; }
 
         public Server(Config config = null)
         {
@@ -82,6 +83,7 @@ namespace Merona
             this.config = config;
             this.logger = LogManager.GetLogger(config.name);
             this.worker = new Worker(this);
+            this.ioWorker = new IoWorker(this);
             this.scheduler = new Scheduler(this);
             this.services = new List<Service>();
             this.mongoClient = new MongoClient();
