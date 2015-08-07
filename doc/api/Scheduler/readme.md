@@ -8,7 +8,9 @@ Yield (int time)
 [Handle(typeof(FooPacket))]
 async void OnFooPacket(){
   Console.WriteLine("hello world");
+  
   yield Scheduler.current.Yield(1000);
+  
   Console.WriteLine("after 1000 ms");
 }
 ```
