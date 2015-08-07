@@ -46,13 +46,17 @@ namespace Merona
                     var skip = Interlocked.Exchange(ref session.Key.skip, 0);
                     session.Key.sendRingBuffer.Skip((int)skip);
 
-                    foreach (var packet in session.Key.pendingPackets)
+                    while (true)
                     {
-                        var buffer = packet.Serialize();
+                        var serialized =
+                            server.marshaler.Serialize(session.Key.pendingPackets);
 
-                        session.Key.sendRingBuffer.Put(buffer);
+                        if (serialized == null)
+                            break;
+
+                        session.Key.sendRingBuffer.Put(serialized);
                     }
-
+                    
                     var count = session.Key.sendRingBuffer.Size;
                     var bufferToSend = new byte[count];
 

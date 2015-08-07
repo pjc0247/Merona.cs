@@ -96,7 +96,7 @@ namespace Merona
                 // 요청양보다 실제 전송된 양이 작으면
                 // 재전송 요청
                 // TODO : 카운팅
-                if(sendRingBuffer.Size > (int)result.AsyncState)
+                if (sendRingBuffer.Size > (int)result.AsyncState)
                     server.ioWorker.Pulse(this);
             }
             catch(Exception e)
@@ -128,30 +128,18 @@ namespace Merona
 
                 if(received <= 0)
                     throw new ObjectDisposedException("socket closed");
-
-                var bytes = new byte[Packet.headerSize];
-
+                
                 receiveRingBuffer.Put(receiveBuffer, 0, received);
 
-                while(receiveRingBuffer.Size >= Packet.headerSize)
-                { 
-                    receiveRingBuffer.Peek(bytes, 0, bytes.Length);
-                    int size = BitConverter.ToInt32(bytes, 0);
-                    int packetId = BitConverter.ToInt32(bytes, 4);
+                while (true)
+                {
+                    var packet =
+                        server.marshaler.Deserialize(receiveRingBuffer);
 
-                    if(receiveRingBuffer.Size >= size)
-                    {
-                        var packet = new byte[size];
-
-                        receiveRingBuffer.Get(packet, 0, packet.Length);
-                        
-                        var packetType = Packet.GetTypeById(packetId);
-                        var deserialized = Packet.Deserialize(packet, packetType);
-
-                        server.Enqueue(new Server.RecvPacketEvent(this, deserialized));
-                    }
-                    else
+                    if (packet == null)
                         break;
+
+                    server.Enqueue(new Server.RecvPacketEvent(this, packet));   
                 }
 
                 BeginReceive();
