@@ -128,6 +128,7 @@ namespace System.Collections.Generic
             head += count;
             if (head >= capacity)
                 head -= capacity;
+            size -= count;
         }
 
         public T[] Get(int count)
