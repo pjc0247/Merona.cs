@@ -8,7 +8,7 @@ namespace Merona
 {
     public sealed partial class Server
     {
-        public abstract class Marshaler{
+        public abstract class IMarshalContext{
             /// <summary>
             /// 이 메소드를 상속하여 커스텀 Marshal.Serialize를 구현한다.
             /// 이 메소드는 null을 리턴할 때까지 반복 실행된다.
@@ -32,7 +32,7 @@ namespace Merona
             internal protected abstract Packet Deserialize(CircularBuffer<byte> buffer);
         }
 
-        private class DefaultMarshaler : Marshaler
+        internal class DefaultMarshaler : IMarshalContext
         {
             internal protected override byte[] Serialize(CircularBuffer<Packet> buffer)
             {
@@ -66,13 +66,6 @@ namespace Merona
 
                 return null;
             }
-        }
-
-        public Marshaler marshaler { get; set; }
-
-        void InitializeMarshaler()
-        {
-            marshaler = new DefaultMarshaler();
         }
     }
 }

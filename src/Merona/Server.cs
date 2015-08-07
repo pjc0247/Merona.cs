@@ -97,7 +97,6 @@ namespace Merona
             this.listener.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
 
             InitializePipeline();
-            InitializeMarshaler();
         }
 
         /// <summary>

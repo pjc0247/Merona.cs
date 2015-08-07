@@ -49,7 +49,7 @@ namespace Merona
                     while (true)
                     {
                         var serialized =
-                            server.marshaler.Serialize(session.Key.pendingPackets);
+                            session.Key.marshaler.Serialize(session.Key.pendingPackets);
 
                         if (serialized == null)
                             break;
