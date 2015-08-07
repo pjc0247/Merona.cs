@@ -40,6 +40,14 @@ namespace Merona
             var bp = new BarPacket();
             bp.resp = "QWER";
             s.Enqueue(new Server.RecvPacketEvent(new Session(), bp));
+
+            s.AddPreProcessor(delegate (Session session, Packet packet)             {
+                var bar = (BarPacket)packet;
+
+                Console.WriteLine("prep");
+
+                bar.resp = "wwQQ";
+            }, 1);
             
             while (true)
             {

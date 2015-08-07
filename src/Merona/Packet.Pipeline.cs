@@ -51,6 +51,9 @@ namespace Merona
                 Server.current.channelPool.Leave(leave, session);
 
             InBind(session);
+
+            foreach (var pp in Server.current.preProcessors)
+                pp.Item2.Invoke(session, this);
         }
         /// <summary>
         /// 패킷이 클라이언트에게 Send 되기 전 처리해야 할 작업들을 수행한다.
@@ -60,6 +63,9 @@ namespace Merona
         internal void PostProcess(Session session)
         {
             OutBind(session);
+
+            foreach (var pp in Server.current.preProcessors)
+                pp.Item2.Invoke(session, this);
         }
 	}
 }

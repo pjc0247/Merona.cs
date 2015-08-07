@@ -43,7 +43,7 @@ namespace Merona.TestApp
         [Handler(typeof(BarPacket))]
         public async void OnBar(Session session, BarPacket packet)
         {
-            Console.WriteLine("OnBar ");
+            Console.WriteLine("OnBar " + packet.resp);
 
             await Scheduler.current.Yield(2000);
             Console.WriteLine("NExt");

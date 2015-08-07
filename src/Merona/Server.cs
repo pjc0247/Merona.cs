@@ -93,6 +93,8 @@ namespace Merona
             this.pendingEvents = new BlockingCollection<Event>();
 
             this.listener.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+
+            InitializePipeline();
         }
 
         /// <summary>
