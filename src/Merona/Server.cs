@@ -140,6 +140,7 @@ namespace Merona
 
             listener.Start();
             scheduler.Start();
+            ioWorker.Start();
             worker.Start();
 
             logger.Info("Begin AcceptTcpClient");
@@ -159,6 +160,7 @@ namespace Merona
 
             isRunning = false;
 
+            ioWorker.Kill();
             worker.Kill();
             scheduler.Kill();
             listener.Stop();
