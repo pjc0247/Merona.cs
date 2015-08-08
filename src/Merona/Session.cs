@@ -150,13 +150,7 @@ namespace Merona
 
                 BeginReceive();
             }
-            catch (InternalBufferOverflowException e)
-            {
-                server.logger.Warn("ringbuffer overflow");
-
-                isAlive = false;
-            }
-            catch (SocketException e)
+            catch (Exception e)
             {
                 server.logger.Warn("Server::Receive", e);
 
