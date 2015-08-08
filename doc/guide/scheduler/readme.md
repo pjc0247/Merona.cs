@@ -38,8 +38,8 @@ async void OnFooPacket(Session session, FooPacket packet){
   
   var cts = Scheduler.current.Defer(()=>{
     Console.WriteLine("after 1000ms");
-  }, 1000); // 1000ms 후에 콜백이 실행됨
+  }, 1000);
   
-  cts.Cancle(); // 실행을 취소합니다, 콜백은 실행되지 않습니다.
+  cts.Cancel(); // 실행을 취소합니다, 콜백은 실행되지 않습니다.
 }
 ```
