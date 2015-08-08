@@ -32,6 +32,10 @@ namespace Merona
             internal protected abstract Packet Deserialize(CircularBuffer<byte> buffer);
         }
 
+        /// <summary>
+        /// 기본적으로 제공되는 마샬러,
+        /// 단순 바이트 배열간의 직렬화, 역직렬화 기능을 제공한다.
+        /// </summary>
         internal class DefaultMarshaler : IMarshalContext
         {
             internal protected override byte[] Serialize(CircularBuffer<Packet> buffer)
