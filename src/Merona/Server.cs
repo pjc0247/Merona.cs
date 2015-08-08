@@ -145,7 +145,8 @@ namespace Merona
             worker.Start();
 
             logger.Info("Begin AcceptTcpClient");
-            listener.BeginAcceptTcpClient(new AsyncCallback(Acceptor), null);
+            listener.BeginAcceptTcpClient(
+                new AsyncCallback(Acceptor), null);
 
             isRunning = true;
         }
