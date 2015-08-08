@@ -11,7 +11,7 @@ Async/Await 스타일의 작업 미루기
 async void OnFooPacket(Session session, FooPacket packet){
   Console.WriteLine("hello world");
   
-  awati Scheduler.current.Yield(1000); // 1000ms만큼 대기
+  await Scheduler.current.Yield(1000); // 1000ms만큼 대기
   
   Console.WriteLine("after 1000ms");
 }
