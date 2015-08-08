@@ -105,7 +105,7 @@ namespace Merona
         /// [Non-Thread-Safe]
         /// </summary>
         /// <param name="service">추가할 서비스</param>
-        public void AttachService<T>(T service) where T : Service
+        public void AttachService<T>() where T : Service, new()
         {
             /* 실행 중에는 서비스가 추가될 수 없음 */
             if (isRunning)
@@ -113,6 +113,7 @@ namespace Merona
 
             logger.Info("Attach {0}", typeof(T).Name);
 
+            var service = new T();
             services.Add(service);
             service.server = this;
         }
