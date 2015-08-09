@@ -3,6 +3,8 @@ using System.IO;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Merona;
+
 namespace MeronaTest.EnvBased
 {
     [TestClass]
@@ -14,6 +16,18 @@ namespace MeronaTest.EnvBased
         {
             Assert.IsTrue(
                 server.isRunning);
+        }
+
+        [TestMethod]
+        public void ThreadStatics()
+        {
+            Assert.IsNotNull(
+                Server.current);
+
+            Assert.IsNotNull(
+                Scheduler.current);
+            Assert.IsNotNull(
+                Channel.Pool.current);
         }
     }
 }
