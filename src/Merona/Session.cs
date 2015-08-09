@@ -94,14 +94,16 @@ namespace Merona
         {
             try
             {
-                client.Client.EndDisconnect(result);
-
-                // 현재 세션을 다시 사용 가능하도록 만든다.
-                server.sessionPool.Return(this);
+                client.Client.EndDisconnect(result);  
             }
             catch(Exception e)
             {
                 server.logger.Warn("Session::Sent", e);
+            }
+            finally
+            {
+                // 현재 세션을 다시 사용 가능하도록 만든다.
+                server.sessionPool.Return(this);
             }
         }
 
