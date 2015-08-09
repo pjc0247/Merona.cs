@@ -98,7 +98,7 @@ namespace Merona
             }
             catch(Exception e)
             {
-                server.logger.Warn("Session::Sent", e);
+                server.logger.Warn("Session::Disconnected", e);
             }
             finally
             {
@@ -182,7 +182,7 @@ namespace Merona
             }
             catch (Exception e)
             {
-                server.logger.Warn("Server::Receive", e);
+                server.logger.Warn("Server::Received", e);
 
                 Disconnect();
             }
