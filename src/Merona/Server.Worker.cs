@@ -34,6 +34,7 @@ namespace Merona
                 /* initialize thread-locals */
                 Server.current = server;
                 Scheduler.current = server.scheduler;
+                Channel.Pool.current = server.channelPool;
                 Session.current = new Session(); //for test
 
                 cts = new CancellationTokenSource();

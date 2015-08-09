@@ -7,6 +7,9 @@ namespace Merona
     {
         public class Pool
         {
+            [ThreadStatic]
+            public static Pool current { get; internal set; }
+
             private static TreeDictionary pool;
 
             static Pool()
