@@ -152,6 +152,16 @@ namespace Merona
         }
 
         /// <summary>
+        /// 서버 초기화가 완료될 때 까지 대기한다.
+        /// </summary>
+        public void Wait()
+        {
+            scheduler.Wait();
+            ioWorker.Wait();
+            worker.Wait();
+        }
+
+        /// <summary>
         /// 서버를 종료한다.
         /// [Thread-Safe]
         /// </summary>

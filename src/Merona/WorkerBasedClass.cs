@@ -12,10 +12,15 @@ namespace Merona
         protected Thread thread { get; set; }
         private bool isQuitRequested { get; set; }
 
+        private object waitHandle;
+        private long isInitialized;
+
         public WorkerBasedClass()
         {
             this.thread = new Thread(Worker);
             this.isQuitRequested = false;
+            this.waitHandle = new object();
+            this.isInitialized = 0;
         }
 
         public void Start()
@@ -24,6 +29,7 @@ namespace Merona
                 throw new InvalidOperationException();
 
             isQuitRequested = false;
+            isInitialized = 0;
             thread.Start();
         }
         public void Kill()
@@ -32,6 +38,7 @@ namespace Merona
                 throw new InvalidOperationException();
 
             isQuitRequested = true;
+            isInitialized = 1;
 
             thread.Interrupt();
 
@@ -44,6 +51,10 @@ namespace Merona
         private void Worker()
         {
             Setup();
+
+            Interlocked.Exchange(ref isInitialized, 1);
+            lock(waitHandle)
+                Monitor.Pulse(waitHandle);
 
             while (!isQuitRequested)
             {
@@ -58,6 +69,21 @@ namespace Merona
             }
 
             Cleanup();
+        }
+
+        /// <summary>
+        /// Worker 스레드가 Setup이 완료될때까지 대기한다.
+        /// </summary>
+        public void Wait()
+        {
+            // 이미 초기화 완료된 상태
+            if (Interlocked.Read(ref isInitialized) != 0)
+                return;
+
+            // 아직 초기화 안됨.
+            // 될 때 까지 대기
+            lock(waitHandle)
+                Monitor.Wait(waitHandle);
         }
 
         /// <summary>
