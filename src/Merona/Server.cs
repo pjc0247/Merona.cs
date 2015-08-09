@@ -29,7 +29,6 @@ namespace Merona
             get { return listener.Server; }
         }
         public Logger logger { get; private set; }
-        public Channel.Pool channelPool { get; private set; }
         public Scheduler scheduler { get; private set; }
         public Config config { get; private set; }
         
@@ -64,6 +63,7 @@ namespace Merona
             }
         }
 
+        internal Channel.Pool channelPool { get; private set; }
         internal Session.Pool sessionPool { get; set; }
         private List<Service> services { get; set; }
         private MongoClient mongoClient { get; set; }
