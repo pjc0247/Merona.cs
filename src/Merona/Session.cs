@@ -119,7 +119,18 @@ namespace Merona
 
             return 0;
         }
-        internal void Sent(IAsyncResult result)
+        internal void FlushSend(int length = -1)
+        {
+            if(length == -1)
+                length = sendRingBuffer.Size;
+            var bufferToSend = new byte[length];
+
+            sendRingBuffer.Peek(bufferToSend, 0, length);
+            client.Client.BeginSend(
+                bufferToSend, 0, length, SocketFlags.None,
+                new AsyncCallback(Sent), length);
+        }
+        private void Sent(IAsyncResult result)
         {
             try
             {
@@ -156,7 +167,7 @@ namespace Merona
                 Disconnect();
             }
         }
-        internal void Received(IAsyncResult result)
+        private void Received(IAsyncResult result)
         {
             try
             {

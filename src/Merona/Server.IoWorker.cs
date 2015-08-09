@@ -57,14 +57,8 @@ namespace Merona
 
                         session.sendRingBuffer.Put(serialized);
                     }
-                    
-                    var count = session.sendRingBuffer.Size;
-                    var bufferToSend = new byte[count];
 
-                    session.sendRingBuffer.Peek(bufferToSend, 0, count);
-                    session.client.Client.BeginSend(
-                        bufferToSend, 0, count, SocketFlags.None,
-                        new AsyncCallback(session.Sent), count);
+                    session.FlushSend();
                 }
             }
 

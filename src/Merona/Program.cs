@@ -32,7 +32,7 @@ namespace Merona
             TestService a = new TestService();
             Server s = new Server();
 
-            s.AttachService(a);
+            s.AttachService<TestService>();
             s.Start();
 
             f.pid = "asdf";
