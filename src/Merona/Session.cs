@@ -129,12 +129,22 @@ namespace Merona
         {
             if(size == -1)
                 size = sendRingBuffer.Size;
-            var bufferToSend = new byte[size];
 
-            sendRingBuffer.Peek(bufferToSend, 0, size);
-            client.Client.BeginSend(
-                bufferToSend, 0, size, SocketFlags.None,
-                new AsyncCallback(Sent), size);
+            try {
+                var bufferToSend = new byte[size];
+
+                sendRingBuffer.Peek(bufferToSend, 0, size);
+
+                client.Client.BeginSend(
+                    bufferToSend, 0, size, SocketFlags.None,
+                    new AsyncCallback(Sent), size);
+            }
+            catch(Exception e)
+            {
+                server.logger.Warn("Session::FlushSend", e);
+
+                Disconnect();
+            }
         }
         private void Sent(IAsyncResult result)
         {
