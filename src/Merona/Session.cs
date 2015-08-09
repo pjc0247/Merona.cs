@@ -134,6 +134,8 @@ namespace Merona
             catch(Exception e)
             {
                 server.logger.Warn("Session::Sent", e);
+
+                Disconnect();
             }
         }
 
@@ -149,7 +151,7 @@ namespace Merona
             {
                 server.logger.Warn("Session::BeginReceive", e);
 
-                isAlive = false;
+                Disconnect();
             }
         }
         internal void Received(IAsyncResult result)
@@ -180,7 +182,7 @@ namespace Merona
             {
                 server.logger.Warn("Server::Receive", e);
 
-                isAlive = false;
+                Disconnect();
             }
         }
 
