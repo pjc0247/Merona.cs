@@ -119,16 +119,22 @@ namespace Merona
 
             return 0;
         }
-        internal void FlushSend(int length = -1)
-        {
-            if(length == -1)
-                length = sendRingBuffer.Size;
-            var bufferToSend = new byte[length];
 
-            sendRingBuffer.Peek(bufferToSend, 0, length);
+        /// <summary>
+        /// 링버퍼에 쌓인 데이터를 전송 시도한다.
+        /// 이 메소드는 IoWorker에 의해서 실행된다.
+        /// </summary>
+        /// <param name="size">전송할 길이, -1일 경우 전부 전송</param>
+        internal void FlushSend(int size = -1)
+        {
+            if(size == -1)
+                size = sendRingBuffer.Size;
+            var bufferToSend = new byte[size];
+
+            sendRingBuffer.Peek(bufferToSend, 0, size);
             client.Client.BeginSend(
-                bufferToSend, 0, length, SocketFlags.None,
-                new AsyncCallback(Sent), length);
+                bufferToSend, 0, size, SocketFlags.None,
+                new AsyncCallback(Sent), size);
         }
         private void Sent(IAsyncResult result)
         {
