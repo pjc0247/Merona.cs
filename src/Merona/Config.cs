@@ -11,6 +11,7 @@ namespace Merona
 
         public int schedulerMaxInterval { get; set; }
 
+        public Type marshalerType { get; set; }
         public Type sessionType { get; set; }
         public int sessionRingBufferSize { get; set; }
         public int sessionRecvBufferSize { get; set; }
@@ -45,6 +46,7 @@ namespace Merona
             this.dbDatabaseName = "test";
             this.endian = "little"; // 기본값 big?
             this.sessionType = typeof(Session);
+            this.marshalerType = typeof(Server.DefaultMarshaler);
         }
         /// <summary>
         /// 파일로부터 설정값 생성

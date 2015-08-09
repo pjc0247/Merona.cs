@@ -27,6 +27,8 @@ namespace Merona
 
         public HashSet<Channel> channels { get; private set; }
 
+        internal Server.IMarshalContext marshaler { get; private set; }
+
         private byte[] receiveBuffer { get; set; }
         internal CircularBuffer<byte> receiveRingBuffer { get; set; }
         internal CircularBuffer<byte> sendRingBuffer { get; set; }
@@ -40,6 +42,7 @@ namespace Merona
             this.sendRingBuffer = new CircularBuffer<byte>(1024); /* TODO : config */
             this.pendingPackets = new CircularBuffer<Packet>(1024);
             this.receiveBuffer = new byte[128]; /* TODO : config */
+            this.marshaler = (Server.IMarshalContext)Activator.CreateInstance(Config.defaults.marshalerType);
             this.skip = 0;
         }
         public Session(Server server)
@@ -50,6 +53,7 @@ namespace Merona
             this.sendRingBuffer = new CircularBuffer<byte>(server.config.sessionRingBufferSize);
             this.pendingPackets = new CircularBuffer<Packet>(server.config.sessionRingBufferSize);
             this.receiveBuffer = new byte[server.config.sessionRecvBufferSize];
+            this.marshaler = (Server.IMarshalContext)Activator.CreateInstance(server.config.marshalerType);
             this.skip = 0;
         }
 
@@ -66,6 +70,8 @@ namespace Merona
         {
             this.client = client;
             this.isAlive = true;
+            this.marshaler =
+                (Server.IMarshalContext)Activator.CreateInstance(server.config.marshalerType);
 
             foreach (var channel in channels)
                 channel.Leave(this);
@@ -160,7 +166,7 @@ namespace Merona
                 while (true)
                 {
                     var packet =
-                        server.marshaler.Deserialize(receiveRingBuffer);
+                        marshaler.Deserialize(receiveRingBuffer);
 
                     if (packet == null)
                         break;
@@ -170,13 +176,7 @@ namespace Merona
 
                 BeginReceive();
             }
-            catch (InternalBufferOverflowException e)
-            {
-                server.logger.Warn("ringbuffer overflow");
-
-                isAlive = false;
-            }
-            catch (SocketException e)
+            catch (Exception e)
             {
                 server.logger.Warn("Server::Receive", e);
 
