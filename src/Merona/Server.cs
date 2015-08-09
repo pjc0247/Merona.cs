@@ -179,11 +179,11 @@ namespace Merona
             }
             catch (SocketException e)
             {
-                logger.Error("Acceptor", e);
+                logger.Error("Server::Acceptor", e);
             }
             catch (ObjectDisposedException e)
             {
-                logger.Error("Acceptor", e);
+                logger.Error("Server::Acceptor", e);
             }
             finally
             {
