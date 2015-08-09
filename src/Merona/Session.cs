@@ -72,6 +72,32 @@ namespace Merona
 
             BeginReceive();
         }
+        
+
+        public void Disconnect()
+        {
+            isAlive = false;
+
+            if (client.Client.Connected) {
+                client.Client.BeginDisconnect(
+                    true,
+                    new AsyncCallback(Disconneted), null);
+            }
+        }
+        private void Disconneted(IAsyncResult result)
+        {
+            try
+            {
+                client.Client.EndDisconnect(result);
+
+                // 현재 세션을 다시 사용 가능하도록 만든다.
+                server.sessionPool.Return(this);
+            }
+            catch(Exception e)
+            {
+                server.logger.Warn("Session::Sent", e);
+            }
+        }
 
         public int Send(Packet packet)
         {

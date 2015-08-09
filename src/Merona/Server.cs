@@ -64,7 +64,7 @@ namespace Merona
             }
         }
 
-        private Session.Pool sessionPool { get; set; }
+        internal Session.Pool sessionPool { get; set; }
         private List<Service> services { get; set; }
         private MongoClient mongoClient { get; set; }
         private TcpListener listener { get; set; }
