@@ -11,7 +11,7 @@ namespace Merona
 {
     public partial class Session
     {
-        public class Pool
+        internal class Pool
         {
             public int size { get; private set; }
 
