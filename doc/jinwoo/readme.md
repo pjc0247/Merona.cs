@@ -19,6 +19,7 @@ Packetはサバとクライアントが通信するデータの基本単位で�
 Model
 ----
 Model이란 연관성 있는 데이터들의 집합(Player -> level, name, class등...)입니다. 이 데이터들은 Merona가 데이터베이스와 통신하여 관리하는 기본 단위임과 동시에 패킷에 포함될 수도 있습니다.
+<br>
 Modelは連関性あるデータたちの集合（Player -> level, name, class ...)です。このデータたちはMeronaがデータベースと通信して管理する基本単位として、Packetにも追加されることもできます。
 
 Session
