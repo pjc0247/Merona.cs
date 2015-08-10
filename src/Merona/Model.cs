@@ -23,6 +23,20 @@ namespace Merona
             cache = new Dictionary<List<Tuple<String, String>>, WeakReference<Model>>();
         }
 
+        internal static void Collect()
+        {
+            // RWLock or ConcurrentDic
+            foreach(var item in cache)
+            {
+                Model target;
+
+                if(!item.Value.TryGetTarget(out target))
+                {
+                    cache.Remove(item.Key);
+                }
+            }
+        }
+
         public static async Task<Model> FindOneAsync<T>(Packet from) where T : Model, new()
         {
             var keys = new List<Tuple<String,String>>();
