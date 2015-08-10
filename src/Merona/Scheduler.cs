@@ -71,7 +71,7 @@ namespace Merona
         private ConcurrentQueue<Timer> pendingTimers { get; set; }
         private long lastTick { get; set; }
 
-        public Scheduler(Server server)
+        internal Scheduler(Server server)
         {
             this.server = server;
             timers = new List<Timer>();
