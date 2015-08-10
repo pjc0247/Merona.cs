@@ -17,7 +17,7 @@ namespace ChattingServer
             config.sessionType = typeof(MySession);
 
             var server = new Server(config);
-            server.AttachService<ChatService>(new ChatService());
+            server.AttachService<ChatService>();
             server.Start();
 
             while (true)
