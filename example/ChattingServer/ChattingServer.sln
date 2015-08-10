@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChattingClient", "..\Chatti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merona.Client", "..\..\src\Merona.Client\Merona.Client.csproj", "{43088D60-A5B3-407C-B57C-5CE89A60A45A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChattingPackets", "..\ChattingPackets\ChattingPackets.csproj", "{37A7D71E-AFCA-482F-B612-F4C856C42565}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{43088D60-A5B3-407C-B57C-5CE89A60A45A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43088D60-A5B3-407C-B57C-5CE89A60A45A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43088D60-A5B3-407C-B57C-5CE89A60A45A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37A7D71E-AFCA-482F-B612-F4C856C42565}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37A7D71E-AFCA-482F-B612-F4C856C42565}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37A7D71E-AFCA-482F-B612-F4C856C42565}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37A7D71E-AFCA-482F-B612-F4C856C42565}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
