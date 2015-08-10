@@ -203,6 +203,12 @@ namespace Merona
             return leaves[type];
         }
 
+        /// <summary>
+        /// 패킷 아이디로부터 패킷 타입을 얻어온다.
+        /// [Thread-Safe]
+        /// </summary>
+        /// <param name="id">패킷 아이디</param>
+        /// <returns>패킷 타입</returns>
         public static Type GetTypeById(int id)
         {
             return types[id];
