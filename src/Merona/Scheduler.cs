@@ -8,7 +8,7 @@ namespace Merona
 {
     public sealed class Scheduler : WorkerBasedClass
     {
-        abstract class Timer
+        private abstract class Timer
         {
             public long start { get; set; }
             public long interval { get; set; }
@@ -17,7 +17,7 @@ namespace Merona
             public abstract void Invoke(Server server);
             public abstract bool isCancelled { get; }
         }
-        class CallbackTimer : Timer
+        private class CallbackTimer : Timer
         {
             public Action callback { get; set; }
             public CancellationToken token { get; set; }
@@ -41,7 +41,7 @@ namespace Merona
                 }
             }
         }
-        class AwaitTimer : Timer
+        private class AwaitTimer : Timer
         {
             public Task task { get; set; }
 
