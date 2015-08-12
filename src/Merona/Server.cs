@@ -95,7 +95,12 @@ namespace Merona
             {
                 this.mongoClient = new MongoClient();
                 this.database = mongoClient.GetDatabase(config.dbDatabaseName);
-            }                
+            }
+            if (config.enableCluster)
+            {
+                this.cluster = new Cluster(this);
+            }
+                
 
             this.pendingEvents = new BlockingCollection<Event>();
 
@@ -149,6 +154,9 @@ namespace Merona
             ioWorker.Start();
             worker.Start();
 
+            if(config.enableCluster)
+                cluster.Start();
+
             logger.Info("Begin AcceptTcpClient");
             listener.BeginAcceptTcpClient(
                 new AsyncCallback(Acceptor), null);
@@ -176,6 +184,9 @@ namespace Merona
                 throw new InvalidOperationException();
 
             isRunning = false;
+
+            if(config.enableCluster)
+                cluster.Kill();
 
             ioWorker.Kill();
             worker.Kill();

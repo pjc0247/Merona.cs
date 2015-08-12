@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Merona
 {
-    public class Config
+    // http://ikpil.com/1211
+    public class Config : ICloneable
     {
         public String name { get; set; }
 
@@ -12,6 +14,10 @@ namespace Merona
         /* switches */
         public bool enableCluster { get; set; }
         public bool enableDB { get; set; }
+
+        /* cluster */
+        public int clusterPort { get; set; }
+        public List<Tuple<String,int>> clusterPeers { get; set; }
 
         public int schedulerMaxInterval { get; set; }
 
@@ -46,6 +52,9 @@ namespace Merona
             this.enableCluster = true;
             this.enableDB = true;
 
+            this.clusterPort = 9915;
+            this.clusterPeers = new List<Tuple<String,int>>();
+
             this.schedulerMaxInterval = 30;
             this.sessionRecvBufferSize = 128;
             this.sessionRingBufferSize = 1024;
@@ -63,6 +72,11 @@ namespace Merona
         public Config(String path)
         {
             throw new NotImplementedException();
+        }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
         }
     }
 }

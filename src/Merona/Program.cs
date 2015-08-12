@@ -28,9 +28,13 @@ namespace Merona
 
             Console.WriteLine(aa.Equals(bb));
 
+            var config = Config.defaults;
+
+            config.clusterPeers.Add(new Tuple<String, int>("localhost", 9915));
+
             FooPacket f = new FooPacket();
             TestService a = new TestService();
-            Server s = new Server();
+            Server s = new Server(config);
 
             s.AttachService<TestService>();
             s.Start();
