@@ -65,6 +65,7 @@ namespace Merona
 
         internal Channel.Pool channelPool { get; private set; }
         internal Session.Pool sessionPool { get; set; }
+        internal Cluster cluster { get; set; }
         private List<Service> services { get; set; }
         private MongoClient mongoClient { get; set; }
         private TcpListener listener { get; set; }
@@ -86,12 +87,16 @@ namespace Merona
             this.ioWorker = new IoWorker(this);
             this.scheduler = new Scheduler(this);
             this.services = new List<Service>();
-            this.mongoClient = new MongoClient();
-            this.database = mongoClient.GetDatabase(config.dbDatabaseName);
             this.listener = new TcpListener(config.port);
             this.sessionPool = new Session.Pool(config.sessionPoolSize);
             this.channelPool = new Channel.Pool();
-            
+
+            if (config.enableDB)
+            {
+                this.mongoClient = new MongoClient();
+                this.database = mongoClient.GetDatabase(config.dbDatabaseName);
+            }                
+
             this.pendingEvents = new BlockingCollection<Event>();
 
             this.listener.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);

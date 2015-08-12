@@ -9,6 +9,10 @@ namespace Merona
         public String host { get; set; }
         public int port { get; set; }
 
+        /* switches */
+        public bool enableCluster { get; set; }
+        public bool enableDB { get; set; }
+
         public int schedulerMaxInterval { get; set; }
 
         public Type marshalerType { get; set; }
@@ -38,6 +42,10 @@ namespace Merona
             this.name = "ServerName";
             this.host = "0.0.0.0";
             this.port = 9916;
+
+            this.enableCluster = true;
+            this.enableDB = true;
+
             this.schedulerMaxInterval = 30;
             this.sessionRecvBufferSize = 128;
             this.sessionRingBufferSize = 1024;
