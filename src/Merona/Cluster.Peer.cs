@@ -18,6 +18,7 @@ namespace Merona
 
             private Cluster parent { get; set; }
             private TcpClient client { get; set; }
+            internal Session session { get; set; }
 
             public Peer(Cluster parent, String host, int port)
             {
@@ -53,6 +54,12 @@ namespace Merona
             public void Pairing()
             {
                 Connect();
+            }
+
+            public void Reset(Merona.Session session)
+            {
+                this.session = (Session)session;
+                this.isActive = true;
             }
         }
     }

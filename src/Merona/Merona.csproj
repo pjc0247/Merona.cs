@@ -84,6 +84,7 @@
     <Compile Include="CircularBuffer.cs" />
     <Compile Include="Cluster.cs" />
     <Compile Include="Cluster.Peer.cs" />
+    <Compile Include="Cluster.RequestInfo.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="DataBinder.cs" />
     <Compile Include="DumpCallStack.cs" />

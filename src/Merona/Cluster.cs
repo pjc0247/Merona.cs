@@ -9,7 +9,7 @@ namespace Merona
 {
     public class ClusterPacket : Packet
     {
-        int requestId;
+        public int requestId;
     }
 
     public partial class Cluster
@@ -17,7 +17,9 @@ namespace Merona
         private Server parent { get; set; }
         private Server server { get; set; }
 
-        private List<Peer> peers { get; set; }
+        private Dictionary<int, Peer> peers { get; set; }
+        private Dictionary<int, RequestInfo> pendings { get; set; }
+        private IdDispenser dispenser { get; set; }
 
         public Cluster(Server parent)
         {
@@ -31,11 +33,15 @@ namespace Merona
             this.parent = parent;
             this.server = new Server(config);
             this.server.cluster = this;
+            this.dispenser = new IdDispenser();
 
-            this.peers = new List<Peer>();
+            this.peers = new Dictionary<int, Peer>();
+            this.pendings = new Dictionary<int, RequestInfo>();
+
+            int idx = 0;
             foreach(var peer in config.clusterPeers)
             {
-                this.peers.Add(new Peer(this, peer.Item1, peer.Item2));
+                this.peers[idx++] = new Peer(this, peer.Item1, peer.Item2);
             }
         }
 
@@ -55,9 +61,22 @@ namespace Merona
 
         public Task<ClusterPacket> Send(int dst, ClusterPacket packet)
         {
+            var peer = peers[dst];
+
+            if (!peer.isActive)
+                throw new InvalidOperationException("peer is not active");
+
+            var id = dispenser.next;
+            var requestInfo = new RequestInfo();
+            requestInfo.requestId = id;
+            requestInfo.sentAt = Environment.TickCount;
+            pendings[id] = requestInfo;
+            packet.requestId = id;
+            peer.session.Send(packet);
+
             return new Task<ClusterPacket>(()=>
             {
-                return null;
+                return requestInfo.response;
             });
         }
 
@@ -73,14 +92,24 @@ namespace Merona
         private void ConnectToPeers()
         {
             foreach (var peer in peers)
-                peer.Pairing();
+                peer.Value.Pairing();
         }
 
         internal void OnConnect(Session session)
         {
-            var host = ((IPEndPoint)session.client.Client.RemoteEndPoint).Address.ToString();
+            var endPoint = ((IPEndPoint)session.client.Client.RemoteEndPoint);
 
-            Console.WriteLine("OnConnect {0}", host);
+            foreach(var peer in peers)
+            {
+                if(peer.Value.host == endPoint.Address.ToString() &&
+                   peer.Value.port == endPoint.Port)
+                {
+                    peer.Value.Reset(session);
+                    break;
+                }
+            }
+
+            Console.WriteLine("OnConnect {0}", endPoint.Address.ToString());
         }
         internal void OnDisconnect(Session session)
         {
