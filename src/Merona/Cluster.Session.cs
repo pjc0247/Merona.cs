@@ -10,11 +10,6 @@ namespace Merona
     {
 		internal class Session : Merona.Session
         {
-			public Session(Server server)
-            {
-                this.server = server;
-            }
-
             protected internal override void OnConnect()
             {
                 server.cluster.OnConnect(this);

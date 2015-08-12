@@ -28,7 +28,8 @@ namespace Merona
                 for (int i = 0; i < size; i++)
                 {
                     var session = 
-                        Activator.CreateInstance(Server.current.config.sessionType, new object[] { Server.current });
+                        (Session)Activator.CreateInstance(Server.current.config.sessionType);
+                    session.server = Server.current;
                     this.pool.Push((Session)session);
                 }
             }

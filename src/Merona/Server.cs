@@ -124,6 +124,7 @@ namespace Merona
             logger.Info("Attach {0}", typeof(T).Name);
 
             var service = new T();
+            service.server = this;
             services.Add(service);
             service.server = this;
         }
