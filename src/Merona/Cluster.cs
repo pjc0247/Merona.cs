@@ -53,6 +53,23 @@ namespace Merona
             this.server.Kill();
         }
 
+        public Task<ClusterPacket> Send(int dst, ClusterPacket packet)
+        {
+            return new Task<ClusterPacket>(()=>
+            {
+                return null;
+            });
+        }
+
+        public void Broadcast(Channel.Path dst, ClusterPacket packet)
+        {
+
+        }
+        public void Broadcast(String dst, ClusterPacket packet)
+        {
+            Broadcast(new Channel.Path(dst), packet);
+        }
+
         private void ConnectToPeers()
         {
             foreach (var peer in peers)

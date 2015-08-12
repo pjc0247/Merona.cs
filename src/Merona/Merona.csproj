@@ -89,6 +89,7 @@
     <Compile Include="DumpCallStack.cs" />
     <Compile Include="Endians.cs" />
     <Compile Include="IdDispenser.cs" />
+    <Compile Include="ILifecycle.cs" />
     <Compile Include="LinearBuffer.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Packet.cs" />
