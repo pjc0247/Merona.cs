@@ -28,16 +28,21 @@ Merona.cs
 
 
 채팅 서버 예제
+----
+간단한 채팅 서버라면 어떠한 서버 코드 작성 없이 단순히 패킷을 정의만을 통해서 작성할 수 있습니다.
 ```c#
 [PgenTarget]
 public class MyChattingPackets{
-  
+  // Join 패킷을 보낸 클라이언트를 'chat'채널에 가입시킵니다.
+  // 그 후 새로운 클라이언트가 입장함을 알리기 위해 현재 패킷을 'chat'채널에 방송합니다.
   [Join("chat")]
   [AutoResponse("chat")]
   public class Join {
     public String nickname;
   };
   
+  // Leave 패킷을 보낸 클라이언트를 'chat'채널에서 탈퇴시킵니다.
+  // 위와 같이 퇴장함을 알리기 위해 'chat' 채널에 패킷을 방송합니다.
   [Leave("chat")]
   [AutoResponse("chat")]
   public class Leave {
@@ -45,6 +50,7 @@ public class MyChattingPackets{
     public String nickname;
   }
   
+  // 메세지 패킷을 자동으로 'chat'채널에 방송합니다.
   [AutoResponse("chat")]
   public class ChatMessage {
     public String message;
