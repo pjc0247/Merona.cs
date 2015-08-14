@@ -12,3 +12,7 @@ server.AddPostProcessor(delegate (Session session, Packet packet){
   Console.WriteLine("OnPacketPostProcessor");
 }, 0);
 ```
+packet pipelining
+----
+__IN__ : Session -> IO -> Unmarshaling -> PreProcess -> Service -> Router<br>
+__OUT__ : Session -> PostProcess -> Marshaling -> IO
