@@ -71,8 +71,3 @@ void Main(String[] args) {
 [API 레퍼런스](doc/api)<br>
 [가이드](doc/guide)<br>
 [메로나 프로젝트들에 대한 설명](doc/projects)<br>
-
-packet pipelining
-----
-__IN__ : Session -> IO -> Unmarshaling -> PreProcess -> Service -> Router<br>
-__OUT__ : Session -> PostProcess -> Marshaling -> IO
