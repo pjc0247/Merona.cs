@@ -13,6 +13,7 @@ namespace Merona
     {
         private static Dictionary<Type, List<Tuple<String, FieldInfo>>> keys;
         private static Dictionary<Type, List<Tuple<String, FieldInfo>>> binds;
+        private static Dictionary<Type, List<Tuple<Packet.CustomDescriptor, FieldInfo>>> customs;
         private static Dictionary<Type, List<FieldInfo>> c2s;
         private static Dictionary<Type, List<FieldInfo>> s2c;
         private static Dictionary<Type, AutoResponse> autoResponses;
@@ -32,6 +33,7 @@ namespace Merona
 
             keys = new Dictionary<Type, List<Tuple<String, FieldInfo>>>();
             binds = new Dictionary<Type, List<Tuple<String, FieldInfo>>>();
+            customs = new Dictionary<Type, List<Tuple<CustomDescriptor, FieldInfo>>>();
             c2s = new Dictionary<Type, List<FieldInfo>>();
             s2c = new Dictionary<Type, List<FieldInfo>>();
 
@@ -65,7 +67,15 @@ namespace Merona
                 foreach (var field in packet.GetFields())
                 {
                     /* TODO : 정리 */
-                    
+                    var customAttrs = field.GetCustomAttributes(typeof(Packet.CustomDescriptor), true);
+                    foreach (var custom in customAttrs)
+                    {
+                        if (!customs.ContainsKey(packet))
+                            customs[packet] = new List<Tuple<Packet.CustomDescriptor, FieldInfo>>();
+
+                        customs[packet].Add(new Tuple<CustomDescriptor, FieldInfo>((Packet.CustomDescriptor)custom, field));
+                    }
+
                     var memberOf = (Packet.MemberOf)field.GetCustomAttribute(typeof(Packet.MemberOf));
                     if (memberOf != null)
                     {
@@ -137,6 +147,19 @@ namespace Merona
             if (!binds.ContainsKey(type))
                 return new List<Tuple<String, FieldInfo>>();
             return binds[type];
+        }
+
+        public static List<Tuple<Packet.CustomDescriptor, FieldInfo>> GetCustomFields<T>() where T : Packet
+        {
+            if (!customs.ContainsKey(typeof(T)))
+                return new List<Tuple<Packet.CustomDescriptor, FieldInfo>>();
+            return customs[typeof(T)];
+        }
+        public static List<Tuple<Packet.CustomDescriptor, FieldInfo>> GetCustomFields(Type type)
+        {
+            if (!customs.ContainsKey(type))
+                return new List<Tuple<Packet.CustomDescriptor, FieldInfo>>();
+            return customs[type];
         }
 
         public static List<FieldInfo> GetC2SFields<T>() where T : Packet
