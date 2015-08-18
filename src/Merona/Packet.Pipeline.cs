@@ -52,6 +52,13 @@ namespace Merona
 
             InBind(session);
 
+            foreach (var pp in Packet.GetCustomFields(GetType()))
+            {
+                var value = pp.Item2.GetValue(this);
+                pp.Item1.OnPreProcess(ref value);
+                pp.Item2.SetValue(this, value);
+            }
+                
             foreach (var pp in Server.current.preProcessors)
                 pp.Item2.Invoke(session, this);
         }
@@ -63,6 +70,13 @@ namespace Merona
         internal void PostProcess(Session session)
         {
             OutBind(session);
+
+            foreach (var pp in Packet.GetCustomFields(GetType()))
+            {
+                var value = pp.Item2.GetValue(this);
+                pp.Item1.OnPostProcess(ref value);
+                pp.Item2.SetValue(this, value);
+            }
 
             foreach (var pp in Server.current.preProcessors)
                 pp.Item2.Invoke(session, this);
