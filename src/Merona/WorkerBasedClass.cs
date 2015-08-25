@@ -67,11 +67,6 @@ namespace Merona
             Interlocked.Exchange(ref _isRunning, 0);
 
             thread.Interrupt();
-
-            SpinWait.SpinUntil(() =>
-            {
-                return !thread.IsAlive;
-            });
         }
 
         private void Worker()
@@ -117,7 +112,10 @@ namespace Merona
         /// </summary>
         public void Join()
         {
-            throw new NotImplementedException("");
+            SpinWait.SpinUntil(() =>
+            {
+                return !thread.IsAlive;
+            });
         }
 
         /// <summary>

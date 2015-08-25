@@ -176,6 +176,16 @@ namespace Merona
         }
 
         /// <summary>
+        /// 서버 종료기 완료될 때 까지 대기한다.
+        /// </summary>
+        public void Join()
+        {
+            scheduler.Join();
+            ioWorker.Join();
+            worker.Join();
+        }
+
+        /// <summary>
         /// 서버를 종료한다.
         /// [Thread-Safe]
         /// </summary>
