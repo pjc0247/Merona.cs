@@ -11,6 +11,9 @@ namespace Merona
     {
         protected Thread thread { get; set; }
         private long _isRunning;
+        /// <summary>
+        /// Worker 쓰레드가 단순히 실행 중인지 여부를 나타낸다.
+        /// </summary>
         public bool isRunning
         {
             get
@@ -18,17 +21,29 @@ namespace Merona
                 return Interlocked.Read(ref _isRunning) == 1 ? true : false;
             }
         }
-        private bool isQuitRequested { get; set; }
 
+        /// <summary>
+        /// Worker 쓰레드가 Setup처리가 완료되고 완전히 사용 가능 상태가
+        /// 되었는지 여부를 나타낸다.
+        /// </summary>
+        private long _isInitialized;
+        private bool isInitialized
+        {
+            get
+            {
+                return Interlocked.Read(ref _isInitialized) == 1 ? true : false;
+            }
+        }
+
+        private bool isQuitRequested { get; set; }
         private object waitHandle;
-        private long isInitialized;
 
         public WorkerBasedClass()
         {
             this.thread = new Thread(Worker);
             this.isQuitRequested = false;
             this.waitHandle = new object();
-            this.isInitialized = 0;
+            this._isInitialized = 0;
             this._isRunning = 0;
         }
 
@@ -38,7 +53,7 @@ namespace Merona
                 throw new InvalidOperationException();
 
             isQuitRequested = false;
-            Interlocked.Exchange(ref isInitialized, 0);
+            Interlocked.Exchange(ref _isInitialized, 0);
             Interlocked.Exchange(ref _isRunning, 1);
 
             thread.Start();
@@ -48,7 +63,7 @@ namespace Merona
             if (!thread.IsAlive)
                 throw new InvalidOperationException();
 
-            Interlocked.Exchange(ref isInitialized, 1);
+            Interlocked.Exchange(ref _isInitialized, 1);
             Interlocked.Exchange(ref _isRunning, 0);
 
             thread.Interrupt();
@@ -63,7 +78,7 @@ namespace Merona
         {
             Setup();
 
-            Interlocked.Exchange(ref isInitialized, 1);
+            Interlocked.Exchange(ref _isInitialized, 1);
             lock(waitHandle)
                 Monitor.Pulse(waitHandle);
 
@@ -88,7 +103,7 @@ namespace Merona
         public void Wait()
         {
             // 이미 초기화 완료된 상태
-            if (Interlocked.Read(ref isInitialized) != 0)
+            if (Interlocked.Read(ref _isInitialized) != 0)
                 return;
 
             // 아직 초기화 안됨.
