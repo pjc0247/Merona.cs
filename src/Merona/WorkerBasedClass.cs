@@ -113,6 +113,14 @@ namespace Merona
         }
 
         /// <summary>
+        /// Worker 스레드가 Cleanup이 완료될때까지 대기한다.
+        /// </summary>
+        public void Join()
+        {
+            throw new NotImplementedException("");
+        }
+
+        /// <summary>
         /// Worker에서 반복적으로 불리는 콜백
         /// </summary>
         protected abstract void WorkerRoutine();
