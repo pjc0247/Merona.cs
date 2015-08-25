@@ -10,6 +10,14 @@ namespace Merona
     public abstract class WorkerBasedClass
     {
         protected Thread thread { get; set; }
+        private long _isRunning;
+        public bool isRunning
+        {
+            get
+            {
+                return Interlocked.Read(ref _isRunning) == 1 ? true : false;
+            }
+        }
         private bool isQuitRequested { get; set; }
 
         private object waitHandle;
@@ -21,6 +29,7 @@ namespace Merona
             this.isQuitRequested = false;
             this.waitHandle = new object();
             this.isInitialized = 0;
+            this._isRunning = 0;
         }
 
         public void Start()
@@ -29,7 +38,9 @@ namespace Merona
                 throw new InvalidOperationException();
 
             isQuitRequested = false;
-            isInitialized = 0;
+            Interlocked.Exchange(ref isInitialized, 0);
+            Interlocked.Exchange(ref _isRunning, 1);
+
             thread.Start();
         }
         public void Kill()
@@ -37,8 +48,8 @@ namespace Merona
             if (!thread.IsAlive)
                 throw new InvalidOperationException();
 
-            isQuitRequested = true;
-            isInitialized = 1;
+            Interlocked.Exchange(ref isInitialized, 1);
+            Interlocked.Exchange(ref _isRunning, 0);
 
             thread.Interrupt();
 
