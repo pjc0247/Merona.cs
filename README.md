@@ -74,3 +74,10 @@ void Main(String[] args) {
 [API 레퍼런스](doc/api)<br>
 [가이드](doc/guide)<br>
 [메로나 프로젝트들에 대한 설명](doc/projects)<br>
+
+프로젝트들
+----
+* [Merona.Pgen](https://github.com/pjc0247/Merona.Pgen.cs)
+* [Merona.Http](https://github.com/pjc0247/Merona.Http.cs)
+  Merona 서버에 Http 프로토콜 지원을 위한 커스텀 마샬러입니다.
+* [Merona.Apns](https://github.com/pjc0247/Merona.Apns.cs)
