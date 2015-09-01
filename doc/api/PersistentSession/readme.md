@@ -1,14 +1,18 @@
 PersistentSession
 ====
+PersistentSession
 
-Create
+isOpened
 ----
 
-Open
+Create(key)
+----
+
+Open(key)
 ----
 
 Commit
 ----
 
-Reset
+Remove
 ----
