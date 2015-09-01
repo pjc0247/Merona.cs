@@ -4,7 +4,7 @@ Session vs PersistentSession
 Session
 ----
 각 클라이언트 연결당 1개 씩 생성되는 Connection 기반 스토리지입니다.<br>
-이곳에는 연결이 유효한 시간에만 같이 유효한 값들이 저장됩니다. (TCP Socket, 암호화 키 등)
+이곳에는 연결이 유효한 시간에만 같이 유효한 값들이 저장됩니다. (TCP Socket, 암호화 키, 일회용 닉네임 등)
 
 PersistentSession
 ----
