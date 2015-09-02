@@ -74,6 +74,8 @@ namespace Merona
         internal Worker worker { set; private get; }
         internal IoWorker ioWorker { get; private set; }
 
+        private List<IDisposable> disposableResources { get; set; }
+
         public Server(Config config = null)
         {
             Server.current = this;
@@ -90,6 +92,9 @@ namespace Merona
             this.listener = new TcpListener(config.port);
             this.sessionPool = new Session.Pool(config.sessionPoolSize);
             this.channelPool = new Channel.Pool();
+
+            this.disposableResources = new List<IDisposable>();
+            this.disposableResources.Add(this.sessionPool);
 
             if (config.enableDB)
             {
@@ -195,6 +200,9 @@ namespace Merona
                 throw new InvalidOperationException();
 
             isRunning = false;
+
+            foreach (var resource in disposableResources)
+                resource.Dispose();
 
             if(config.enableCluster)
                 cluster.Kill();

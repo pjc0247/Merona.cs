@@ -11,7 +11,7 @@ namespace Merona
 {
     public partial class Session
     {
-        internal class Pool
+        internal class Pool : IDisposable
         {
             public int size { get; private set; }
 
@@ -32,6 +32,17 @@ namespace Merona
                     session.server = Server.current;
                     this.pool.Push((Session)session);
                 }
+            }
+
+            public void Dispose()
+            {
+                Server.current.logger.Info("Session.Pool::Dispose");
+
+                foreach(var session in pool){
+                    session.Disconnect();
+                }
+
+                pool.Clear();
             }
 
             public Session Acquire()
