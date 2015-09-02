@@ -20,6 +20,13 @@ namespace Merona
 
     public class PersistentSession
     {
+        public enum AutoCommitType
+        {
+            None,
+            AfterRequest,
+            AfterSessionClosed
+        }
+
         private static Dictionary<Type,String> collectionNameCache { get; set; }
 
         private String collectionName { get; set; }
@@ -39,6 +46,7 @@ namespace Merona
                 return true;
             }
         }
+        public AutoCommitType autoCommitType { get; set; }
 
         static PersistentSession()
         {
@@ -46,7 +54,8 @@ namespace Merona
         }
         public PersistentSession()
         {
-            collectionName = GetType().Name;
+            this.autoCommitType = AutoCommitType.None;
+            this.collectionName = GetType().Name;
         }
 
         public Task CreateAsync(String key)
