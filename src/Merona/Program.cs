@@ -19,7 +19,6 @@ namespace Merona
             // TODO : config
             NLog.Config.SimpleConfigurator.ConfigureForConsoleLogging(NLog.LogLevel.Debug);
             
-
            // var r = DataBinder.Bind("#{bar.foo} sadf dee #{rre}", new Session());
            // Console.WriteLine(r);
 
@@ -60,6 +59,11 @@ namespace Merona
 
                 bar.resp = "wwQQ";
             }, 0);
+
+            Console.CancelKeyPress += delegate (object sender, ConsoleCancelEventArgs e)
+            {
+                s.Kill();
+            };
 
             while (true)
             {
