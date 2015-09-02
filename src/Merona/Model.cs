@@ -7,6 +7,7 @@ using System.Reflection;
 
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Bson.Serialization;
 
 namespace Merona
 {
@@ -21,6 +22,15 @@ namespace Merona
         static Model()
         {
             cache = new Dictionary<List<Tuple<String, String>>, WeakReference<Model>>();
+
+            var children = Assembly.GetEntryAssembly().GetTypes()
+                .Where(type => type.IsSubclassOf(typeof(Model)));
+
+            foreach (var child in children)
+            {
+                var classMap = new BsonClassMap(child);
+                BsonClassMap.RegisterClassMap(classMap);
+            }
         }
 
         internal static void Collect()
