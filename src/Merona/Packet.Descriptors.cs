@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Security.Cryptography;
+
 namespace Merona
 {
     [AttributeUsage(AttributeTargets.Class)]
@@ -107,6 +109,26 @@ namespace Merona
         [AttributeUsage(AttributeTargets.Field)]
         protected class C2S : Attribute
         {
+        }
+
+        protected class Sha256 : CustomDescriptor
+        {
+            internal protected override void OnPostProcess(ref object target)
+            {
+                var msg = (String)target;
+
+                Console.WriteLine(msg);
+                var crypt = SHA256Managed.Create();
+                var hash = new StringBuilder();
+
+                var crypto = crypt.ComputeHash(
+                    Encoding.UTF8.GetBytes(msg), 0, Encoding.UTF8.GetByteCount(msg));
+
+                foreach (byte theByte in crypto)
+                    hash.Append(theByte.ToString("x2"));
+
+                target = hash.ToString();
+            }
         }
     }
 }
