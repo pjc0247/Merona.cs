@@ -129,8 +129,10 @@ namespace Merona
                                 session.Send(packet);
                         }
                     }
-                        
                 }
+
+                e.session.CommmitPersistentSessionsAsync(
+                    Session.PersistentSessionCommitTiming.AfterRequest);
             }
             private void OnCallFunc(CallFuncEvent e)
             {
