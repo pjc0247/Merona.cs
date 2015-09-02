@@ -35,6 +35,12 @@ namespace Merona
             AfterSessionClosed
         }
 
+        /// <summary>
+        /// 현재 세션 안의 PersistentSession중 조건에 맞는 것들에 대해서 
+        /// 커밋을 수행한다.
+        /// </summary>
+        /// <param name="timing">커밋 타이밍</param>
+        /// <returns>모든 Commit작업이 완료될 때 까지 대기하는 Task</returns>
         internal Task CommmitPersistentSessionsAsync(
             PersistentSessionCommitTiming timing)
         {
