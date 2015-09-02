@@ -26,7 +26,8 @@ namespace Merona.TestApp
         [MemberOf(typeof(Player))]
         public int vv;
 
-        [Bind("#{bar.foo}")]
+        //[Bind("#{bar.foo}")]
+        [Sha256]
         public string bind;
     }
     [PacketId(1)]
@@ -69,6 +70,7 @@ namespace Merona.TestApp
 
             Console.WriteLine("OnBar " + packet.resp);
 
+            /*
             Console.WriteLine(Server.isSafeThread);
 
             await Scheduler.current.Yield(2000);
@@ -76,6 +78,10 @@ namespace Merona.TestApp
             //Console.WriteLine(packet.data);
 
             Console.WriteLine(Server.isSafeThread);
+            */
+            var p = new FooPacket();
+            p.bind = "ASDdsddsFddd";
+            session.Send(p);
         }
         [Handler(typeof(FooPacket))]
         public async void OnFoo(Session session, FooPacket packet)
