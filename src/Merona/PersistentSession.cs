@@ -49,7 +49,7 @@ namespace Merona
             collectionName = GetType().Name;
         }
 
-        public Task Create(String key)
+        public Task CreateAsync(String key)
         {
             this.key = key;
 
@@ -59,7 +59,7 @@ namespace Merona
 
             return new Task(() => { });
         }
-        public Task Open(String key)
+        public Task OpenAsync(String key)
         {
             var server = Server.current;
 
@@ -93,7 +93,7 @@ namespace Merona
                 Console.WriteLine(result);
             });
         }
-        public Task Commit()
+        public Task CommitAsync()
         {
             var server = Server.current;
 
@@ -105,7 +105,7 @@ namespace Merona
                     .ReplaceOneAsync(filter, this.ToBsonDocument());
             });
         }
-        public Task Remove()
+        public Task RemoveAsync()
         {
             var server = Server.current;
 

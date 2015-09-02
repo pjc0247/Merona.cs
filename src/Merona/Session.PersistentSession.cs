@@ -27,7 +27,7 @@ namespace Merona
             }
         }
 
-        internal Task CommmitAllPersistentSessions()
+        internal Task CommmitAllPersistentSessionsAsync()
         {
             var persistentSessions = persistentSessionCaches[GetType()];
             var tasks = new List<Task>();
@@ -35,7 +35,7 @@ namespace Merona
             foreach (var persistentSessionProp in persistentSessions) {
                 var persistentSession = (PersistentSession)persistentSessionProp.GetValue(this);
 
-                tasks.Add(persistentSession.Commit());
+                tasks.Add(persistentSession.CommitAsync());
             }
 
             return Task.WhenAll(tasks);
