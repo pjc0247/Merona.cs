@@ -27,6 +27,8 @@ namespace Merona
         public int sessionRecvBufferSize { get; set; }
         public int sessionPoolSize { get; set; }
 
+        public PersistentSession.AutoCommitType defaultPersistentSessionAutoCommitType { get; set; }
+
         public String dbHostName { get; set; }
         public String dbDatabaseName { get; set; }
 
@@ -64,6 +66,8 @@ namespace Merona
             this.endian = "little"; // 기본값 big?
             this.sessionType = typeof(Session);
             this.marshalerType = typeof(Server.DefaultMarshaler);
+
+            this.defaultPersistentSessionAutoCommitType = PersistentSession.AutoCommitType.AfterRequest;
         }
         /// <summary>
         /// 파일로부터 설정값 생성

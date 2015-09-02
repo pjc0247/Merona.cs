@@ -40,7 +40,10 @@ namespace Merona.TestApp
 
     class PlayData : PersistentSession
     {
-
+        public PlayData(Server server) :
+            base(server)
+        {
+        }
     }
 
     class TestService : Service
@@ -50,8 +53,8 @@ namespace Merona.TestApp
         {
             Console.WriteLine("SETUP");
 
-            PlayData a = new PlayData();
-            await a.Open("asdf");
+            PlayData a = new PlayData(Server.current);
+            await a.OpenAsync("asdf");
 
 
         }
@@ -59,11 +62,20 @@ namespace Merona.TestApp
         [Handler(typeof(BarPacket))]
         public async void OnBar(Session session, BarPacket packet)
         {
+            //Console.WriteLine(SynchronizationContext.Current == null);
+            //Thread.CurrentPrincipal.Identity.
+
+            Console.WriteLine(SynchronizationContext.Current);
+
             Console.WriteLine("OnBar " + packet.resp);
+
+            Console.WriteLine(Server.isSafeThread);
 
             await Scheduler.current.Yield(2000);
             Console.WriteLine("NExt");
             //Console.WriteLine(packet.data);
+
+            Console.WriteLine(Server.isSafeThread);
         }
         [Handler(typeof(FooPacket))]
         public async void OnFoo(Session session, FooPacket packet)

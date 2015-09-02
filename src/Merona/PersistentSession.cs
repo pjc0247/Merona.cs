@@ -52,9 +52,9 @@ namespace Merona
         {
             collectionNameCache = new Dictionary<Type, string>();
         }
-        public PersistentSession()
+        public PersistentSession(Server server)
         {
-            this.autoCommitType = AutoCommitType.None;
+            this.autoCommitType = server.config.defaultPersistentSessionAutoCommitType;
             this.collectionName = GetType().Name;
         }
 
