@@ -107,6 +107,7 @@
     <Compile Include="Server.Worker.SynchronizationContext.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="Session.cs" />
+    <Compile Include="Session.PersistentSession.cs" />
     <Compile Include="Session.Pool.cs" />
     <Compile Include="TestApp\TestService.cs" />
     <Compile Include="WorkerBasedClass.cs" />
