@@ -35,3 +35,11 @@ Remove
 ----
 현재 오픈된 PersistentSession을 삭제합니다.<br>
 단순히 데이터를 비우는것이 아니라 공간을 삭제함으로써 생성할 때 유니크 키(Key)는 다시 사용 가능 상태가 됩니다.
+
+
+```c#
+[Collection("PlayData")]
+class PlayData : PersistentSession {
+ public long highScore { get; set; }
+};
+```
