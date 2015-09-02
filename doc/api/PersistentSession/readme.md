@@ -17,21 +17,21 @@ autoCommitMode
   * None<br>
     자동으로 커밋하지 않습니다. 직접 Commit 메소드를 호출하여 커밋하지 않으면 변경된 내용은 유실됩니다.
 
-Create(key)
+CreateAsync(key)
 ----
 유니크 키(Key)를 기반으로 새 PersistentSession을 생성합니다.<br>
 만약 이전에 동일한 키를 가진 항목이 존재할 경우 익셉션이 발생합니다.
 
-Open(key)
+OpenAsync(key)
 ----
 유니크 키(Key)를 기반으로 PersistentSession을 로드합니다.<br>
 만약 이전에 동일한 키로 생성된 PersistentSession이 없을 경우 익셉션이 발생합니다.
 
-Commit
+CommitAsync
 ----
 현재 PersistentSession의 변경 사항들을 저장합니다.
 
-Remove
+RemoveAsync
 ----
 현재 오픈된 PersistentSession을 삭제합니다.<br>
 단순히 데이터를 비우는것이 아니라 공간을 삭제함으로써 생성할 때 유니크 키(Key)는 다시 사용 가능 상태가 됩니다.
