@@ -11,7 +11,7 @@ namespace Merona
 {
     public sealed partial class Server
     {
-        internal class Worker : WorkerBasedClass
+        internal partial class Worker : WorkerBasedClass
         {
             private Server server { get; set; }
 
@@ -50,6 +50,9 @@ namespace Merona
                 server.logger.Info("Worker::Setup tid({0})", ThreadId);
 
                 isWorkerInitialized = true;
+
+                SynchronizationContext.SetSynchronizationContext(
+                    new WorkerSynchronizationContext(server));
             }
             protected override void Cleanup()
             {
