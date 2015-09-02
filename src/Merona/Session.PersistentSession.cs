@@ -16,7 +16,9 @@ namespace Merona
             persistentSessionCaches = new Dictionary<Type, List<PropertyInfo>>();
 
             var children = Assembly.GetEntryAssembly().GetTypes()
-                .Where(type => type.IsSubclassOf(typeof(Session)));
+                .Where(type => 
+                    type.IsEquivalentTo(typeof(Session)) || 
+                    type.IsSubclassOf(typeof(Session)));
 
             foreach (var child in children)
             {
@@ -27,13 +29,29 @@ namespace Merona
             }
         }
 
-        internal Task CommmitAllPersistentSessionsAsync()
+        internal enum PersistentSessionCommitTiming
+        {
+            AfterRequest,
+            AfterSessionClosed
+        }
+
+        internal Task CommmitPersistentSessionsAsync(
+            PersistentSessionCommitTiming timing)
         {
             var persistentSessions = persistentSessionCaches[GetType()];
             var tasks = new List<Task>();
 
             foreach (var persistentSessionProp in persistentSessions) {
                 var persistentSession = (PersistentSession)persistentSessionProp.GetValue(this);
+
+                if (persistentSession.autoCommitType == PersistentSession.AutoCommitType.None)
+                    continue;
+                if (persistentSession.autoCommitType == PersistentSession.AutoCommitType.AfterRequest &&
+                    timing != PersistentSessionCommitTiming.AfterRequest)
+                    continue;
+                if (persistentSession.autoCommitType == PersistentSession.AutoCommitType.AfterSessionClosed &&
+                    timing != PersistentSessionCommitTiming.AfterSessionClosed)
+                    continue;
 
                 tasks.Add(persistentSession.CommitAsync());
             }
