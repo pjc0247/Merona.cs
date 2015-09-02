@@ -60,7 +60,7 @@ namespace Merona
             this.sessionRingBufferSize = 1024;
             this.sessionPoolSize = 1024;
             this.dbHostName = "localhost";
-            this.dbDatabaseName = "test";
+            this.dbDatabaseName = "test2";
             this.endian = "little"; // 기본값 big?
             this.sessionType = typeof(Session);
             this.marshalerType = typeof(Server.DefaultMarshaler);

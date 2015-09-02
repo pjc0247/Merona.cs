@@ -38,8 +38,24 @@ namespace Merona.TestApp
         public String resp;
     }
 
+    class PlayData : PersistentSession
+    {
+
+    }
+
     class TestService : Service
     {
+
+        protected internal override async void Setup()
+        {
+            Console.WriteLine("SETUP");
+
+            PlayData a = new PlayData();
+            await a.Open("asdf");
+
+
+        }
+
         [Handler(typeof(BarPacket))]
         public async void OnBar(Session session, BarPacket packet)
         {
