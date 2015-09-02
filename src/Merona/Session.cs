@@ -84,7 +84,8 @@ namespace Merona
         {
             isAlive = false;
 
-            if (client.Client.Connected) {
+            if (client != null &&
+                client.Client.Connected) {
                 client.Client.BeginDisconnect(
                     true,
                     new AsyncCallback(Disconneted), null);

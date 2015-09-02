@@ -36,8 +36,6 @@ namespace Merona
 
             public void Dispose()
             {
-                Server.current.logger.Info("Session.Pool::Dispose");
-
                 foreach(var session in pool){
                     session.Disconnect();
                 }
