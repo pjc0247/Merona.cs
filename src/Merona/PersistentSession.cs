@@ -51,6 +51,10 @@ namespace Merona
 
         public Task CreateAsync(String key)
         {
+            // Create는 무조건 상속된 클래스에서 실행되어야 함
+            if (GetType() == typeof(PersistentSession))
+                throw new InvalidOperationException();
+
             this.key = key;
 
             var db = Server.current.database;
@@ -61,6 +65,10 @@ namespace Merona
         }
         public Task OpenAsync(String key)
         {
+            // Open은 무조건 상속된 클래스에서 실행되어야 함
+            if (GetType() == typeof(PersistentSession))
+                throw new InvalidOperationException();
+
             var server = Server.current;
 
             return Task.Factory.StartNew(async () => {
