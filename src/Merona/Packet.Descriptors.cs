@@ -111,6 +111,9 @@ namespace Merona
         {
         }
 
+        /// <summary>
+        /// 패킷의 필드가 전송되기 이전에 SHA256으로 암호화되어야 함을 나타내는 속성.
+        /// </summary>
         protected class Sha256 : CustomDescriptor
         {
             internal protected override void OnPostProcess(ref object target)
