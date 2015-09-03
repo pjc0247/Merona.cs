@@ -1,6 +1,10 @@
 Sha256
 ====
 
+Target
+----
+__Field__
+
 PostProcess
 ----
 해당 필드를 Sha256알고리즘으로 해싱합니다. 필드는 반드시 String 타입이어야 합니다.
