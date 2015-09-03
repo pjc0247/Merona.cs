@@ -20,6 +20,13 @@ namespace Merona
 
     public class PersistentSession
     {
+        public enum AutoCommitType
+        {
+            None,
+            AfterRequest,
+            AfterSessionClosed
+        }
+
         private static Dictionary<Type,String> collectionNameCache { get; set; }
 
         private String collectionName { get; set; }
@@ -39,18 +46,24 @@ namespace Merona
                 return true;
             }
         }
+        public AutoCommitType autoCommitType { get; set; }
 
         static PersistentSession()
         {
             collectionNameCache = new Dictionary<Type, string>();
         }
-        public PersistentSession()
+        public PersistentSession(Server server)
         {
-            collectionName = GetType().Name;
+            this.autoCommitType = server.config.defaultPersistentSessionAutoCommitType;
+            this.collectionName = GetType().Name;
         }
 
-        public Task Create(String key)
+        public Task CreateAsync(String key)
         {
+            // Create는 무조건 상속된 클래스에서 실행되어야 함
+            if (GetType() == typeof(PersistentSession))
+                throw new InvalidOperationException();
+
             this.key = key;
 
             var database = Server.current.database;
@@ -60,8 +73,12 @@ namespace Merona
                     InsertOneAsync(this.ToBsonDocument());
             });
         }
-        public Task Open(String key)
+        public Task OpenAsync(String key)
         {
+            // Open은 무조건 상속된 클래스에서 실행되어야 함
+            if (GetType() == typeof(PersistentSession))
+                throw new InvalidOperationException();
+
             var database = Server.current.database;
 
             return Task.Factory.StartNew(async () => {
@@ -90,7 +107,7 @@ namespace Merona
                 Console.WriteLine(result);
             });
         }
-        public Task Commit()
+        public Task CommitAsync()
         {
             var server = Server.current;
 
@@ -102,7 +119,7 @@ namespace Merona
                     .ReplaceOneAsync(filter, this.ToBsonDocument());
             });
         }
-        public Task Remove()
+        public Task RemoveAsync()
         {
             var server = Server.current;
 

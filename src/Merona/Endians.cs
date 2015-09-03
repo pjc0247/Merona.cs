@@ -17,7 +17,8 @@ namespace Merona
         /// </summary>
         public static ByteOrder systemByteOrder
         {
-            get{
+            get
+            {
                 return BitConverter.IsLittleEndian ? ByteOrder.LittleEndian : ByteOrder.BigEndian;
             }
         }

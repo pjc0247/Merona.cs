@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Security.Cryptography;
+
 namespace Merona
 {
     [AttributeUsage(AttributeTargets.Class)]
@@ -107,6 +109,29 @@ namespace Merona
         [AttributeUsage(AttributeTargets.Field)]
         protected class C2S : Attribute
         {
+        }
+
+        /// <summary>
+        /// 패킷의 필드가 전송되기 이전에 SHA256으로 암호화되어야 함을 나타내는 속성.
+        /// </summary>
+        protected class Sha256 : CustomDescriptor
+        {
+            internal protected override void OnPostProcess(ref object target)
+            {
+                var msg = (String)target;
+
+                Console.WriteLine(msg);
+                var crypt = SHA256Managed.Create();
+                var hash = new StringBuilder();
+
+                var crypto = crypt.ComputeHash(
+                    Encoding.UTF8.GetBytes(msg), 0, Encoding.UTF8.GetByteCount(msg));
+
+                foreach (byte theByte in crypto)
+                    hash.Append(theByte.ToString("x2"));
+
+                target = hash.ToString();
+            }
         }
     }
 }

@@ -19,7 +19,6 @@ namespace Merona
             // TODO : config
             NLog.Config.SimpleConfigurator.ConfigureForConsoleLogging(NLog.LogLevel.Debug);
             
-
            // var r = DataBinder.Bind("#{bar.foo} sadf dee #{rre}", new Session());
            // Console.WriteLine(r);
 
@@ -46,20 +45,25 @@ namespace Merona
             s.Enqueue(new Server.RecvPacketEvent(new Session(), bp));
 
             s.AddPreProcessor(delegate (Session session, Packet packet)             {
-                var bar = (BarPacket)packet;
+                //var bar = (BarPacket)packet;
 
                 Console.WriteLine("prep1");
 
-                bar.resp = "wwQQ";
+                //bar.resp = "wwQQ";
             }, 1);
             s.AddPreProcessor(delegate(Session session, Packet packet)
             {
-                var bar = (BarPacket)packet;
+                //var bar = (BarPacket)packet;
 
                 Console.WriteLine("prep2");
 
-                bar.resp = "wwQQ";
+                //bar.resp = "wwQQ";
             }, 0);
+
+            Console.CancelKeyPress += delegate (object sender, ConsoleCancelEventArgs e)
+            {
+                s.Kill();
+            };
 
             while (true)
             {

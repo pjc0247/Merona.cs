@@ -15,10 +15,10 @@ namespace Merona
                 PostProcess
             }
 
-            internal protected void OnPreProcess(ref object target)
+            internal protected virtual void OnPreProcess(ref object target)
             {
             }
-            internal protected void OnPostProcess(ref object target)
+            internal protected virtual void OnPostProcess(ref object target)
             {
             }
         }
