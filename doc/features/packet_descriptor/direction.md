@@ -10,7 +10,8 @@ class LoginResponse : Packet {
   public bool result;
 };
 ```
-위의 LoginRequest/Response 클래스는 아래 코드의 통합된 Login 패킷으로 대체할 수 있습니다.
+위의 LoginRequest/Response 클래스는 아래 코드의 통합된 Login 패킷으로 대체할 수 있습니다.<br>
+(각 필드에 S2C, C2S를 무조건 적어야 하는 불편함은 Merona용 패킷 제너레이터인 [Merona.Pgen.cs](https://github.com/pjc0247/Merona.Pgen.cs)를 사용하면 해결할 수 있습니다.)
 ```c#
 class Login : Packet {
   [C2S]
