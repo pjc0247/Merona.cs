@@ -89,7 +89,7 @@ namespace Merona
                 try {
                     /* TODO : */
                     result = await database.GetCollection<BsonDocument>(collectionName)
-                    .Find(filter).FirstAsync();
+                        .Find(filter).FirstAsync();
 
                     var deserialized = MongoDB.Bson.Serialization.BsonSerializer.Deserialize(result, GetType());
 
