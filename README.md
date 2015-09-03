@@ -18,7 +18,7 @@ Merona.cs
 * __싱글 스레드__<br>
   메로나는 싱글 스레드 기반의 서버를 제공합니다. 덕분에 복잡한 동기화 작업 때문에 머리아플 일이 없습니다.<br>
   [메로나의 스레드 관리](https://github.com/pjc0247/Merona.cs/tree/master/doc/guide/threads)
-* __패킷 메타 프로그래밍__
+* __패킷 메타 프로그래밍__<br>
   Merona 서버로 들어오거나, Merona 서버로부터 송신하는 패킷에 대해 Packet 또는 Field 단위의 훅을 지원합니다.<br>
   (링크 추가)
 * __유연함__<br>
