@@ -53,28 +53,25 @@ namespace Merona
         {
             this.key = key;
 
-            var db = Server.current.database;
-
-            db.GetCollection<BsonDocument>(collectionName);
-
-            return new Task(() => { });
+            var database = Server.current.database;
+            return Task.Factory.StartNew(async () =>
+            {
+                await database.GetCollection<BsonDocument>(collectionName).
+                    InsertOneAsync(this.ToBsonDocument());
+            });
         }
         public Task Open(String key)
         {
-            var server = Server.current;
+            var database = Server.current.database;
 
             return Task.Factory.StartNew(async () => {
                 var filter = Builders<BsonDocument>.Filter.Eq("__merona_id", key);
-
-                Console.WriteLine("QQ");
-
-                /* TODO : */
-
+                
                 BsonDocument result = null;
-                Console.WriteLine("QQ");
 
                 try {
-                    result = await server.database.GetCollection<BsonDocument>(collectionName)
+                    /* TODO : */
+                    result = await database.GetCollection<BsonDocument>(collectionName)
                     .Find(filter).FirstAsync();
 
                     var deserialized = MongoDB.Bson.Serialization.BsonSerializer.Deserialize(result, GetType());
