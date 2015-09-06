@@ -120,7 +120,6 @@ namespace Merona
             {
                 var msg = (String)target;
 
-                Console.WriteLine(msg);
                 var crypt = SHA256Managed.Create();
                 var hash = new StringBuilder();
 
