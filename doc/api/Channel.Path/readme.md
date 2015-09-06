@@ -16,3 +16,8 @@ var path2 = new Channel.Path("hello.world.*");
 
 path1.IsMatch(path2); // true
 ```
+
+Thread-Safety
+----
+이 클래스의 모든 메소드와 프로퍼티들은 스레드에 안전하지 않습니다.<br>
+반드시 안전한 스레드에서 접근되어야 합니다.
