@@ -48,3 +48,7 @@ ValidReference는 단일 객체에 대해 현재 객체가 유효한 상태인�
 ```c#
 var vr = new ValidReference(session);
 ```
+
+Thread-Safety
+----
+SafeCollection과 ValidReference 모두 스레드에 안전하지 않으며, 싱글 Worker 기반의 Merona 서버에서만 정상 작동을 보장합니다.
