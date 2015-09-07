@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 
 namespace Merona
 {
-    public partial class Session
+    public partial class Session : ISafeCollectionContainable<Session>
     {
         /// <summary>
         /// 현재 바인딩 된 세션의 인스턴스
@@ -44,6 +44,8 @@ namespace Merona
             this.receiveBuffer = new byte[128]; /* TODO : config */
             this.marshaler = (Server.IMarshalContext)Activator.CreateInstance(Config.defaults.marshalerType);
             this.skip = 0;
+
+            InitializeSafeCollectionSupport();
         }
         public Session(Server server)
         {
@@ -55,6 +57,8 @@ namespace Merona
             this.receiveBuffer = new byte[server.config.sessionRecvBufferSize];
             this.marshaler = (Server.IMarshalContext)Activator.CreateInstance(server.config.marshalerType);
             this.skip = 0;
+
+            InitializeSafeCollectionSupport();
         }
 
         internal protected virtual void OnConnect()
@@ -68,6 +72,8 @@ namespace Merona
 
         internal void Reset(TcpClient client)
         {
+            PublishInvalidate();
+
             this.client = client;
             this.isAlive = true;
             this.marshaler =
@@ -82,6 +88,7 @@ namespace Merona
 
         public void Disconnect()
         {
+            PublishInvalidate();
             isAlive = false;
 
             if (client != null &&

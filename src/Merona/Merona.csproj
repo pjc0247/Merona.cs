@@ -98,6 +98,7 @@
     <Compile Include="PersistentSession.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SafeCollection.cs" />
     <Compile Include="Scheduler.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Server.CustomMarshal.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Session.cs" />
     <Compile Include="Session.PersistentSession.cs" />
     <Compile Include="Session.Pool.cs" />
+    <Compile Include="Session.SafeCollectionSupport.cs" />
     <Compile Include="TestApp\TestService.cs" />
     <Compile Include="WorkerBasedClass.cs" />
   </ItemGroup>
