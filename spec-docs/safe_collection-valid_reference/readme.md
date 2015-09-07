@@ -26,7 +26,10 @@ class MatchMakerService {
 
 <br>
 이처럼 Invalidate될 수 있거나, 재사용될 수 있는 인스턴스를 저장해 놓는 행위는 위험할 수 있으며, Merona는 이를 위해 SafeCollection과 ValidReferece 두가지 유틸리티 클래스를 제공합니다.
-<br><br>
+<br>
+
+SafeCollection
+----
 SafeCollection은 객체가 Invalidate될 때 자동으로 컬렉션에서 제거시킵니다.
 ```C#
 class MatchMakerService {
@@ -38,7 +41,8 @@ class MatchMakerService {
 문제가 있었던 첫번째 예제 코드를 위와 같이 수정하면, 첫번째 클라이언트의 연결이 종료되었을 때 자동으로 컬렉션을 제거되므로 두번째 클라이언트가 JoinMatch를 시도해도 매칭을 시도하는 코드로 더이상 진행되지 않습니다.
 
 <br>
-<br>
+ValidReference
+----
 ValidReference는 단일 객체에 대해 현재 객체가 유효한 상태인지를 검사합니다.<br>
 객체를 생성할 당시의 스냅샷이 저장되므로, 대상 객체가 Invalid상태가 되었다가 다시 Valid한 상태가 되어도 ValidReference는 Invalid상태로 남게 됩니다.
 ```c#
