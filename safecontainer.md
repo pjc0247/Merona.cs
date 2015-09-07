@@ -45,3 +45,33 @@ ValidReference는 단일 객체에 대해 현재 객체가 유효한 상태인�
 ```c#
 var vr = new ValidReference(session);
 ```
+```c#
+class SafeCollection<T> : ObservableCollection<T>
+    {
+        public SafeCollection() :
+            base()
+        {
+            CollectionChanged += SafeCollection_CollectionChanged;
+        }
+        public SafeCollection(T[] values) :
+            base(values)
+        {
+            CollectionChanged += SafeCollection_CollectionChanged;
+        }
+
+        private void SafeCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    break;
+            }
+        }
+    }
+```
