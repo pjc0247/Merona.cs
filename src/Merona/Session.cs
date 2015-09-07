@@ -72,7 +72,7 @@ namespace Merona
 
         internal void Reset(TcpClient client)
         {
-            PublishInvalidate();
+            PublishInvalidated();
 
             this.client = client;
             this.isAlive = true;
@@ -88,7 +88,7 @@ namespace Merona
 
         public void Disconnect()
         {
-            PublishInvalidate();
+            PublishInvalidated();
             isAlive = false;
 
             if (client != null &&

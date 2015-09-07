@@ -25,7 +25,7 @@ namespace Merona
             safeCollections.Remove(safeCollection);
         }
 
-        public void PublishInvalidate()
+        public void PublishInvalidated()
         {
             foreach (var safeCollection in safeCollections)
                 safeCollection.Invalidate(this);
