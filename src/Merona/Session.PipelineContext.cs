@@ -14,6 +14,9 @@ namespace Merona
         /// </summary>
 		public class PipelineContext
         {
+			/// <summary>
+            /// 클라이언트로부터 수신된 요청 패킷입니다.
+            /// </summary>
 			public Packet request { get; internal set; }
 
         }
