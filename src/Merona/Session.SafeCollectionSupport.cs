@@ -27,7 +27,11 @@ namespace Merona
 
         public void PublishInvalidated()
         {
-            foreach (var safeCollection in safeCollections)
+            var clone = new SafeCollection<Session>[safeCollections.Count];
+
+            safeCollections.CopyTo(clone);
+
+            foreach (var safeCollection in clone)
                 safeCollection.Invalidate(this);
 
             safeCollections.Clear();
