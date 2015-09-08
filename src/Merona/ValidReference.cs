@@ -25,5 +25,13 @@ namespace Merona
         {
             isValid = false;
         }
+
+        public T Get()
+        {
+            if (isValid == false)
+                throw new InvalidOperationException();
+
+            return target;
+        }
     }
 }
