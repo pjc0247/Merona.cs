@@ -47,37 +47,4 @@ namespace Merona
             Remove(item);
         }
     }
-
-    public class ValidReference<T> : IStatusSubscriber<T>
-        where T : IStatusObservable<T>
-    {
-        private T target { get; set; }
-
-        public bool isValid { get; private set; }
-
-        public ValidReference(T target)
-        {
-            this.target = target;
-            this.isValid = true;
-
-            target.OnSubscribe(this);
-        }
-
-        public void Invalidate(T item)
-        {
-            isValid = false;
-        }
-    }
-
-    public interface IStatusObservable<T>
-        where T : IStatusObservable<T>
-    {
-        void OnSubscribe(IStatusSubscriber<T> obj);
-        void OnUnsubscribe(IStatusSubscriber<T> obj);
-    }
-    public interface IStatusSubscriber<T>
-        where T : IStatusObservable<T>
-    {
-        void Invalidate(T obj);
-    }
 }

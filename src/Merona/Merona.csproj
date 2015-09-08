@@ -90,6 +90,7 @@
     <Compile Include="DumpCallStack.cs" />
     <Compile Include="Endians.cs" />
     <Compile Include="IdDispenser.cs" />
+    <Compile Include="IStatusObservable.cs" />
     <Compile Include="LinearBuffer.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Packet.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Session.Pool.cs" />
     <Compile Include="Session.SafeCollectionSupport.cs" />
     <Compile Include="TestApp\TestService.cs" />
+    <Compile Include="ValidReference.cs" />
     <Compile Include="WorkerBasedClass.cs" />
   </ItemGroup>
   <ItemGroup>
