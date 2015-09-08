@@ -60,6 +60,11 @@ namespace Merona
 	public partial class Packet
     {
         [AttributeUsage(AttributeTargets.Field)]
+        protected class Forward : Attribute
+        {
+        }
+
+        [AttributeUsage(AttributeTargets.Field)]
         protected class MemberOf : Attribute
         {
             public Type type { get; set; }

@@ -111,6 +111,9 @@ namespace Merona
                 {
                     Session.current = e.session;
 
+                    // reset pipeline context
+                    Session.current.pipelineContext.request = e.packet;
+
                     e.packet.PreProcess(e.session);
                     
                     var routed = service.Route(e.packet);

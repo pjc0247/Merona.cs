@@ -16,6 +16,7 @@ namespace Merona
         private static Dictionary<Type, List<Tuple<Packet.CustomDescriptor, FieldInfo>>> customs;
         private static Dictionary<Type, List<FieldInfo>> c2s;
         private static Dictionary<Type, List<FieldInfo>> s2c;
+        private static Dictionary<Type, List<FieldInfo>> forwards;
         private static Dictionary<Type, AutoResponse> autoResponses;
         private static Dictionary<Type, Channel.Path> joins;
         private static Dictionary<Type, Channel.Path> leaves;
@@ -36,6 +37,7 @@ namespace Merona
             customs = new Dictionary<Type, List<Tuple<CustomDescriptor, FieldInfo>>>();
             c2s = new Dictionary<Type, List<FieldInfo>>();
             s2c = new Dictionary<Type, List<FieldInfo>>();
+            forwards = new Dictionary<Type, List<FieldInfo>>();
 
             joins = new Dictionary<Type, Channel.Path>();
             leaves = new Dictionary<Type, Channel.Path>();
@@ -74,6 +76,15 @@ namespace Merona
                             customs[packet] = new List<Tuple<Packet.CustomDescriptor, FieldInfo>>();
 
                         customs[packet].Add(new Tuple<CustomDescriptor, FieldInfo>((Packet.CustomDescriptor)custom, field));
+                    }
+
+                    var forward = (Packet.Forward)field.GetCustomAttribute(typeof(Packet.Forward));
+                    if (forward != null)
+                    {
+                        if (!forwards.ContainsKey(packet))
+                            forwards[packet] = new List<FieldInfo>();
+
+                        forwards[packet].Add(field);
                     }
 
                     var memberOf = (Packet.MemberOf)field.GetCustomAttribute(typeof(Packet.MemberOf));
@@ -121,6 +132,19 @@ namespace Merona
             }
 
             logger.Info("{0} packets processed", packets.Count());
+        }
+
+        public static List<FieldInfo> GetForwardFields<T>() where T : Packet
+        {
+            if (!forwards.ContainsKey(typeof(T)))
+                return new List<FieldInfo>();
+            return forwards[typeof(T)];
+        }
+        public static List<FieldInfo> GetForwardFields(Type type)
+        {
+            if (!forwards.ContainsKey(type))
+                return new List<FieldInfo>();
+            return forwards[type];
         }
 
         public static List<Tuple<String, FieldInfo>> GetKeyFields<T>() where T : Packet

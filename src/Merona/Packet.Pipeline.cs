@@ -35,6 +35,19 @@ namespace Merona
                 DataBinder.OutBind(field.Item1, session, field.Item2, this);
             }
         }
+
+        private void Forwards(Session session)
+        {
+            var forwardFields = GetForwardFields(GetType());
+            var request = session.pipelineContext.request;
+
+            foreach (var field in forwardFields)
+            {
+                var value = field.GetValue(request);
+                field.SetValue(this, request);
+            }
+        }
+
         /// <summary>
         /// 패킷이 각 서비스들에게 라우팅 되기 전 처리해야 할 작업들을 수행한다.
         /// 이 작업은 C2S 패킷에만 수행되어야 한다.
@@ -70,6 +83,7 @@ namespace Merona
         internal void PostProcess(Session session)
         {
             OutBind(session);
+            Forwards(session);
 
             foreach (var pp in Packet.GetCustomFields(GetType()))
             {
