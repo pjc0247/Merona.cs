@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Merona
 {
     public class ValidReference<T> : IStatusSubscriber<T>
-        where T : IStatusObservable<T>, IEquatable<T>
+        where T : IStatusObservable<T>
     {
         private T target { get; set; }
 
