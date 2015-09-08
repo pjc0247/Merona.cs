@@ -48,6 +48,27 @@ namespace Merona
         }
     }
 
+    public class ValidReference<T> : IStatusSubscriber<T>
+        where T : IStatusObservable<T>
+    {
+        private T target { get; set; }
+
+        public bool isValid { get; private set; }
+
+        public ValidReference(T target)
+        {
+            this.target = target;
+            this.isValid = true;
+
+            target.OnSubscribe(this);
+        }
+
+        public void Invalidate(T item)
+        {
+            isValid = false;
+        }
+    }
+
     public interface IStatusObservable<T>
         where T : IStatusObservable<T>
     {
