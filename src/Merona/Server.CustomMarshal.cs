@@ -8,7 +8,7 @@ namespace Merona
 {
     public sealed partial class Server
     {
-        public abstract class IMarshalContext{
+        public interface IMarshalContext{
             /// <summary>
             /// 이 메소드를 상속하여 커스텀 Marshal.Serialize를 구현한다.
             /// 이 메소드는 null을 리턴할 때까지 반복 실행된다.
@@ -18,7 +18,7 @@ namespace Merona
             /// 직렬화 된 바이트 배열,
             /// 만약 더 이상 직렬화 할 수 없거나, 남은 패킷이 없으면 null을 리턴해야 함
             /// </returns>
-            internal protected abstract byte[] Serialize(CircularBuffer<Packet> buffer);
+            byte[] Serialize(CircularBuffer<Packet> buffer);
 
             /// <summary>
             /// 이 메소드를 상속하여 커스텀 Marshal.Deserialize를 구현한다.
@@ -29,7 +29,7 @@ namespace Merona
             /// 바이트로부터 역직렬화 된 단일 패킷
             /// 만약 더 이상 역직렬화 할 수 없거나, 남은 패킷이 없으면 null을 리턴해야 함
             /// </returns>
-            internal protected abstract Packet Deserialize(CircularBuffer<byte> buffer);
+            Packet Deserialize(CircularBuffer<byte> buffer);
         }
 
         /// <summary>
@@ -38,14 +38,14 @@ namespace Merona
         /// </summary>
         internal class DefaultMarshaler : IMarshalContext
         {
-            internal protected override byte[] Serialize(CircularBuffer<Packet> buffer)
+            public byte[] Serialize(CircularBuffer<Packet> buffer)
             {
                 if (buffer.Size == 0)
                     return null;
 
                 return buffer.Get().Serialize();
             }
-            internal protected override Packet Deserialize(CircularBuffer<byte> buffer)
+            public Packet Deserialize(CircularBuffer<byte> buffer)
             {
                 var bytes = new byte[Packet.headerSize];
 
