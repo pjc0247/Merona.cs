@@ -125,6 +125,7 @@
     <Compile Include="Packet.Dump.cs" />
     <Compile Include="Packet.Descriptors.PreloadCache.cs" />
     <Compile Include="Server.Events.cs" />
+    <Compile Include="Session.PipelineContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6">

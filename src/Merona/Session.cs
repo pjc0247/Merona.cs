@@ -44,6 +44,7 @@ namespace Merona
             this.receiveBuffer = new byte[128]; /* TODO : config */
             this.marshaler = (Server.IMarshalContext)Activator.CreateInstance(Config.defaults.marshalerType);
             this.skip = 0;
+            this.pipelineContext = new PipelineContext();
 
             InitializeSafeCollectionSupport();
         }
@@ -57,6 +58,7 @@ namespace Merona
             this.receiveBuffer = new byte[server.config.sessionRecvBufferSize];
             this.marshaler = (Server.IMarshalContext)Activator.CreateInstance(server.config.marshalerType);
             this.skip = 0;
+            this.pipelineContext = new PipelineContext();
 
             InitializeSafeCollectionSupport();
         }
