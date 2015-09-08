@@ -43,7 +43,9 @@ namespace Merona
 
             foreach (var field in forwardFields)
             {
-                var value = field.GetValue(request);
+                var value = 
+                    request.GetType().GetField(field.Name)
+                    .GetValue(request);
                 field.SetValue(this, request);
             }
         }
