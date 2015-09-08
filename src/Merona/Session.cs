@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 
 namespace Merona
 {
-    public partial class Session : ISafeCollectionContainable<Session>
+    public partial class Session : IStatusObservable<Session>
     {
         /// <summary>
         /// 현재 바인딩 된 세션의 인스턴스

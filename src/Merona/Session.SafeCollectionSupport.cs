@@ -9,25 +9,25 @@ namespace Merona
     public partial class Session
     {
         // Subscribers
-        public List<SafeCollection<Session>> safeCollections;
+        public List<IStatusSubscriber<Session>> safeCollections;
 
         public void InitializeSafeCollectionSupport()
         {
-            safeCollections = new List<SafeCollection<Session>>();
+            safeCollections = new List<IStatusSubscriber<Session>>();
         }
 
-        public void OnAdded(SafeCollection<Session> safeCollection)
+        public void OnSubscribe(IStatusSubscriber<Session> safeCollection)
         {
             safeCollections.Add(safeCollection);
         }
-        public void OnRemoved(SafeCollection<Session> safeCollection)
+        public void OnUnsubscribe(IStatusSubscriber<Session> safeCollection)
         {
             safeCollections.Remove(safeCollection);
         }
 
         public void PublishInvalidated()
         {
-            var clone = new SafeCollection<Session>[safeCollections.Count];
+            var clone = new IStatusSubscriber<Session>[safeCollections.Count];
 
             safeCollections.CopyTo(clone);
 

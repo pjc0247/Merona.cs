@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Merona
 {
-    public class SafeCollection<T> : ObservableCollection<T>
-        where T : ISafeCollectionContainable<T>
+    public class SafeCollection<T> : ObservableCollection<T>, IStatusSubscriber<T>
+        where T : IStatusObservable<T>
     {
         public SafeCollection() :
             base()
@@ -27,17 +27,17 @@ namespace Merona
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    ((ISafeCollectionContainable<T>)e.NewItems[0]).OnAdded(this);
+                    ((IStatusObservable<T>)e.NewItems[0]).OnSubscribe(this);
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    ((ISafeCollectionContainable<T>)e.OldItems[0]).OnAdded(this);
+                    ((IStatusObservable<T>)e.OldItems[0]).OnSubscribe(this);
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    ((ISafeCollectionContainable<T>)e.NewItems[0]).OnAdded(this);
+                    ((IStatusObservable<T>)e.NewItems[0]).OnSubscribe(this);
                     break;
                 case NotifyCollectionChangedAction.Reset:
                     foreach(var item in e.OldItems)
-                        ((ISafeCollectionContainable<T>)item).OnRemoved(this);
+                        ((IStatusObservable<T>)item).OnUnsubscribe(this);
                     break;
             }
         }
@@ -48,10 +48,15 @@ namespace Merona
         }
     }
 
-    public interface ISafeCollectionContainable<T>
-        where T : ISafeCollectionContainable<T>
+    public interface IStatusObservable<T>
+        where T : IStatusObservable<T>
     {
-        void OnAdded(SafeCollection<T> safeCollection);
-        void OnRemoved(SafeCollection<T> safeCollection);
+        void OnSubscribe(IStatusSubscriber<T> obj);
+        void OnUnsubscribe(IStatusSubscriber<T> obj);
+    }
+    public interface IStatusSubscriber<T>
+        where T : IStatusObservable<T>
+    {
+        void Invalidate(T obj);
     }
 }
