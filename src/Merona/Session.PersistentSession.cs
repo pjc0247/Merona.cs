@@ -27,6 +27,8 @@ namespace Merona
 
                 persistentSessionCaches[child] = persistentSessions.ToList();
             }
+
+            persistentSessionCaches[typeof(Session)] = new List<PropertyInfo>();
         }
 
         internal enum PersistentSessionCommitTiming
