@@ -37,6 +37,7 @@ public class MyChattingPackets{
   [Join("chat")]
   [AutoResponse("chat")]
   public class Join {
+    [Forward]
     public String nickname;
   };
   
