@@ -1,7 +1,7 @@
 await
 ====
 
-워커 쓰레드에서 await 키워드를 사용하여 작업을 미룰 수 있습니다.
+Worker 쓰레드에서 await 키워드를 사용하여 작업을 미룰 수 있습니다.
 
 ```c#
 void OnTestPacket(Session session, TestPacket packet) {
