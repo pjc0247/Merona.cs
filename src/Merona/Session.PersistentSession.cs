@@ -50,6 +50,9 @@ namespace Merona
             foreach (var persistentSessionProp in persistentSessions) {
                 var persistentSession = (PersistentSession)persistentSessionProp.GetValue(this);
 
+                if (persistentSession.isOpened == false)
+                    continue;
+
                 if (persistentSession.autoCommitType == PersistentSession.AutoCommitType.None)
                     continue;
                 if (persistentSession.autoCommitType == PersistentSession.AutoCommitType.AfterRequest &&
