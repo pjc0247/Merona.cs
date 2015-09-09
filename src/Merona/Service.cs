@@ -59,6 +59,9 @@ namespace Merona
             if (resp != null)
             {
                 /* send-back */
+                var session = (Session)args[0];
+
+                session.Send((Packet)resp);
             }
 
             return resp;
