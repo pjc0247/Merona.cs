@@ -52,6 +52,7 @@ public class MyChattingPackets{
   // 메세지 패킷을 자동으로 'chat'채널에 방송합니다.
   [AutoResponse("chat")]
   public class ChatMessage {
+    [Forward]
     public String message;
     
     [S2C]
