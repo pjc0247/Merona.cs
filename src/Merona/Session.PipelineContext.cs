@@ -21,6 +21,9 @@ namespace Merona
 
         }
 
+		/// <summary>
+        /// 현재 세션의 파이프라인 콘텍스트입니다.
+        /// </summary>
 		public PipelineContext pipelineContext { get; private set; }
     }
 }
