@@ -27,7 +27,7 @@ namespace Merona
 
         public HashSet<Channel> channels { get; private set; }
 
-        internal Server.IMarshalContext marshaler { get; private set; }
+        internal IMarshalContext marshaler { get; private set; }
 
         private byte[] receiveBuffer { get; set; }
         internal CircularBuffer<byte> receiveRingBuffer { get; set; }
@@ -42,7 +42,7 @@ namespace Merona
             this.sendRingBuffer = new CircularBuffer<byte>(1024); /* TODO : config */
             this.pendingPackets = new CircularBuffer<Packet>(1024);
             this.receiveBuffer = new byte[128]; /* TODO : config */
-            this.marshaler = (Server.IMarshalContext)Activator.CreateInstance(Config.defaults.marshalerType);
+            this.marshaler = (IMarshalContext)Activator.CreateInstance(Config.defaults.marshalerType);
             this.skip = 0;
             this.pipelineContext = new PipelineContext();
 
@@ -56,7 +56,7 @@ namespace Merona
             this.sendRingBuffer = new CircularBuffer<byte>(server.config.sessionRingBufferSize);
             this.pendingPackets = new CircularBuffer<Packet>(server.config.sessionRingBufferSize);
             this.receiveBuffer = new byte[server.config.sessionRecvBufferSize];
-            this.marshaler = (Server.IMarshalContext)Activator.CreateInstance(server.config.marshalerType);
+            this.marshaler = (IMarshalContext)Activator.CreateInstance(server.config.marshalerType);
             this.skip = 0;
             this.pipelineContext = new PipelineContext();
 
@@ -79,7 +79,7 @@ namespace Merona
             this.client = client;
             this.isAlive = true;
             this.marshaler =
-                (Server.IMarshalContext)Activator.CreateInstance(server.config.marshalerType);
+                (IMarshalContext)Activator.CreateInstance(server.config.marshalerType);
 
             foreach (var channel in channels)
                 channel.Leave(this);
