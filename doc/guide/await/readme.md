@@ -14,3 +14,5 @@ void OnTestPacket(Session session, TestPacket packet) {
 ```
 
 await이후의 동작은 동일한 Worker 스레드에서 실행됨이 보장됩니다.
+<br>
+http://stackoverflow.com/questions/21838651/i-thought-await-continued-on-the-same-thread-as-the-caller-but-it-seems-not-to
