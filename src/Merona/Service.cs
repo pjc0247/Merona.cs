@@ -55,13 +55,23 @@ namespace Merona
 
         private object InvokeRouter(MethodBase router, object[] args)
         {
-            var resp = router.Invoke(this, args);
+            Packet resp = null;
+
+            try
+            {
+                resp = (Packet)router.Invoke(this, args);
+            }
+            catch(Exception e)
+            {
+                server.watcher.OnUserException(e);
+            }
+            
             if (resp != null)
             {
                 /* send-back */
                 var session = (Session)args[0];
 
-                session.Send((Packet)resp);
+                session.Send(resp);
             }
 
             return resp;
