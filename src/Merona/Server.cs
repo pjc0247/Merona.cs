@@ -84,7 +84,7 @@ namespace Merona
                 config = Config.defaults;
 
             this.config = config;
-            this.monitor = new Watcher(this);
+            this.watcher = new Watcher(this);
             this.logger = LogManager.GetLogger(config.name);
             this.worker = new Worker(this);
             this.ioWorker = new IoWorker(this);

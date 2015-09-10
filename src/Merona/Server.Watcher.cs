@@ -36,6 +36,6 @@ namespace Merona
             }
         }
 
-        public Watcher monitor { get; private set; }
+        public Watcher watcher { get; private set; }
     }
 }

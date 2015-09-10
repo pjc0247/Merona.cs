@@ -109,7 +109,7 @@ namespace Merona
             catch(Exception e)
             {
                 server.logger.Error("Session::Disconnected", e);
-                server.monitor.OnServerException(e);
+                server.watcher.OnServerException(e);
             }
             finally
             {
@@ -153,7 +153,7 @@ namespace Merona
             catch(Exception e)
             {
                 server.logger.Error("Session::FlushSend", e);
-                server.monitor.OnServerException(e);
+                server.watcher.OnServerException(e);
 
                 Disconnect();
             }
@@ -175,7 +175,7 @@ namespace Merona
             catch(Exception e)
             {
                 server.logger.Error("Session::Sent", e);
-                server.monitor.OnServerException(e);
+                server.watcher.OnServerException(e);
 
                 Disconnect();
             }
@@ -192,7 +192,7 @@ namespace Merona
             catch(SocketException e)
             {
                 server.logger.Error("Session::BeginReceive", e);
-                server.monitor.OnServerException(e);
+                server.watcher.OnServerException(e);
 
                 Disconnect();
             }
@@ -224,7 +224,7 @@ namespace Merona
             catch (Exception e)
             {
                 server.logger.Error("Server::Received", e);
-                server.monitor.OnServerException(e);
+                server.watcher.OnServerException(e);
 
                 Disconnect();
             }
