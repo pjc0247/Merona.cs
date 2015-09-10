@@ -91,6 +91,7 @@
     <Compile Include="Endians.cs" />
     <Compile Include="IdDispenser.cs" />
     <Compile Include="IMarshalContext.cs" />
+    <Compile Include="IMonitor.cs" />
     <Compile Include="IStatusObservable.cs" />
     <Compile Include="LinearBuffer.cs" />
     <Compile Include="Model.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Server.cs" />
     <Compile Include="Server.DefaultMarshaler.cs" />
     <Compile Include="Server.IoWorker.cs" />
+    <Compile Include="Server.Monitor.cs" />
     <Compile Include="Server.PacketPipeline.cs" />
     <Compile Include="Server.Worker.cs" />
     <Compile Include="Server.Worker.SynchronizationContext.cs" />
