@@ -106,7 +106,7 @@
     <Compile Include="Server.cs" />
     <Compile Include="Server.DefaultMarshaler.cs" />
     <Compile Include="Server.IoWorker.cs" />
-    <Compile Include="Server.Monitor.cs" />
+    <Compile Include="Server.Watcher.cs" />
     <Compile Include="Server.PacketPipeline.cs" />
     <Compile Include="Server.Worker.cs" />
     <Compile Include="Server.Worker.SynchronizationContext.cs" />

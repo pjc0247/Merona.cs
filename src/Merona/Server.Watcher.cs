@@ -22,6 +22,18 @@ namespace Merona
             public event ConnectionHandler onDisconnectCluster;
             public event ExceptionHandler onServerException;
             public event ExceptionHandler onUserException;
+
+            private Server server;
+
+            public Watcher(Server server)
+            {
+                this.server = server;
+            }
+
+            public void OnServerException(Exception e)
+            {
+                onServerException(server, e);
+            }
         }
 
         public Watcher monitor { get; private set; }
