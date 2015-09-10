@@ -34,6 +34,10 @@ namespace Merona
             {
                 onServerException(server, e);
             }
+            public void OnUserException(Exception e)
+            {
+                onUserException(server, e);
+            }
         }
 
         public Watcher watcher { get; private set; }
