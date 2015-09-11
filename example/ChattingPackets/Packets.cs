@@ -21,6 +21,7 @@ namespace ChattingPackets
 
         public class ChatMessage
         {
+            [Forward]
             public String message;
 
             [S2C]
