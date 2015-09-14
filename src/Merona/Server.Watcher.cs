@@ -35,20 +35,20 @@ namespace Merona
 
             public void OnServerException(Exception e)
             {
-                onServerException(server, e);
+                onServerException?.Invoke(server, e);
             }
             public void OnUserException(Exception e)
             {
-                onUserException(server, e);
+                onUserException?.Invoke(server, e);
             }
 
             public void OnBeginPipeline(Session session)
             {
-                onBeginPipeline(server, session);
+                onBeginPipeline?.Invoke(server, session);
             }
             public void OnEndPipeline(Session session)
             {
-                onEndPipeline(server, session);
+                onEndPipeline?.Invoke(server, session);
             }
         }
 
