@@ -1,5 +1,7 @@
 Merona
 ====
+This japanese documentation is written for a self-studying purpose.<br>
+
 難しくて複雑なゲームサーバプログラミングの不便の解消して、サーバロジックの作成するため作ったゲームサーバフレームワークであります。
 
 メロナの特徴
