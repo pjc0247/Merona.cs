@@ -41,6 +41,15 @@ namespace Merona
             {
                 onUserException(server, e);
             }
+
+            public void OnBeginPipeline(Session session)
+            {
+                onBeginPipeline(server, session);
+            }
+            public void OnEndPipeline(Session session)
+            {
+                onEndPipeline(server, session);
+            }
         }
 
         public Watcher watcher { get; private set; }
