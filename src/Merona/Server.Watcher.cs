@@ -11,6 +11,7 @@ namespace Merona
         public class Watcher
         {
             public delegate void PacketHandler(Server sender, Packet e);
+            public delegate void PipelineHandler(Server sender, Session session);
             public delegate void ConnectionHandler(Server server);
             public delegate void ExceptionHandler(Server server, Exception e);
 
@@ -22,6 +23,8 @@ namespace Merona
             public event ConnectionHandler onDisconnectCluster;
             public event ExceptionHandler onServerException;
             public event ExceptionHandler onUserException;
+            public event PipelineHandler onBeginPipeline;
+            public event PipelineHandler onEndPipeline;
 
             private Server server;
 
