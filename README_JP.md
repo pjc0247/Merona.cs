@@ -1,4 +1,4 @@
-Merona
+Merona.cs
 ====
 This japanese documentation is written for a self-studying purpose.<br>
 
