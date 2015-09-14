@@ -73,6 +73,12 @@ void Main(String[] args) {
 }
 ```
 
+요구 사항
+----
+* .Net 4.6 +
+* C# 6 +
+* 일부 확장에서 부분적 PostSharp 사용하여 최적화
+
 문서 링크
 ----
 [문서](doc)<br>
