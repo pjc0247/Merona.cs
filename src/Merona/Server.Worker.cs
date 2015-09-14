@@ -114,6 +114,8 @@ namespace Merona
                     // reset pipeline context
                     Session.current.pipelineContext.request = e.packet;
 
+                    server.watcher.OnBeginPipeline(e.session);
+
                     e.packet.PreProcess(e.session);
                     
                     var routed = service.Route(e.packet);
@@ -132,6 +134,8 @@ namespace Merona
                                 session.Send(packet);
                         }
                     }
+
+                    server.watcher.OnEndPipeline(e.session);
                 }
 
                 e.session.CommmitPersistentSessionsAsync(
