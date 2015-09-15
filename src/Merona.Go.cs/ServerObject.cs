@@ -11,6 +11,7 @@ namespace Merona.Go
 
     public class ServerObject
     {
+        public int objectId { get; private set; }
         internal protected Server server { get; internal set; }
         private CancellationTokenSource cts { get; set; }   
         private List<String> dirtyProperties { get; set; }

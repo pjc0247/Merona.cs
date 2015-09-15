@@ -12,6 +12,8 @@ namespace Merona.Go
     {
         static void Main(string[] args)
         {
+
+            RPC.FromRemote<int>(1, 2, 3, 4);
         }
     }
 }
