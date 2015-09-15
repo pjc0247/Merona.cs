@@ -1,7 +1,7 @@
 Merona.cs
 ====
 싱글 스레드 기반 게임 서버 프레임워크<br>
-シングルスレド基板のゲームサバフレームワーク。
+シングルスレド基板のゲームサバフレームワーク。 ([日本語](README_JP.md)) 
 
 메로나는 복잡하고 난해한 게임 서버 프로그래밍의 불편함을 해소하고, 서버 로직 작성에 충실한 프로그래밍을 할 수 있도록 제작된 서버 프레임워크입니다.<br>
 
@@ -73,6 +73,12 @@ void Main(String[] args) {
 }
 ```
 
+요구 사항
+----
+* .Net 4.6 +
+* C# 6 +
+* 일부 확장에서 부분적 PostSharp 사용하여 최적화
+
 문서 링크
 ----
 [문서](doc)<br>
@@ -83,6 +89,7 @@ void Main(String[] args) {
 
 프로젝트들
 ----
+* [Merona.Go](https://github.com/pjc0247/Merona.Go.cs)
 * [Merona.Pgen](https://github.com/pjc0247/Merona.Pgen.cs)
 * [Merona.JsonProtocol](https://github.com/pjc0247/Merona.JsonProtocol.cs)
 * [Merona.Http](https://github.com/pjc0247/Merona.Http.cs)<br>

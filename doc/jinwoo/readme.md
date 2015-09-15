@@ -25,6 +25,9 @@ Modelは連関性あるデータたちの集合（Player -> level, name, class .
 Session
 ----
 
+PersistentSession
+----
+
 Safe-Thread
 ----
 안전한 쓰레드란 서버의 Worker쓰레드를 의미합니다.<br>
