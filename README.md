@@ -89,6 +89,7 @@ void Main(String[] args) {
 
 프로젝트들
 ----
+* [Merona.Go](https://github.com/pjc0247/Merona.Go.cs)
 * [Merona.Pgen](https://github.com/pjc0247/Merona.Pgen.cs)
 * [Merona.JsonProtocol](https://github.com/pjc0247/Merona.JsonProtocol.cs)
 * [Merona.Http](https://github.com/pjc0247/Merona.Http.cs)<br>
