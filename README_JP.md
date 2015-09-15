@@ -2,7 +2,7 @@ Merona.cs
 ====
 This japanese documentation is written for a self-studying purpose.<br>
 
-Meronaは難しくて複雑なゲームサーバプログラミングの不便の解消して、サーバロジックの作成するため作ったゲームサーバフレームワークであります。
+Meronaは難しくて複雑なゲームサーバプログラミングの不便の解消して、サーバロジックの作成する/*FIXME*/ため作ったゲームサーバフレームワークであります。
 
 メロナの特徴
 ----
