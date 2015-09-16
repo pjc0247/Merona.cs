@@ -78,6 +78,12 @@ namespace Merona.Go
 
         }
 
+        internal void OnSyncProperty(SyncProperty.Request packet)
+        {
+            GetType().GetProperty(packet.key)
+                .SetValue(this, packet.value);
+        }
+
         protected void MakeDirty(String name)
         {
             dirtyProperties.Add(name);
@@ -86,7 +92,11 @@ namespace Merona.Go
         {
             foreach(var prop in dirtyProperties)
             {
-
+                var packet = new SyncProperty.Request();
+                packet.objectId = objectId;
+                packet.key = prop;
+                packet.value = 
+                    GetType().GetProperty(prop).GetValue(this);
             }
 
             dirtyProperties.Clear();
