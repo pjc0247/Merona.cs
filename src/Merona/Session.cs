@@ -86,8 +86,11 @@ namespace Merona
 
             BeginReceive();
         }
-        
 
+        /// <summary>
+        /// 현재 연결을 끊고, 세션을 정리한다.
+        /// [Non-Thread-Safe]
+        /// </summary>
         public void Disconnect()
         {
             PublishInvalidated();
@@ -118,6 +121,15 @@ namespace Merona
             }
         }
 
+        /// <summary>
+        /// 패킷 전송을 요청한다.
+        /// 이 메소드는 패킷에 후처리를 수행한 후,
+        /// IO 쓰레드의 전송 대기 패킷 목록에 패킷을 담은 후
+        /// 반환하며, 실제 전송은 IO 쓰레드에서 수행된다.
+        /// [Non-Thread-Safe]
+        /// </summary>
+        /// <param name="packet"></param>
+        /// <returns></returns>
         public int Send(Packet packet)
         {
             if (!isAlive)

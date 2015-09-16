@@ -30,10 +30,21 @@ namespace Merona
             postProcessors = new SortedSet<Tuple<int, PacketProcessor>>(new Order());
         }
         
+        /// <summary>
+        /// 패킷 전처리기를 등록한다.
+        /// </summary>
+        /// <param name="processor">등록할 전처리기</param>
+        /// <param name="priority">우선 순위 (낮을 수록 먼저 실행됨)</param>
         public void AddPreProcessor(PacketProcessor processor, int priority)
         {
             preProcessors.Add(new Tuple<int, PacketProcessor>(priority, processor));
         }
+
+        /// <summary>
+        /// 패킷 후처리기를 등록한다.
+        /// </summary>
+        /// <param name="processor">등록할 전처리기</param>
+        /// <param name="priority">우선 순위 (낮을 수록 먼저 실행됨)</param>
         public void AddPostProcessor(PacketProcessor processor, int priority)
         {
             postProcessors.Add(new Tuple<int, PacketProcessor>(priority, processor));

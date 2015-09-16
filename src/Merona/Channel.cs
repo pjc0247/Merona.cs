@@ -19,10 +19,22 @@ namespace Merona
             this.sessions = new HashSet<Session>();
         }
 
+        /// <summary>
+        /// 주어진 채널 경로와 현재 채널이 매치되는지 판별한다.
+        /// [Non-Thread-Safe]
+        /// </summary>
+        /// <param name="inPath">판별할 채널 경로</param>
+        /// <returns>매치되면 true, 아닐 경우 false</returns>
         public bool IsMatch(String inPath)
         {
             return path.IsMatch(inPath);
         }
+        /// <summary>
+        /// 주어진 채널과 현재 채널이 매치되는지 판별한다.
+        /// [Non-Thread-Safe]
+        /// </summary>
+        /// <param name="other">판별할 채널</param>
+        /// <returns>매치되면 true, 아닐 경우 false</returns>
         public bool IsMatch(Channel other)
         {
             return path.IsMatch(other.path);
