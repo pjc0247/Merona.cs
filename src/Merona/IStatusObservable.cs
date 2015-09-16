@@ -13,6 +13,6 @@ namespace Merona
     public interface IStatusSubscriber<T>
         where T : IStatusObservable<T>
     {
-        void Invalidate(T obj);
+        void OnInvalidate(T obj);
     }
 }

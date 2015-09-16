@@ -42,7 +42,7 @@ namespace Merona
             }
         }
 
-        public void Invalidate(T item)
+        public void OnInvalidate(T item)
         {
             Remove(item);
         }

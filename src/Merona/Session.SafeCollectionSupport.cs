@@ -25,6 +25,10 @@ namespace Merona
             safeCollections.Remove(safeCollection);
         }
 
+        /// <summary>
+        /// 현재 세션을 저장하고 있는 모든 SafeCollection에게
+        /// 세션이 invalidate되었음을 알린다.
+        /// </summary>
         public void PublishInvalidated()
         {
             var clone = new IStatusSubscriber<Session>[safeCollections.Count];
@@ -32,7 +36,7 @@ namespace Merona
             safeCollections.CopyTo(clone);
 
             foreach (var safeCollection in clone)
-                safeCollection.Invalidate(this);
+                safeCollection.OnInvalidate(this);
 
             safeCollections.Clear();
         }

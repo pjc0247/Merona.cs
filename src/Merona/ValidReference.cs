@@ -21,7 +21,7 @@ namespace Merona
             target.OnSubscribe(this);
         }
 
-        public void Invalidate(T item)
+        public void OnInvalidate(T item)
         {
             isValid = false;
         }
