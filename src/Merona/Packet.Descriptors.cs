@@ -8,6 +8,11 @@ using System.Security.Cryptography;
 
 namespace Merona
 {
+    /// <summary>
+    /// 패킷의 아이디를 지정한다.
+    /// 일반적으로 이 속성은 Merona.Pgen.cs에 의해
+    /// 자동으로 추가된다.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
     public class PacketId : Attribute
     {

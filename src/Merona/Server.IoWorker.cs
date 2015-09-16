@@ -62,6 +62,12 @@ namespace Merona
                 }
             }
 
+            /// <summary>
+            /// IO 쓰레드에 새로운 IO 쓰기 작업이 발생했음을 알린다.
+            /// 필요하다면 IO 쓰레드를 즉시 깨워 전송 작업을 시작한다.
+            /// [Thread-Safe]
+            /// </summary>
+            /// <param name="session">IO 쓰기 작업이 발생한 세션</param>
             public void Pulse(Session session)
             {
                 if (!pendingSessions.TryAdd(session, 0))

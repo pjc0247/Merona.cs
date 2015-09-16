@@ -121,6 +121,9 @@ namespace Merona
         /// [Non-Thread-Safe]
         /// </summary>
         /// <param name="service">추가할 서비스</param>
+        /// <exception cref="InvalidOperationException">
+        /// 서버가 이미 실행 중일 때 서비스를 추가한 경우
+        /// </exception>
         public void AttachService<T>() where T : Service, new()
         {
             /* 실행 중에는 서비스가 추가될 수 없음 */
@@ -149,6 +152,9 @@ namespace Merona
         /// <summary>
         /// 서버를 시작한다.
         /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// 서버가 이미 실행 중인데 Start를 호출한 경우
+        /// </exception>
         public void Start()
         {
             if (isRunning)
@@ -195,6 +201,9 @@ namespace Merona
         /// 서버를 종료한다.
         /// [Thread-Safe]
         /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// 서버가 실행중이 아닌데 Kill을 호출한 경우
+        /// </exception>
         public void Kill()
         {
             if (!isRunning)
