@@ -6,46 +6,14 @@ namespace Merona
 {
     public sealed partial class Channel
     {
-        public class Path
+        public partial class Path
         {
-            public class DynamicPathMaker : DynamicObject
-            {
-                private List<string> tokens { get; set; }
+            internal static readonly int asterisk = "*".GetHashCode();
+            internal static readonly int doubleAsterisk = "**".GetHashCode();
 
-                public DynamicPathMaker()
-                {
-                    tokens = new List<string>();
-                }
-
-                public Path fin
-                {
-                    get
-                    {
-                        var path = String.Join(".", tokens);
-                        return new Path(path);
-                    }
-                }
-
-                public override bool TryGetMember(GetMemberBinder binder, out object result)
-                {
-                    string name = binder.Name;
-
-                    if (name == "fin")
-                        result = fin;
-                    else if (name == "all")
-                    {
-                        tokens.Add("*");
-                        result = this;
-                    }
-                    else
-                    {
-                        tokens.Add(binder.Name);
-                        result = this;
-                    }
-
-                    return true;
-                }
-            }
+            public string path { get; private set; }
+            public bool isFixed { get; private set; }
+            internal int[] raw { get; private set; }
 
             public static Path makePath(string path)
             {
@@ -74,12 +42,6 @@ namespace Merona
 
                 return raw;
             }
-            internal static readonly int asterisk = "*".GetHashCode();
-            internal static readonly int doubleAsterisk = "**".GetHashCode();
-
-            public string path { get; private set; }
-            public bool isFixed { get; private set; }
-            internal int[] raw { get; private set; }
 
             public Path(string path)
             {
