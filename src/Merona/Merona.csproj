@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="Channel.cs" />
     <Compile Include="Channel.Path.cs" />
+    <Compile Include="Channel.Path.DynamicPathMaker.cs" />
     <Compile Include="Channel.Pool.cs" />
     <Compile Include="Channel.TreeDictionary.cs" />
     <Compile Include="CircularBuffer.cs" />

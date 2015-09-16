@@ -30,6 +30,8 @@ namespace Merona.TestApp
         [Sha256]
         public string bind;
     }
+    
+    [AutoResponse(typeof(BarPacket))]
     [PacketId(1)]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     class BarPacket : Packet
@@ -37,6 +39,9 @@ namespace Merona.TestApp
         //[Bind("bind")]
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst=32)]
         public String resp;
+        
+        [Forward]
+        public String fo;
     }
 
     class PlayData : PersistentSession
