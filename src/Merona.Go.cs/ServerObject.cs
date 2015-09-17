@@ -97,6 +97,9 @@ namespace Merona.Go
                 packet.key = prop;
                 packet.value = 
                     GetType().GetProperty(prop).GetValue(this);
+
+                Channel.Pool.current.Broadcast(
+                    $"go.sync.{objectId}", packet);
             }
 
             dirtyProperties.Clear();
