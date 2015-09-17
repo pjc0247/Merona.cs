@@ -42,5 +42,16 @@ namespace Merona
 
             return target;
         }
+        public bool TryGet(out T obj)
+        {
+            if (isValid == false)
+            {
+                obj = default(T);
+                return false;
+            }
+
+            obj = target;
+            return true;
+        }
     }
 }
