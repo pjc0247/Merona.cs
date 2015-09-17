@@ -23,7 +23,7 @@ namespace Merona.Go
         /// </summary>
         /// <param name="packet"></param>
         [Handler("go.sync.*")]
-        public void OnSyncRequest(SyncProperty.Request packet)
+        public void OnSyncRequest(Session session, SyncProperty.Request packet)
         {
             if (objects.ContainsKey(packet.objectId) == false)
             {
