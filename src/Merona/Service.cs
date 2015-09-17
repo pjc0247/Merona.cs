@@ -94,7 +94,7 @@ namespace Merona
                 foreach (var rule in channelRoutingTable)
                 {
                     /* TODO : fixme */
-                    if (rule.Key.IsMatch(packet.channel) == true)
+                    if (rule.Key.IsMatch(packet.channel))
                     {
                         InvokeRouter(rule.Value, invokeArg);
                         routed = true;
