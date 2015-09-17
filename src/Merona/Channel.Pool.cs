@@ -55,6 +55,18 @@ namespace Merona
 
                 return results;
             }
+
+            public void Broadcast(String path, Packet packet)
+            {
+                Broadcast(new Channel.Path(path), packet);
+            }
+            public void Broadcast(Channel.Path path, Packet packet)
+            {
+                packet.channel = path.path;
+
+                foreach(var session in Query(path))
+                    session.Send(packet);
+            }
         }
 
     }
