@@ -35,3 +35,7 @@ class TestService : Service {
   }
 }
 ```
+
+세션에 접근하기
+----
+세션은 패킷을 처리하는 파이프라인 도중에 항상 `Session.current`를 통해 접근할 수 있습니다.
