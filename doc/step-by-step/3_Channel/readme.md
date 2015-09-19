@@ -55,7 +55,7 @@ class TestService : Service {
 
 와일드카드 사용하기
 ----
-패킷 경로(path)에는 와일드카드를 사용할 수 있습니다.<br>
+채널 경로(path)에는 와일드카드를 사용할 수 있습니다.<br>
 아래의 코드는 방 이름에 관계 없이 생성된 모든 방에 브로드캐스팅합니다.
 ```c#
 Channel.Pool.current.Broadcast(
