@@ -234,10 +234,12 @@ namespace Merona
             }
             catch (SocketException e)
             {
+                watcher.OnServerException(e);
                 logger.Error("Server::Acceptor", e);
             }
             catch (ObjectDisposedException e)
             {
+                watcher.OnServerException(e);
                 logger.Error("Server::Acceptor", e);
             }
             finally
