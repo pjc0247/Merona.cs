@@ -79,6 +79,8 @@ namespace Merona
         }
         public void Broadcast(Packet packet)
         {
+            packet.channel = path.path;
+
             foreach (var session in Query())
                 session.Send(packet);
         }
