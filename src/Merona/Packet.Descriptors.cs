@@ -136,8 +136,8 @@ namespace Merona
                 var crypto = crypt.ComputeHash(
                     Encoding.UTF8.GetBytes(msg), 0, Encoding.UTF8.GetByteCount(msg));
 
-                foreach (byte _byte in crypto)
-                    hash.Append(_byte.ToString("x2"));
+                foreach (byte @byte in crypto)
+                    hash.Append(@byte.ToString("x2"));
 
                 target = hash.ToString();
             }
