@@ -14,6 +14,7 @@ Packet은 Peer와 Peer가 주고받는 데이터의 기본 단위입니다.<br>
 ```c#
 using Merona;
 
+// 모든 패킷은 Packet 클래스를 상속 받습니다.
 public EchoPacket : Packet {
   public String message;  
 }
@@ -27,6 +28,7 @@ Service
 ```c#
 using Merona;
 
+// 모든 서비스는 Service 클래스를 상속받습니다.
 public EchoService : Service {
   // Handler 어트리뷰트를 사용하여 이 메소드가 특정 타입의 패킷을
   // 처리함을 나타냅니다.
@@ -55,6 +57,9 @@ public Program {
     server.AttachService<EchoService>();
     server.Start();
     
+    // Start 이후에 프로그램이 블록되지 않으므로
+    // 수동으로 Thread.Sleep 또는 Console.Read를 사용하여
+    // 대기시켜야 합니다.
     while(true) {
       Console.WriteLine("Running....");
       Thread.Sleep(1000);
