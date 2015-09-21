@@ -1,7 +1,7 @@
 Server
 ====
 
-¼­¹ö »ý¼º&½ÇÇàÇÏ±â
+ì„œë²„ ìƒì„±&ì‹¤í–‰í•˜ê¸°
 ----
 ```c#
 var config = Config.defaults;
@@ -10,34 +10,34 @@ var server = new Server(config);
 server.Start();
 ```
 
-¼­¹ö¿¡ Á¢±ÙÇÏ±â
+ì„œë²„ì— ì ‘ê·¼í•˜ê¸°
 ----
-¾ÈÀüÇÑ ½º·¹µå¿¡¼­´Â Ç×»ó `Server.current`¸¦ ÀÌ¿ëÇÏ¿© ¼­¹ö ÀÎ½ºÅÏ½º¿¡ Á¢±ÙÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ì•ˆì „í•œ ìŠ¤ë ˆë“œì—ì„œëŠ” í•­ìƒ `Server.current`ë¥¼ ì´ìš©í•˜ì—¬ ì„œë²„ ì¸ìŠ¤í„´ìŠ¤ì— ì ‘ê·¼í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
 
-¼­¹ö ¼³Á¤ º¯°æÇÏ±â
+ì„œë²„ ì„¤ì • ë³€ê²½í•˜ê¸°
 ----
-¼­¹ö´Â ¸ðµç ¼³Á¤°ªÀ» Config ¿ÀºêÁ§Æ®¿¡ ´ã°í ÀÖÀ¸¸ç, ¼­¹ö »ý¼º½Ã¿¡ Config¸¦ ³Ñ°Ü¼­ »ý¼ºÇÏ°Ô µË´Ï´Ù.<br>
-¼­¹ö »ý¼º½Ã ³Ñ°ÜÁÖ´Â Config¸¦ º¯°æÇÏ¿© ¼­¹öÀÇ ¼³Á¤°ªµéÀ» º¯°æÇÒ ¼ö ÀÖ½À´Ï´Ù. (¼­¹öÀÇ ·±Å¸ÀÓ µµÁß¿¡ ¼³Á¤À» ¹Ù²Ù´Â °ÍÀº Çã¿ëµÇÁö ¾Ê½À´Ï´Ù)
+ì„œë²„ëŠ” ëª¨ë“  ì„¤ì •ê°’ì„ Config ì˜¤ë¸Œì íŠ¸ì— ë‹´ê³  ìžˆìœ¼ë©°, ì„œë²„ ìƒì„±ì‹œì— Configë¥¼ ë„˜ê²¨ì„œ ìƒì„±í•˜ê²Œ ë©ë‹ˆë‹¤.<br>
+ì„œë²„ ìƒì„±ì‹œ ë„˜ê²¨ì£¼ëŠ” Configë¥¼ ë³€ê²½í•˜ì—¬ ì„œë²„ì˜ ì„¤ì •ê°’ë“¤ì„ ë³€ê²½í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. (ì„œë²„ì˜ ëŸ°íƒ€ìž„ ë„ì¤‘ì— ì„¤ì •ì„ ë°”ê¾¸ëŠ” ê²ƒì€ í—ˆìš©ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤)
 
 ```c#
-// ±âº» ¼³Á¤À» °¡Á®¿É´Ï´Ù.
+// ê¸°ë³¸ ì„¤ì •ì„ ê°€ì ¸ì˜µë‹ˆë‹¤.
 var config = Config.defaults; 
 
 config.host = "0.0.0.0";
 config.port = 9916;
 
-// ¼¼¼ÇÀÌ ÇÑ¹ø¿¡ recv ÇÏ´Â ¹ÙÀÌÆ® Å©±â¸¦ ¼³Á¤ÇÕ´Ï´Ù.
+// ì„¸ì…˜ì´ í•œë²ˆì— recv í•˜ëŠ” ë°”ì´íŠ¸ í¬ê¸°ë¥¼ ì„¤ì •í•©ë‹ˆë‹¤.
 config.sessionRecvBufferSize = 128;
-// ¼¼¼ÇÀÌ ¸µ¹öÆÛ Å©±â¸¦ ¼³Á¤ÇÕ´Ï´Ù.
-// ÀÏ¹ÝÀûÀ¸·Î ¸µ¹öÆÛ »çÀÌÁîº¸´Ù Å« ÆÐÅ¶Àº Ã³¸®ÇÒ ¼ö ¾ø½À´Ï´Ù,
+// ì„¸ì…˜ì´ ë§ë²„í¼ í¬ê¸°ë¥¼ ì„¤ì •í•©ë‹ˆë‹¤.
+// ë§ˆìƒ¬ëŸ¬ê°€ ìŠ¤íŠ¸ë¦¬ë° í”„ë¡œí† ì½œì„ ì§€ì›í•˜ì§€ ì•ŠëŠ” ê²½ìš° ë§ë²„í¼ ì‚¬ì´ì¦ˆë³´ë‹¤ í° íŒ¨í‚·ì€ ì²˜ë¦¬í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤,
 config.sessionRingBufferSize = 1024;
 
-// ¼¼¼Ç Ç® »çÀÌÁî¸¦ ¼³Á¤ÇÕ´Ï´Ù.
-// ÀÏ¹ÝÀûÀ¸·Î ¼¼¼Ç Ç® º¸´Ù Å« ¼ýÀÚÀÇ ¿¬°áÀº ¹ÞÀ» ¼ö ¾ø½À´Ï´Ù.
+// ì„¸ì…˜ í’€ ì‚¬ì´ì¦ˆë¥¼ ì„¤ì •í•©ë‹ˆë‹¤.
+// ì¼ë°˜ì ìœ¼ë¡œ ì„¸ì…˜ í’€ ë³´ë‹¤ í° ìˆ«ìžì˜ ì—°ê²°ì€ ë°›ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.
 config.sessionPoolSize = 1024;
 ```
 
-Config °´Ã¼¸¦ »ó¼ÓÇÏ¿© ¿ÜºÎ ¼³Á¤ ÆÄÀÏ(json, xml)µî¿¡¼­ ¼³Á¤À» ·ÎµåÇÏµµ·Ï ÀÛ¼ºÇÒ ¼ö ÀÖ½À´Ï´Ù.
+Config ê°ì²´ë¥¼ ìƒì†í•˜ì—¬ ì™¸ë¶€ ì„¤ì • íŒŒì¼(json, xml)ë“±ì—ì„œ ì„¤ì •ì„ ë¡œë“œí•˜ë„ë¡ ìž‘ì„±í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
 
 ```c#
 class MyConfig : Config {
