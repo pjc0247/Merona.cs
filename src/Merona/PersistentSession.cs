@@ -38,6 +38,7 @@ namespace Merona
         private String key { get; set; }
 
         public String name { get; set; }
+        [MongoDB.Bson.Serialization.Attributes.BsonIgnore]
         public int num { get; set; }
 
         public bool isOpened
@@ -47,6 +48,8 @@ namespace Merona
                 return true;
             }
         }
+
+        [MongoDB.Bson.Serialization.Attributes.BsonIgnore]
         public AutoCommitType autoCommitType { get; set; }
 
         static PersistentSession()
