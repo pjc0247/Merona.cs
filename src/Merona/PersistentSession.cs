@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Reflection;
 
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -79,6 +80,37 @@ namespace Merona
             });
         }
 
+
+        public Task<bool> OpenOrCreateAsync(String key) {
+            // OpenOrCreate는 무조건 상속된 클래스에서 실행되어야 함
+            if (GetType() == typeof(PersistentSession))
+                throw new InvalidOperationException();
+
+            // TODO : TRANSACTION
+            var server = Server.current;
+            return Task.Run(async () =>
+            {
+                Server.current = server;
+
+                if(await IsExistsAsync(key))
+                {
+                    Server.current = server;
+
+                    await OpenAsync(key);
+                    return true;
+                }
+                else
+                {
+                    Server.current = server;
+
+                    await CreateAsync(key);
+                    return false;
+                }
+
+                Server.current = null;
+            });
+        }
+
         public Task CreateAsync(String key)
         {
             // Create는 무조건 상속된 클래스에서 실행되어야 함
@@ -116,8 +148,8 @@ namespace Merona
 
                     foreach(var prop in deserialized.GetType().GetProperties())
                     {
-                        Console.WriteLine(prop.Name);
-                        prop.SetValue(this, prop.GetValue(deserialized));
+                        if(prop.CanWrite)
+                            prop.SetValue(this, prop.GetValue(deserialized));
                     }
                 }
                 catch(Exception e)
