@@ -58,6 +58,27 @@ namespace Merona
             this.collectionName = GetType().Name;
         }
 
+        public Task<bool> IsExistsAsync(String key)
+        {
+            var database = Server.current.database;
+            return Task.Run(async () =>
+            {
+                var filter = Builders<BsonDocument>.Filter.Eq("__merona_id", key);
+
+                try
+                {
+                    await database.GetCollection<BsonDocument>(collectionName)
+                        .Find(filter).FirstAsync();
+                }
+                catch(Exception e)
+                {
+                    return false;
+                }
+
+                return true;
+            });
+        }
+
         public Task CreateAsync(String key)
         {
             // Create는 무조건 상속된 클래스에서 실행되어야 함
