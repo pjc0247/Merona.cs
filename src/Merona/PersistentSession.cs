@@ -67,7 +67,7 @@ namespace Merona
             this.key = key;
 
             var database = Server.current.database;
-            return Task.Factory.StartNew(async () =>
+            return Task.Run(async () =>
             {
                 await database.GetCollection<BsonDocument>(collectionName).
                     InsertOneAsync(this.ToBsonDocument());
@@ -81,7 +81,7 @@ namespace Merona
 
             var database = Server.current.database;
 
-            return Task.Factory.StartNew(async () => {
+            return Task.Run(async () => {
                 var filter = Builders<BsonDocument>.Filter.Eq("__merona_id", key);
                 
                 BsonDocument result = null;
@@ -111,7 +111,7 @@ namespace Merona
         {
             var server = Server.current;
 
-            return Task.Factory.StartNew(async () => {
+            return Task.Run(async () => {
                 var filter = Builders<BsonDocument>.Filter.Eq("__merona_id", 10);
                 
                 /* TODO : */
@@ -123,7 +123,7 @@ namespace Merona
         {
             var server = Server.current;
 
-            return Task.Factory.StartNew(async () => {
+            return Task.Run(async () => {
                 var filter = Builders<BsonDocument>.Filter.Eq("__merona_id", 10);
 
                 /* TODO : */
