@@ -3,6 +3,7 @@ Server
 
 서버 생성&실행하기
 ----
+Merona.Server 인스턴스화 하는 것으로 서버를 생성할 수 있습니다.
 ```c#
 var config = Config.defaults;
 var server = new Server(config);
