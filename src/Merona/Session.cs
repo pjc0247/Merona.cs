@@ -63,6 +63,23 @@ namespace Merona
             InitializeSafeCollectionSupport();
         }
 
+        internal protected virtual void OnReset()
+        {
+            foreach (var prop in GetType().GetProperties())
+            {
+                if (prop.DeclaringType == typeof(Session))
+                    continue;
+                if (prop.CanWrite == false)
+                    continue;
+
+                object val = null;
+                if (prop.PropertyType.IsValueType)
+                    val = Activator.CreateInstance(prop.PropertyType);
+
+                prop.SetValue(this, val);
+            }
+        }
+
         internal protected virtual void OnConnect()
         {
             Server.current.logger.Info("Session OnConnect");
@@ -75,6 +92,7 @@ namespace Merona
         internal void Reset(TcpClient client)
         {
             PublishInvalidated();
+            OnReset();
 
             this.client = client;
             this.isAlive = true;
