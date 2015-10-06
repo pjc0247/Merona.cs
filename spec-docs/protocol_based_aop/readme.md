@@ -23,10 +23,10 @@ class PositionProtocol : IProtocol {
   public float x;
   public float y;
 
-  internal protected override void OnPreProcess(LoginProtocol packet) {
+  internal protected override void OnPreProcess(PositionProtocol packet) {
     /* convert ClientWorld -> ServerWorld location */
   }
-  internal protected override void OnPostProcess(LoginProtocol packet) {
+  internal protected override void OnPostProcess(PositionProtocol packet) {
     /* convert ServerWorld -> ClientWorld location */
   }
 }
